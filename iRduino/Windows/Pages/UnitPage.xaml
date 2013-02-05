@@ -1,0 +1,48 @@
+﻿<Page x:Class="iRduino.Pages.UnitPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d"
+      d:DesignHeight="400" d:DesignWidth="395"
+      Title="UnitPage" Loaded="PageLoaded1">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Label Content="Display Unit Configuration" HorizontalAlignment="Left" Margin="10,10,0,0"
+               VerticalAlignment="Top" FontWeight="Bold" FontSize="20" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" />
+        <Label x:Name="LapDisplayStyleLabel" Content="Lap Display Style: " HorizontalAlignment="Left" Margin="40,137,0,0" VerticalAlignment="Top" />
+        <Label Content="Number of Screens: " HorizontalAlignment="Left" Margin="15,85,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="ShowLapCheck" Content="Show Lap Time" HorizontalAlignment="Left" Margin="20,116,0,0"
+                  VerticalAlignment="Top" Checked="ShowLapCheckChecked" Unchecked="ShowLapCheckUnchecked" />
+        <ComboBox x:Name="NumberScreensCBox" HorizontalAlignment="Left" Margin="150,85,0,0" VerticalAlignment="Top"
+                  Width="75" />
+        <ComboBox x:Name="LapDisplayStyleCBox" Margin="150,137,20,0" VerticalAlignment="Top" IsEnabled="False" />
+        <CheckBox x:Name="InvertedCheck" Content="Inverted?" HorizontalAlignment="Left" Margin="20,168,0,0"
+                  VerticalAlignment="Top" />
+        <CheckBox x:Name="ShowDCCheck" Content="Show Dashboard Control / Pit Stop Variable Changes?"
+                  HorizontalAlignment="Left" Margin="20,189,0,0" VerticalAlignment="Top" Checked="ShowDCCheckChecked"
+                  Unchecked="ShowDCCheckUnchecked" />
+        <Label x:Name="DCDisplayTimeLabel" Content="DC Display Time: " HorizontalAlignment="Left" Margin="40,210,0,0" VerticalAlignment="Top" />
+        <ComboBox x:Name="DCDisplayTimeCBox" HorizontalAlignment="Left" Margin="150,210,0,0" VerticalAlignment="Top"
+                  Width="128" IsEnabled="False" />
+        <CheckBox x:Name="SwitchLEDsCheck" Content="Switch Green and Red LEDs" HorizontalAlignment="Left"
+                  Margin="20,241,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="TM1640Check" Content="Is TM1640?" HorizontalAlignment="Left" Margin="20,64,0,0"
+                  VerticalAlignment="Top" Checked="TM1640CheckChecked" Unchecked="TM1640CheckUnchecked" />
+        <Label x:Name="DeltaLightsOptionsLabel" Content="Delta LED Lights Option: " HorizontalAlignment="Left" Margin="40,291,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="UseDeltaLightsCheck" Content="Use Unit for Delta LED Lights?" HorizontalAlignment="Left" Margin="20,270,0,0" VerticalAlignment="Top" Checked="UseDeltaLightsCheckChecked" Unchecked="UseDeltaLightsCheckUnchecked"/>
+        <ComboBox x:Name="DeltaLightsOptionCBox" HorizontalAlignment="Left" Margin="187,291,0,0" VerticalAlignment="Top" Width="188" IsEnabled="False"/>
+
+    </Grid>
+</Page>

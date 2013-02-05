@@ -1,0 +1,85 @@
+﻿<Controls:MetroWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="iRduino.Windows.OptionsWindow"
+        Title="iRduino Configuration Options" Height="490" Width="600" MinWidth="600" MinHeight="250"
+        Loaded="OptionsWindowLoaded" Closing="OptionsWindowClosing" BorderThickness="2" BorderBrush="#FF17ABF0" ShowMaxRestoreButton="False" TitleCaps="False">
+    <Controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Controls:MetroWindow.Resources>
+    <Grid Background="#E569C6EE">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ComboBox x:Name="CurrentConfigurationCBox" Margin="0,31,20,0" VerticalAlignment="Top" MaxDropDownHeight="200"
+                  SelectionChanged="CurrentConfigurationCBoxSelectionChanged" Width="272" HorizontalAlignment="Right" />
+        <Label Content="Current Configuration: " HorizontalAlignment="Right" Margin="0,4,152,0" VerticalAlignment="Top"
+               Width="140" Foreground="White" />
+        <Button Content="Apply &amp; Save" Margin="0,5,20,0" VerticalAlignment="Top" HorizontalAlignment="Right"
+                Width="125" Click="ApplySaveButtonClick" />
+        <Image HorizontalAlignment="Left" Height="48" Margin="10,6,0,0" VerticalAlignment="Top" Width="48"
+               Source="/iRduino;component/Resources/Configuration-Settings-icon.png" />
+        <Label Content="iRduino Options" HorizontalAlignment="Left" Margin="63,10,0,0" VerticalAlignment="Top"
+               FontSize="24" FontWeight="Bold" FontFamily="Segoe UI Semilight" Foreground="White" />
+        <Grid Margin="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <TreeView x:Name="OptionsTreeView" Margin="0" BorderThickness="0,1,1,0" BorderBrush="#FF6A9BF3" Background="#FFA1CEDC">
+                <TreeView.Resources>
+                    <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="0,1"
+                		StartPoint="0,0">
+                        <GradientStop Color="White" Offset="0" />
+                        <GradientStop Color="White" Offset="0.9" />
+                        <!--<GradientStop Color="Blue" Offset="0.91" />
+                        <GradientStop Color="Blue" Offset="1" />-->
+                    </LinearGradientBrush>
+                    <LinearGradientBrush x:Key="{x:Static SystemColors.ControlBrushKey}" EndPoint="0,1"
+                		StartPoint="0,0">
+                        <GradientStop Color="White" Offset="0" />
+                        <GradientStop Color="White" Offset="1" />
+                    </LinearGradientBrush>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+                </TreeView.Resources>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="BorderThickness" Value="1.5" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="BorderBrush" Value="White" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True" />
+                                    <Condition Property="IsSelectionActive" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="BorderBrush" Value="White" />
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+            <Frame x:Name="PageFrame" Content="" Grid.Column="1" Margin="0" NavigationUIVisibility="Hidden"
+                   DataContextChanged="PageFrameDataContextChanged" LoadCompleted="PageFrameLoadCompleted" BorderThickness="0,1,0,0" BorderBrush="CornflowerBlue">
+                <Frame.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFF3FBFD" Offset="0"/>
+                        <GradientStop Offset="1" Color="White"/>
+                    </LinearGradientBrush>
+                </Frame.Background>
+            </Frame>
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

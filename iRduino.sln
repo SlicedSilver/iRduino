@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduinoInterfaces", "ArduinoInterfaces\ArduinoInterfaces.csproj", "{00583770-D937-40CD-BDCC-B1692D74D392}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacingSdkWrapper", "iRacingSdkWrapper\iRacingSdkWrapper.csproj", "{D6DB568B-35B3-49EB-8CB3-E4E5F1424247}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRduino", "iRduino\iRduino.csproj", "{1EC172EA-586B-471D-B94A-C175F38C48C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRSDKSharp", "irsdkSharp\iRSDKSharp.csproj", "{72631B85-EB9A-473E-9B4C-65B355A9000D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftData", "ShiftData\ShiftData.csproj", "{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs25
+		SccProjectUniqueName0 = ArduinoInterfaces\\ArduinoInterfaces.csproj
+		SccProjectName0 = ArduinoInterfaces
+		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs25
+		SccLocalPath0 = ArduinoInterfaces
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = iRacingSdkWrapper\\iRacingSdkWrapper.csproj
+		SccProjectName1 = iRacingSdkWrapper
+		SccAuxPath1 = https://tfs.codeplex.com/tfs/tfs25
+		SccLocalPath1 = iRacingSdkWrapper
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = iRduino\\iRduino.csproj
+		SccProjectName2 = iRduino
+		SccAuxPath2 = https://tfs.codeplex.com/tfs/tfs25
+		SccLocalPath2 = iRduino
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = irsdkSharp\\iRSDKSharp.csproj
+		SccProjectName3 = irsdkSharp
+		SccAuxPath3 = https://tfs.codeplex.com/tfs/tfs25
+		SccLocalPath3 = irsdkSharp
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName4 = ShiftData\\ShiftData.csproj
+		SccProjectName4 = ShiftData
+		SccAuxPath4 = https://tfs.codeplex.com/tfs/tfs25
+		SccLocalPath4 = ShiftData
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00583770-D937-40CD-BDCC-B1692D74D392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00583770-D937-40CD-BDCC-B1692D74D392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00583770-D937-40CD-BDCC-B1692D74D392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00583770-D937-40CD-BDCC-B1692D74D392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6DB568B-35B3-49EB-8CB3-E4E5F1424247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6DB568B-35B3-49EB-8CB3-E4E5F1424247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6DB568B-35B3-49EB-8CB3-E4E5F1424247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6DB568B-35B3-49EB-8CB3-E4E5F1424247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EC172EA-586B-471D-B94A-C175F38C48C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EC172EA-586B-471D-B94A-C175F38C48C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EC172EA-586B-471D-B94A-C175F38C48C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EC172EA-586B-471D-B94A-C175F38C48C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72631B85-EB9A-473E-9B4C-65B355A9000D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72631B85-EB9A-473E-9B4C-65B355A9000D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72631B85-EB9A-473E-9B4C-65B355A9000D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72631B85-EB9A-473E-9B4C-65B355A9000D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

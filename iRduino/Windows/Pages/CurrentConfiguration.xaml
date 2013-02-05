@@ -1,0 +1,37 @@
+﻿<Page x:Class="iRduino.Pages.CurrentConfiguration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="375" d:DesignWidth="395"
+      Title="CurrentConfiguration" Loaded="PageLoaded1">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Label Content="Current Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+               FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" />
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="17,56,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="NameTextBox" Controls:TextboxHelper.ClearTextButton="True" Height="23" Margin="66,56,20,0" TextWrapping="Wrap"
+                 Text="" VerticalAlignment="Top" />
+        <Label Content="Preferred COM Port:" HorizontalAlignment="Left" Margin="17,94,0,0" VerticalAlignment="Top" />
+        <ComboBox x:Name="PrefComPortCBox" HorizontalAlignment="Left" Margin="139,94,0,0" VerticalAlignment="Top"
+                  Width="120" />
+        <Label x:Name="NumberControllersLabel" Content="Number: " HorizontalAlignment="Left" Margin="235,196,0,0" VerticalAlignment="Top" />
+        <ComboBox x:Name="ControllerNumCBox" Margin="300,196,20,0" VerticalAlignment="Top" SelectionChanged="ControllerNumCBoxSelectionChanged" IsEnabled="False" />
+        <Label Content="Components" HorizontalAlignment="Left" Margin="15,141,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="#FF057DAA"/>
+        <CheckBox x:Name="UseDXUnitsCheck" Content="DX SLI Display Units (TM1638/TM1640)" HorizontalAlignment="Left" Margin="31,175,0,0" VerticalAlignment="Top" Checked="UseDxUnitsCheckChecked" Unchecked="UseDxUnitsCheckUnchecked"/>
+        <CheckBox x:Name="UseControllersCheck" Content="Use External USB Controllers" HorizontalAlignment="Left" Margin="31,200,0,0" VerticalAlignment="Top" Unchecked="UseControllersCheckUnchecked" Checked="UseControllersCheckChecked"/>
+
+    </Grid>
+</Page>

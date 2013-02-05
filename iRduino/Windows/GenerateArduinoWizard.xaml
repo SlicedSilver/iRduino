@@ -1,0 +1,123 @@
+﻿<Controls:MetroWindow x:Class="iRduino.Windows.GenerateArduinoWizard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Generate Arduino Wizard" Height="350" Width="475" Loaded="ArduinoSketchWindowLoaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid x:Name="Grid1">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1" />
+                    <GradientStop Color="#FFE7F1FF" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Label Content="Generate Arduino Sketch" HorizontalAlignment="Left" Margin="10,10,0,0"
+                   VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontFamily="Segoe UI Semilight" />
+            <Label Content="Configuration Selected: " HorizontalAlignment="Left" Margin="10,46,0,0"
+                   VerticalAlignment="Top" FontWeight="Bold" FontFamily="Segoe UI Semibold" />
+            <Label Content="Number of TM1638 Units: " HorizontalAlignment="Left" Margin="10,77,0,0"
+                   VerticalAlignment="Top" FontWeight="Bold" FontFamily="Segoe UI Semibold" />
+            <Label x:Name="DataPinLabel" Content="Data Pin: " HorizontalAlignment="Left" Margin="10,108,0,0" VerticalAlignment="Top" />
+            <Label x:Name="ClockPinLabel" Content="Clock Pin: " HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" />
+            <Label x:Name="Unit1Label" Content="Unit 1 Strobe Pin: " HorizontalAlignment="Left" Margin="10,170,0,0"
+                   VerticalAlignment="Top" />
+            <Label x:Name="Unit2Label" Content="Unit 2 Strobe Pin: " HorizontalAlignment="Left" Margin="10,201,0,0"
+                   VerticalAlignment="Top" />
+            <Label x:Name="Unit3Label" Content="Unit 3 Strobe Pin: " HorizontalAlignment="Left" Margin="10,232,0,0"
+                   VerticalAlignment="Top" />
+            <ComboBox x:Name="DataPinCBox" HorizontalAlignment="Left" Margin="127,112,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="ClockPinCBox" HorizontalAlignment="Left" Margin="127,143,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="Unit1PinCBox" HorizontalAlignment="Left" Margin="127,174,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="Unit2PinCBox" HorizontalAlignment="Left" Margin="127,205,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="Unit3PinCBox" HorizontalAlignment="Left" Margin="127,236,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <Label x:Name="Unit4Label" Content="Unit 4 Strobe Pin: " HorizontalAlignment="Left" Margin="225,170,0,0"
+                   VerticalAlignment="Top" />
+            <Label x:Name="Unit5Label" Content="Unit 5 Strobe Pin: " HorizontalAlignment="Left" Margin="225,201,0,0"
+                   VerticalAlignment="Top" />
+            <Label x:Name="Unit6Label" Content="Unit 6 Strobe Pin: " HorizontalAlignment="Left" Margin="225,232,0,0"
+                   VerticalAlignment="Top" />
+            <ComboBox x:Name="Unit4PinCBox" HorizontalAlignment="Left" Margin="342,174,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="Unit5PinCBox" HorizontalAlignment="Left" Margin="342,205,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="Unit6PinCBox" HorizontalAlignment="Left" Margin="342,236,0,0" VerticalAlignment="Top"
+                      Width="75" SelectionChanged="CboxSelectionChanged" />
+            <Label x:Name="ConfSelectedLabel" Content="" HorizontalAlignment="Left" Margin="161,46,0,0"
+                   VerticalAlignment="Top" Width="256" />
+            <Label x:Name="NumberUnitsLabel" Content="" HorizontalAlignment="Left" Margin="172,77,0,0"
+                   VerticalAlignment="Top" Width="100" />
+            <Button x:Name="NextButton1" Content="Next" HorizontalAlignment="Left" Margin="127,279,0,0"
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="NextButton1Click" />
+            <Button x:Name="PreviousButton1" Content="Previous" HorizontalAlignment="Left" Margin="10,279,0,0"
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" />
+            <Button x:Name="GenerateButton" Content="Generate Arduino Sketch" HorizontalAlignment="Left"
+                    Margin="296,279,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False"
+                    Click="GenerateButtonClick" />
+        </Grid>
+        <Grid x:Name="Grid2" Visibility="Hidden">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFEDF5FF" Offset="0" />
+                    <GradientStop Color="#FF6AA7FF" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Label Content="Generate Arduino Sketch" HorizontalAlignment="Left" Margin="10,10,0,0"
+                   VerticalAlignment="Top" FontSize="16" FontWeight="Bold" FontFamily="Segoe UI Semilight" />
+            <Label Content="Configuration Selected: " HorizontalAlignment="Left" Margin="10,46,0,0"
+                   VerticalAlignment="Top" FontWeight="Bold" FontFamily="Segoe UI Semibold" />
+            <Label Content="Number of TM1640 Units: " HorizontalAlignment="Left" Margin="10,77,0,0"
+                   VerticalAlignment="Top" FontWeight="Bold" FontFamily="Segoe UI Semibold" />
+            <Label x:Name="TM1640Unit1DataLabel" Content="Unit 1 Data Pin: " HorizontalAlignment="Left"
+                   Margin="10,108,0,0" VerticalAlignment="Top" />
+            <Label x:Name="TM1640Unit1ClockLabel" Content="Unit 1 Clock Pin: " HorizontalAlignment="Left"
+                   Margin="10,139,0,0" VerticalAlignment="Top" />
+            <ComboBox x:Name="TM1640DataPin1CBox" HorizontalAlignment="Left" Margin="127,112,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="TM1640ClockPin1CBox" HorizontalAlignment="Left" Margin="127,143,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+            <Label x:Name="ConfSelectedLabel2" Content="" HorizontalAlignment="Left" Margin="161,46,0,0"
+                   VerticalAlignment="Top" Width="256" />
+            <Label x:Name="NumberTM1640UnitsLabel" Content="" HorizontalAlignment="Left" Margin="172,77,0,0"
+                   VerticalAlignment="Top" Width="100" />
+            <Button x:Name="NextButton2" Content="Next" HorizontalAlignment="Left" Margin="127,279,0,0"
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" />
+            <Button x:Name="PreviousButton2" Content="Previous" HorizontalAlignment="Left" Margin="10,279,0,0"
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="PreviousButton2Click" />
+            <Button x:Name="GenerateButton2" Content="Generate Arduino Sketch" HorizontalAlignment="Left"
+                    Margin="296,279,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False"
+                    Click="GenerateButtonClick" />
+            <Label x:Name="TM1640Unit2DataLabel" Content="Unit 2 Data Pin: " HorizontalAlignment="Left"
+                   Margin="10,173,0,0" VerticalAlignment="Top" />
+            <Label x:Name="TM1640Unit2ClockLabel" Content="Unit 2 Clock Pin: " HorizontalAlignment="Left"
+                   Margin="10,204,0,0" VerticalAlignment="Top" />
+            <ComboBox x:Name="TM1640DataPin2CBox" HorizontalAlignment="Left" Margin="127,177,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="TM1640ClockPin2CBox" HorizontalAlignment="Left" Margin="127,208,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+            <Label x:Name="TM1640Unit3DataLabel" Content="Unit 3 Data Pin: " HorizontalAlignment="Left"
+                   Margin="225,108,0,0" VerticalAlignment="Top" />
+            <Label x:Name="TM1640Unit3ClockLabel" Content="Unit 3 Clock Pin: " HorizontalAlignment="Left"
+                   Margin="225,139,0,0" VerticalAlignment="Top" />
+            <ComboBox x:Name="TM1640DataPin3CBox" HorizontalAlignment="Left" Margin="342,112,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+            <ComboBox x:Name="TM1640ClockPin3CBox" HorizontalAlignment="Left" Margin="342,143,0,0"
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+        </Grid>
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ShiftData" nillable="true" type="ShiftData" />
+  <xs:complexType name="ShiftData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="CarShiftStyles" type="ArrayOfCarShiftStyle" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CarShiftRPMs" type="ArrayOfCarShiftRPMData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfCarShiftStyle">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CarShiftStyle" nillable="true" type="CarShiftStyle" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CarShiftStyle">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="CarID" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="UseCustomRPMS" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="iRacingCarName" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ShiftStyle" type="CarShiftStyles" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="CarShiftStyles">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LeftToRight" />
+      <xs:enumeration value="LeftToRight3Segments" />
+      <xs:enumeration value="RightToLeft" />
+      <xs:enumeration value="Converging" />
+      <xs:enumeration value="SingleLight" />
+      <xs:enumeration value="NoLights" />
+      <xs:enumeration value="None" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ArrayOfCarShiftRPMData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CarShiftRPMData" nillable="true" type="CarShiftRPMData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CarShiftRPMData">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="CarID" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MapVariable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Maps" type="ArrayOfShiftMap" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfShiftMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShiftMap" nillable="true" type="ShiftMap" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ShiftMap">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="MapValue" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Gears" type="ArrayOfShiftRPMs" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfShiftRPMs">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShiftRPMs" nillable="true" type="ShiftRPMs" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ShiftRPMs">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Gear" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="First" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Last" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Shift" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Blink" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CarShiftStyle" nillable="true" type="CarShiftStyle" />
+  <xs:element name="CarShiftStyles" type="CarShiftStyles" />
+  <xs:element name="CarShiftRPMData" nillable="true" type="CarShiftRPMData" />
+  <xs:element name="ShiftMap" nillable="true" type="ShiftMap" />
+  <xs:element name="ShiftRPMs" nillable="true" type="ShiftRPMs" />
+</xs:schema>

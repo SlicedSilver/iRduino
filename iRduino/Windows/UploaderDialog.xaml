@@ -1,0 +1,31 @@
+﻿<Controls:MetroWindow x:Class="iRduino.Windows.UploaderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Arduino Sketch Saved" Height="300" Width="350" Loaded="WindowLoaded1" MinWidth="350" MinHeight="175" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="#FFF3F3F3">
+        <Label Content="Arduino sketch saved." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label Content="Location: " HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="fileLocationLabel" Content="" HorizontalAlignment="Left" Margin="76,41,0,0" VerticalAlignment="Top" Width="256"/>
+        <Button x:Name="yesButton" Content="Yes" HorizontalAlignment="Left" Margin="34,106,0,0" VerticalAlignment="Top" Width="102" Click="YesButtonClick"/>
+        <Label x:Name="questionLabel" Content="Do you wish to try upload to the Arduino now?" HorizontalAlignment="Center" Margin="0,75,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Button x:Name="noButton" Content="No" HorizontalAlignment="Left" Margin="206,106,0,0" VerticalAlignment="Top" Width="102" Click="NoButtonClick"/>
+        <Button x:Name="uploadButton" Content="Upload to connected Arduino" HorizontalAlignment="Center" Margin="0,239,0,0" VerticalAlignment="Top" Width="200" IsEnabled="False" Click="UploadButtonClick"/>
+        <Label Content="Arduino Board: " HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top"/>
+        <Label Content="COM Port: " HorizontalAlignment="Left" Margin="10,192,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="arduinoBoardCBox" HorizontalAlignment="Left" Margin="108,161,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="ArduinoBoardCBoxSelectionChanged"/>
+        <ComboBox x:Name="comPortCBox" HorizontalAlignment="Left" Margin="108,196,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="ComPortCBoxSelectionChanged"/>
+
+    </Grid>
+</Controls:MetroWindow>

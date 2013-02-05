@@ -1,0 +1,548 @@
+---
+WeekendInfo:
+ TrackName: midohio full
+ TrackID: 153
+ TrackLength: 3.56 km
+ TrackDisplayName: Mid Ohio Sports Car Course
+ TrackDisplayShortName: Mid Ohio Full
+ TrackCity: Lexington
+ TrackCountry: USA
+ TrackAltitude: 371.00 m
+ TrackNumTurns: 13
+ TrackPitSpeedLimit: 72.00 kph
+ TrackType: road course
+ SeriesID: 34
+ SeasonID: 550
+ SessionID: 20644303
+ SubSessionID: 4503293
+ Official: 1
+ RaceWeek: 3
+ EventType: Practice
+ Category: Road
+ WeekendOptions:
+  NumStarters: 16
+  StartingGrid: 2x2 inline pole on left
+  QualifyScoring: best lap
+  CourseCautions: off
+  StandingStart: 1
+  Restarts: single file
+  WindDirection: N
+  WindSpeed: 3.22 km/h
+  WeatherTemp: 25.56 C
+  RelativeHumidity: 55 %
+  Unofficial: 0
+  CommercialMode: consumer
+  NightMode: 0
+  IsFixedSetup: 0
+  StrictLapsChecking: default
+  HasOpenRegistration: 1
+  HardcoreLevel: 0
+
+SessionInfo:
+ Sessions:
+ - SessionNum: 0
+   SessionLaps: unlimited
+   SessionTime: 7200.00 sec
+   SessionNumLapsToAvg: 0
+   SessionType: Practice
+   ResultsPositions:
+   - Position: 1
+     CarIdx: 0
+     Lap: 21
+     Time: 96.942
+     FastestLap: 21
+     FastestTime: 96.942
+     LastTime: 108.348
+     LapsLed: 0
+     LapsComplete: 25
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 2
+     CarIdx: 3
+     Lap: 4
+     Time: 97.300
+     FastestLap: 4
+     FastestTime: 97.300
+     LastTime: -1.000
+     LapsLed: 0
+     LapsComplete: 7
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 3
+     CarIdx: 2
+     Lap: 4
+     Time: 97.487
+     FastestLap: 4
+     FastestTime: 97.487
+     LastTime: 97.902
+     LapsLed: 0
+     LapsComplete: 12
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 4
+     CarIdx: 1
+     Lap: 11
+     Time: 97.889
+     FastestLap: 11
+     FastestTime: 97.889
+     LastTime: 109.502
+     LapsLed: 0
+     LapsComplete: 24
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 5
+     CarIdx: 5
+     Lap: 3
+     Time: 97.992
+     FastestLap: 3
+     FastestTime: 97.992
+     LastTime: 103.400
+     LapsLed: 0
+     LapsComplete: 4
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 6
+     CarIdx: 8
+     Lap: 1
+     Time: 98.460
+     FastestLap: 1
+     FastestTime: 98.460
+     LastTime: 98.460
+     LapsLed: 0
+     LapsComplete: 1
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   - Position: 7
+     CarIdx: 4
+     Lap: 1
+     Time: 100.301
+     FastestLap: 1
+     FastestTime: 100.301
+     LastTime: 100.301
+     LapsLed: 0
+     LapsComplete: 1
+     LapsDriven: 0.000
+     Incidents: 0
+     ReasonOutId: 0
+     ReasonOutStr: Running
+   ResultsFastestLap:
+   - CarIdx: 0
+     FastestLap: 21
+     FastestTime: 96.942
+   ResultsAverageLapTime: -1.000
+   ResultsNumCautionFlags: 0
+   ResultsNumCautionLaps: 0
+   ResultsNumLeadChanges: 0
+   ResultsLapsComplete: -1
+   ResultsOfficial: 0
+
+CameraInfo:
+ Groups:
+ - GroupNum: 1
+   GroupName: Nose
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamNose
+ - GroupNum: 2
+   GroupName: Gearbox
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamGearbox
+ - GroupNum: 3
+   GroupName: Roll Bar
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRoll Bar
+ - GroupNum: 4
+   GroupName: F Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamF Susp
+ - GroupNum: 5
+   GroupName: R Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamR Susp
+ - GroupNum: 6
+   GroupName: Cockpit
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamCockpit
+ - GroupNum: 7
+   GroupName: Blimp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamBlimp
+ - GroupNum: 8
+   GroupName: Chopper
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamChopper
+ - GroupNum: 9
+   GroupName: Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamChase
+ - GroupNum: 10
+   GroupName: Far Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamFar Chase
+ - GroupNum: 11
+   GroupName: Rear Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRear Chase
+ - GroupNum: 12
+   GroupName: Pit Lane
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamPit Lane
+ - GroupNum: 13
+   GroupName: Pit Lane 2
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamPit Lane 2
+ - GroupNum: 14
+   GroupName: Scenic
+   IsScenic: true
+   Cameras:
+   - CameraNum: 1
+     CameraName: Scenic_00
+   - CameraNum: 2
+     CameraName: Scenic_01
+   - CameraNum: 3
+     CameraName: Scenic_02
+   - CameraNum: 4
+     CameraName: Scenic_03
+   - CameraNum: 5
+     CameraName: Scenic_04
+   - CameraNum: 6
+     CameraName: Scenic_05
+   - CameraNum: 7
+     CameraName: Scenic_06
+   - CameraNum: 8
+     CameraName: Scenic_07
+ - GroupNum: 15
+   GroupName: TV1
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV1_00
+   - CameraNum: 2
+     CameraName: CamTV1_01
+   - CameraNum: 3
+     CameraName: CamTV1_02
+   - CameraNum: 4
+     CameraName: CamTV1_03
+   - CameraNum: 5
+     CameraName: CamTV1_04
+   - CameraNum: 6
+     CameraName: CamTV1_05
+   - CameraNum: 7
+     CameraName: CamTV1_06
+   - CameraNum: 8
+     CameraName: CamTV1_08
+   - CameraNum: 9
+     CameraName: CamTV1_09
+   - CameraNum: 10
+     CameraName: CamTV1_10
+ - GroupNum: 16
+   GroupName: TV2
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV2_03
+   - CameraNum: 2
+     CameraName: CamTV2_10
+   - CameraNum: 3
+     CameraName: CamTV2_09
+   - CameraNum: 4
+     CameraName: CamTV2_08
+   - CameraNum: 5
+     CameraName: CamTV2_06
+   - CameraNum: 6
+     CameraName: CamTV2_05
+   - CameraNum: 7
+     CameraName: CamTV2_04
+   - CameraNum: 8
+     CameraName: CamTV2_02
+   - CameraNum: 9
+     CameraName: CamTV2_01
+   - CameraNum: 10
+     CameraName: CamTV2_00
+ - GroupNum: 17
+   GroupName: TV3
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV3_00
+   - CameraNum: 2
+     CameraName: CamTV3_01
+   - CameraNum: 3
+     CameraName: CamTV3_02
+   - CameraNum: 4
+     CameraName: CamTV3_03
+   - CameraNum: 5
+     CameraName: CamTV3_04
+   - CameraNum: 6
+     CameraName: CamTV3_05
+   - CameraNum: 7
+     CameraName: CamTV3_06
+   - CameraNum: 8
+     CameraName: CamTV3_07
+   - CameraNum: 9
+     CameraName: CamTV3_08
+   - CameraNum: 10
+     CameraName: CamTV3_09
+
+DriverInfo:
+ DriverCarIdx: 10
+ DriverHeadPosX: 0.140
+ DriverHeadPosY: 0.000
+ DriverHeadPosZ: 0.440
+ DriverCarRedLine: 6400.000
+ Drivers:
+ - CarIdx: 0
+   UserName: Wolfgang Woeger
+   AbbrevName: Woeger, W
+   Initials: WW
+   UserID: 15351
+   CarNumber: 1
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 4753
+   LicLevel: 22
+   LicSubLevel: 367
+   LicColor: 0x000000
+   ClubName: DE-AT-CH
+   DivisionName: Division 1
+ - CarIdx: 1
+   UserName: Gerald Ritt
+   AbbrevName: Ritt, G
+   Initials: GR
+   UserID: 25635
+   CarNumber: 2
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 2036
+   LicLevel: 18
+   LicSubLevel: 274
+   LicColor: 0x0153db
+   ClubName: DE-AT-CH
+   DivisionName: Division 3
+ - CarIdx: 2
+   UserName: Sascha Thomaszik
+   AbbrevName: Thomaszik, S
+   Initials: ST
+   UserID: 49331
+   CarNumber: 24
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 5318
+   LicLevel: 20
+   LicSubLevel: 499
+   LicColor: 0x0153db
+   ClubName: DE-AT-CH
+   DivisionName: Division 1
+ - CarIdx: 3
+   UserName: Justyn Kolpowski
+   AbbrevName: Kolpowski, J
+   Initials: JK
+   UserID: 52976
+   CarNumber: 74
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 2660
+   LicLevel: 12
+   LicSubLevel: 405
+   LicColor: 0xfeec04
+   ClubName: Central-Eastern Europe
+   DivisionName: Division 2
+ - CarIdx: 4
+   UserName: Markus Schneider
+   AbbrevName: Schneider, M
+   Initials: MS
+   UserID: 47813
+   CarNumber: 5
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1407
+   LicLevel: 7
+   LicSubLevel: 393
+   LicColor: 0xfc8a27
+   ClubName: DE-AT-CH
+   DivisionName: Division 5
+ - CarIdx: 5
+   UserName: Rafael Moreno Sanchez
+   AbbrevName: Sanchez, R
+   Initials: RS
+   UserID: 72840
+   CarNumber: 15
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 2115
+   LicLevel: 15
+   LicSubLevel: 380
+   LicColor: 0x00c702
+   ClubName: Iberia
+   DivisionName: Division 3
+ - CarIdx: 6
+   UserName: Alexander Kulich
+   AbbrevName: Kulich, A
+   Initials: AK
+   UserID: 40536
+   CarNumber: 7
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1280
+   LicLevel: 14
+   LicSubLevel: 261
+   LicColor: 0x00c702
+   ClubName: DE-AT-CH
+   DivisionName: Division 5
+ - CarIdx: 7
+   UserName: Alexander Chikhirev
+   AbbrevName: Chikhirev, A
+   Initials: AC
+   UserID: 57056
+   CarNumber: 8
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1350
+   LicLevel: 3
+   LicSubLevel: 342
+   LicColor: 0xfc0706
+   ClubName: Central-Eastern Europe
+   DivisionName: -none-
+ - CarIdx: 8
+   UserName: Oscar Villacañas
+   AbbrevName: Villacañas, O
+   Initials: OV
+   UserID: 44184
+   CarNumber: 00
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 2432
+   LicLevel: 16
+   LicSubLevel: 440
+   LicColor: 0x00c702
+   ClubName: Iberia
+   DivisionName: Division 2
+ - CarIdx: 9
+   UserName: Chris Shaw2
+   AbbrevName: Shaw2, C
+   Initials: CS
+   UserID: 77968
+   CarNumber: 06
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1463
+   LicLevel: 11
+   LicSubLevel: 357
+   LicColor: 0xfeec04
+   ClubName: England
+   DivisionName: Division 5
+ - CarIdx: 10
+   UserName: Nick Thissen
+   AbbrevName: Thissen, N
+   Initials: NT
+   UserID: 74968
+   CarNumber: 11
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 2418
+   LicLevel: 18
+   LicSubLevel: 278
+   LicColor: 0x0153db
+   ClubName: Benelux
+   DivisionName: Division 2
+ - CarIdx: 11
+   UserName: Alex Doca
+   AbbrevName: Doca, A
+   Initials: AD
+   UserID: 51123
+   CarNumber: 12
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1737
+   LicLevel: 10
+   LicSubLevel: 223
+   LicColor: 0xfeec04
+   ClubName: Brazil
+   DivisionName: Division 3
+ - CarIdx: 12
+   UserName: Robert Duncan
+   AbbrevName: Duncan, R
+   Initials: RD
+   UserID: 34509
+   CarNumber: 13
+   CarPath: rt2000
+   CarClassID: 1
+   CarID: 1
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   IRating: 1497
+   LicLevel: 7
+   LicSubLevel: 345
+   LicColor: 0xfc8a27
+   ClubName: Australia/NZ
+   DivisionName: Division 5
+
+SplitTimeInfo:
+ Sectors:
+ - SectorNum: 0
+   SectorStartPct: 0.000
+ - SectorNum: 1
+   SectorStartPct: 0.194
+ - SectorNum: 2
+   SectorStartPct: 0.479
+ - SectorNum: 3
+   SectorStartPct: 0.814
+
+...

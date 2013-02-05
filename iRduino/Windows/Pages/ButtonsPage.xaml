@@ -1,0 +1,73 @@
+﻿<Page x:Class="iRduino.Pages.ButtonsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="400" d:DesignWidth="395"
+      Title="ButtonsPage" Loaded="PageLoaded1">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80*" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="100*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47" />
+            <RowDefinition Height="28" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Content="Buttons Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+               FontSize="20" Grid.ColumnSpan="3" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" Width="199" />
+        <Label Content="Function" Margin="23,1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
+               VerticalAlignment="Center" FontWeight="Bold" FontFamily="Segoe UI Semibold" Height="26" Width="58" />
+        <Label Content="Options" HorizontalAlignment="Center" Margin="25,1" VerticalAlignment="Center" Grid.Column="2"
+               Grid.Row="1" FontWeight="Bold" FontFamily="Segoe UI Semibold" Height="26" Width="54" />
+        <Label Content="Which Unit?" HorizontalAlignment="Center" Margin="14,1" VerticalAlignment="Center" Grid.Column="3"
+               Grid.Row="1" FontWeight="Bold" FontFamily="Segoe UI Semibold" Height="26" Width="76" />
+        <Label Content="Button 1" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 2" HorizontalAlignment="Left" Margin="10,35,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 3" HorizontalAlignment="Left" Margin="10,65,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 4" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 5" HorizontalAlignment="Left" Margin="10,125,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 6" HorizontalAlignment="Left" Margin="10,155,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 7" HorizontalAlignment="Left" Margin="10,185,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label Content="Button 8" HorizontalAlignment="Left" Margin="10,215,0,-3" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
+        <ComboBox x:Name="ButtonFunctionCBox1" Grid.Column="1" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox2" Grid.Column="1" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox3" Grid.Column="1" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox4" Grid.Column="1" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox5" Grid.Column="1" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox6" Grid.Column="1" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox7" Grid.Column="1" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox8" Grid.Column="1" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox1" Grid.Column="2" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox2" Grid.Column="2" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox3" Grid.Column="2" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox4" Grid.Column="2" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox5" Grid.Column="2" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox6" Grid.Column="2" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox7" Grid.Column="2" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonOptionCBox8" Grid.Column="2" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox1" Grid.Column="3" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox2" Grid.Column="3" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox3" Grid.Column="3" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox4" Grid.Column="3" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox5" Grid.Column="3" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox6" Grid.Column="3" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox7" Grid.Column="3" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonScreenCBox8" Grid.Column="3" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+    </Grid>
+</Page>

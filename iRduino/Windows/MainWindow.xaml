@@ -1,0 +1,95 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="iRduino.Windows.MainWindow"
+        Title="iRduino" Height="230" Width="300" ResizeMode="NoResize" Loaded="MainWindowLoaded"
+        RenderTransformOrigin="0.5,0.5" Closing="MainWindowClosing" Closed="MainWindowClosed" BorderBrush="#FF05B7E0" BorderThickness="2" Background="White">
+    <i:Interaction.Behaviors>
+        <Behaviours:BorderlessWindowBehavior ResizeWithGrip="False" >
+        </Behaviours:BorderlessWindowBehavior>
+    </i:Interaction.Behaviors>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+
+        <Image Margin="0" Source="/iRduino;component/Resources/iRduino.png" Stretch="None" Opacity="0.4"/>
+
+        <Button x:Name="OptionsButton" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"
+    		Margin="0,41,10,0" Height="39" Click="OptionsButtonClick" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1">
+            <WrapPanel x:Name="OptionsButtonWrapPanel">
+                <Image x:Name="OptionButtonImage" Height="32" Width="32" Source="/iRduino;component/Resources/appbar.cog.png" VerticalAlignment="Center"/>
+                <Label x:Name="OptionButtonLabel" Content="Options" VerticalAlignment="Center"/>
+            </WrapPanel>
+        </Button>
+        <Button x:Name="StartButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130"
+    		Margin="10,41,0,0" Height="90" FontSize="20" BorderBrush="#FF1CBCE1" BorderThickness="1"
+    		Click="StartButtonClick" Background="#F2F7F7F7" >
+            <WrapPanel x:Name="StartButtonWrapPanel">
+                <Image x:Name="StartButtonImage" Height="48" Width="48" Source="/iRduino;component/Resources/appbar.control.play.png"/>
+                <Label x:Name="StartButtonLabel" Content="Start" VerticalAlignment="Center"/>
+            </WrapPanel>
+        </Button>
+        <Label x:Name="ConnectionStatusLabel" Content="..." HorizontalAlignment="Left" Margin="46,164,0,0"
+               VerticalAlignment="Top" FontWeight="Bold" Width="236" Background="{x:Null}" Foreground="#FF057DAA" />
+        <ComboBox x:Name="ComPortBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"
+                  Margin="0,104,10,0" SelectionChanged="ComPortBoxSelectionChanged" Height="25" MaxDropDownHeight="260" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1" />
+        <Label Content="Current Configuration:" HorizontalAlignment="Left" Margin="12,138,0,0" VerticalAlignment="Top"
+               FontWeight="Bold" Background="{x:Null}" Foreground="#FF057DAA" />
+        <Label x:Name="CurrentConfigurationLabel" Content="None Loaded!"
+               Margin="150,138,8,0" VerticalAlignment="Top" Background="{x:Null}" />
+        <Label Content="" HorizontalAlignment="Left" Margin="12,164,0,0" VerticalAlignment="Top" Width="34" Height="26" Background="{x:Null}"/>
+        <Grid x:Name="TitleBar" Height="34" VerticalAlignment="Top" Background="#E505B7E0" MouseDown="TitleBarMouseDown">
+            <Label x:Name="AboutBox" Content="" HorizontalAlignment="Right" Margin="0,0,96,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="AboutBoxMouseEnter" MouseDown="AboutBoxMouseDown" MouseLeave="AboutBoxMouseLeave">
+                <Label.Background>
+                    <ImageBrush ImageSource="/iRduino;component/Resources/appbar.information.circle32W.png"/>
+                </Label.Background>
+            </Label>
+            <Label x:Name="HelpButton" Content="" HorizontalAlignment="Right" Margin="0,0,64,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="HelpButtonMouseEnter" MouseLeave="HelpButtonMouseLeave" MouseDown="HelpButtonMouseDown">
+                <Label.Background>
+                    <ImageBrush ImageSource="/iRduino;component/Resources/appbar.lifesaver32W.png"/>
+                </Label.Background>
+            </Label>
+            <Label x:Name="MinimizeButton" Content="" HorizontalAlignment="Right" Margin="0,0,32,0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="MinimizeButtonMouseEnter" MouseLeave="MinimizeButtonMouseLeave" MouseDown="MinimizeButtonMouseDown">
+                <Label.Background>
+                    <ImageBrush ImageSource="/iRduino;component/Resources/appbar.minus32W.png"/>
+                </Label.Background>
+            </Label>
+            <Label x:Name="iRduinoLogo" Content="" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="32" Height="32" >
+                <Label.Background>
+                    <ImageBrush ImageSource="/iRduino;component/Resources/iRdunio-Logo32.png"/>
+                </Label.Background>
+            </Label>
+            <Label x:Name="CloseButton" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="CloseButtonMouseEnter" MouseLeave="CloseButtonMouseLeave" MouseDown="CloseButtonMouseDown">
+                <Label.Background>
+                    <ImageBrush ImageSource="/iRduino;component/Resources/appbar.close32W.png"/>
+                </Label.Background>
+            </Label>
+            <Label x:Name="TitleLabel" Content="iRduino" HorizontalAlignment="Left" Margin="41,0,0,0" VerticalAlignment="Center" Foreground="White" FontSize="18"/>
+        </Grid>
+        <Ellipse x:Name="StatusLight" HorizontalAlignment="Left" Height="25" Stroke="#FFFF2B2B" VerticalAlignment="Top"
+                 Width="25" Margin="16,164,0,0" StrokeThickness="2" MouseDown="StatusLightMouseDown">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF7E0404" Offset="1" />
+                    <GradientStop Color="#FFE20D0D" />
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Label Content="Select Port:" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,80,10,0"
+        	FontWeight="Bold" Background="#00000000" Foreground="#FF057DAA" >
+        </Label>
+
+    </Grid>
+</Window>
