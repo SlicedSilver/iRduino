@@ -12,36 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftData", "ShiftData\ShiftData.csproj", "{E00EE3A4-6BAD-469B-9CA0-F829C37C3A2F}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs25
-		SccProjectUniqueName0 = ArduinoInterfaces\\ArduinoInterfaces.csproj
-		SccProjectName0 = ArduinoInterfaces
-		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs25
-		SccLocalPath0 = ArduinoInterfaces
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = iRacingSdkWrapper\\iRacingSdkWrapper.csproj
-		SccProjectName1 = iRacingSdkWrapper
-		SccAuxPath1 = https://tfs.codeplex.com/tfs/tfs25
-		SccLocalPath1 = iRacingSdkWrapper
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = iRduino\\iRduino.csproj
-		SccProjectName2 = iRduino
-		SccAuxPath2 = https://tfs.codeplex.com/tfs/tfs25
-		SccLocalPath2 = iRduino
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName3 = irsdkSharp\\iRSDKSharp.csproj
-		SccProjectName3 = irsdkSharp
-		SccAuxPath3 = https://tfs.codeplex.com/tfs/tfs25
-		SccLocalPath3 = irsdkSharp
-		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName4 = ShiftData\\ShiftData.csproj
-		SccProjectName4 = ShiftData
-		SccAuxPath4 = https://tfs.codeplex.com/tfs/tfs25
-		SccLocalPath4 = ShiftData
-		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

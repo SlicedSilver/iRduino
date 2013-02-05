@@ -1,0 +1,16 @@
+﻿<Project Format="0.0.0.3">
+  <Version>2013-02-05T18:53:33.7402Z</Version>
+  <Binding>True</Binding>
+  <Diagnostic>
+    <Code>1570</Code>
+    <Id>CS1570</Id>
+    <Severity>Warning</Severity>
+    <Message>XML comment has badly formed XML -- 'Whitespace is not allowed at this location.'</Message>
+    <MappedFile>C:\Users\Mark\Documents\GitHub\iRduino\iRduino\Classes\DisplayManager.cs</MappedFile>
+    <MappedLine>1265</MappedLine>
+    <MappedColumn>97</MappedColumn>
+    <OriginalFile>C:\Users\Mark\Documents\GitHub\iRduino\iRduino\Classes\DisplayManager.cs</OriginalFile>
+    <OriginalLine>1265</OriginalLine>
+    <OriginalColumn>97</OriginalColumn>
+  </Diagnostic>
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Format="0.0.0.3">
+  <Version>2013-01-23T14:28:16.6608Z</Version>
+  <Binding>True</Binding>
+  <Diagnostic>
+    <Code>618</Code>
+    <Id>CS0618</Id>
+    <Severity>Warning</Severity>
+    <Message>'System.Threading.WaitHandle.Handle' is obsolete: 'Use the SafeWaitHandle property instead.'</Message>
+    <MappedFile>C:\Users\Mark\Documents\GitHub\iRduino\irsdkSharp\iRacingSDK.cs</MappedFile>
+    <MappedLine>56</MappedLine>
+    <MappedColumn>16</MappedColumn>
+    <OriginalFile>C:\Users\Mark\Documents\GitHub\iRduino\irsdkSharp\iRacingSDK.cs</OriginalFile>
+    <OriginalLine>56</OriginalLine>
+    <OriginalColumn>16</OriginalColumn>
+  </Diagnostic>
+</Project>
