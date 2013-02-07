@@ -345,6 +345,16 @@ footer {
 	padding-left: 50px;
 }
 
+div#octocat{
+	width: 32px;
+	height: 32px;
+	background: url(../images/blacktocat-32.png) no-repeat;
+	float: left;
+	clear: none;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
 @media print, screen and (max-width: 960px) {
 
   div.wrapper {
