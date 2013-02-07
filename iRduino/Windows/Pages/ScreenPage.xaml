@@ -29,27 +29,27 @@
                FontSize="20" FontWeight="Bold" Grid.ColumnSpan="2" Grid.Column="1" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" />
         <Label Content="Variable 1:" HorizontalAlignment="Left" Margin="2,125,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
-        <ComboBox x:Name="ScreenVariable1CBox" Margin="2,150,2,0" VerticalAlignment="Top" Grid.Column="1"
+        <ComboBox x:Name="ScreenVariable1CBox" Margin="2,150,5,0" VerticalAlignment="Top" Grid.Column="1"
                   SelectionChanged="ScreenVariablesUpdated" />
         <Label Content="Variable 2:" HorizontalAlignment="Left" Margin="3,125,0,0" VerticalAlignment="Top"
                Grid.Column="2" />
-        <ComboBox x:Name="ScreenVariable2CBox" Margin="2,150,2,0" VerticalAlignment="Top" Grid.Column="2"
+        <ComboBox x:Name="ScreenVariable2CBox" Margin="2,150,5,0" VerticalAlignment="Top" Grid.Column="2"
                   SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
         <Label Content="Variable 3:" HorizontalAlignment="Left" Margin="4,125,0,0" VerticalAlignment="Top"
                Grid.Column="3" />
-        <ComboBox x:Name="ScreenVariable3CBox" Margin="2,150,2,0" VerticalAlignment="Top" Grid.Column="3"
+        <ComboBox x:Name="ScreenVariable3CBox" Margin="2,150,10,0" VerticalAlignment="Top" Grid.Column="3"
                   SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
         <Label Content="Variable 4:" HorizontalAlignment="Left" Margin="2,179,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
-        <ComboBox x:Name="ScreenVariable4CBox" Margin="2,204,2,0" VerticalAlignment="Top" Grid.Column="1"
+        <ComboBox x:Name="ScreenVariable4CBox" Margin="2,204,5,0" VerticalAlignment="Top" Grid.Column="1"
                   SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
         <Label Content="Variable 5:" HorizontalAlignment="Left" Margin="4,179,0,0" VerticalAlignment="Top"
                Grid.Column="2" />
-        <ComboBox x:Name="ScreenVariable5CBox" Margin="2,204,2,0" VerticalAlignment="Top" Grid.Column="2"
+        <ComboBox x:Name="ScreenVariable5CBox" Margin="2,204,5,0" VerticalAlignment="Top" Grid.Column="2"
                   SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
         <Label Content="Variable 6:" HorizontalAlignment="Left" Margin="5,179,0,0" VerticalAlignment="Top"
                Grid.Column="3" />
-        <ComboBox x:Name="ScreenVariable6CBox" Margin="2,204,2,0" VerticalAlignment="Top" Grid.Column="3"
+        <ComboBox x:Name="ScreenVariable6CBox" Margin="2,204,10,0" VerticalAlignment="Top" Grid.Column="3"
                   SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
         <Label Content="Screen Space used: " Grid.Column="1" HorizontalAlignment="Left" Margin="2,249,0,0"
                VerticalAlignment="Top" />

@@ -175,7 +175,6 @@ namespace iRduino.Windows.Pages
         {
             foreach (var cb in this.scv)
             {
-                cb.SelectedValue = "Space";
                 cb.SelectedIndex = -1;
             }
         }
