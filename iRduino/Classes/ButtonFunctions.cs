@@ -157,9 +157,6 @@ namespace iRduino.Classes
             keyPress.Options.Add("{SCROLLLOCK}");
             keyPress.Options.Add("{TAB}");
             keyPress.Options.Add("{UP}");
-            keyPress.Options.Add("{}");
-            keyPress.Options.Add("{}");
-            keyPress.Options.Add("{}");
             buttonFunctions.Add(ButtonFunctionsEnum.KeyboardButtonPress, keyPress);
 
             return buttonFunctions;
