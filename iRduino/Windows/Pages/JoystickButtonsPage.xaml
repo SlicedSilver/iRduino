@@ -32,7 +32,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="Joystick Buttons Configuration" HorizontalAlignment="Left" Margin="10,10,0,0"
-               VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="3" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" Height="37" Width="269" />
+               VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="4" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" Height="37" Width="345" />
         <Label Content="Function" Margin="0" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"
                VerticalAlignment="Center" FontWeight="Bold" FontFamily="Segoe UI Semibold" Height="26" Width="58" />
         <Label Content="Options" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Grid.Column="2"

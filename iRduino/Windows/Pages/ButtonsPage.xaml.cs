@@ -86,7 +86,6 @@ namespace iRduino.Windows.Pages
                 }
             }
 
-
             //data bind
             for (int x = 0; x < Constants.NumberButtonsOnTm1638; x++)
             {

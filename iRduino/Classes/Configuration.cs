@@ -676,7 +676,7 @@ namespace iRduino.Classes
                     ButtonFunctionsEnum.None
                 };
             ButtonOptions = new List<string> {"", "", "", "", "", "", "", ""};
-            ButtonOptionsScreens = new List<int> {0, 0, 0, 0, 0, 0, 0, 0};
+            ButtonOptionsScreens = new List<int> {-1, -1, -1, -1, -1, -1, -1, -1};
             //LapDisplayTime = 2;
             LapStyle = LapDisplayStylesEnum.LapTimeDeltaPersonal;
             NumScreens = 1;
@@ -723,7 +723,7 @@ namespace iRduino.Classes
                 ButtonNumbers.Add(-1);
                 ButtonFunctions.Add(ButtonFunctionsEnum.None);
                 ButtonOptions.Add("");
-                ButtonOptionsScreens.Add(0);
+                ButtonOptionsScreens.Add(-1);
             }
         }
     }

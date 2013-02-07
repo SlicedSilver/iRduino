@@ -180,40 +180,46 @@ namespace iRduino.Classes
                     int which = control
                                     ? disp.CurrentConfiguration.ControllerConfigurations[unit].ButtonOptionsScreens[newNum]
                                     : disp.CurrentConfiguration.DisplayConfigurations[unit].ButtonOptionsScreens[num - 1];
-                    switch (which)
+                    if (which >= 0)
                     {
-                        case 0: //All
-                            for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
-                            {
-                                ChangeScreen(disp, d, true);
-                            }
-                            break;
-                        case 1: //Current
-                            ChangeScreen(disp, unit, true);
-                            break;
-                        default: //Specific
-                            ChangeScreen(disp, which - 2, true);
-                            break;
+                        switch (which)
+                        {
+                            case 0: //All
+                                for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
+                                {
+                                    ChangeScreen(disp, d, true);
+                                }
+                                break;
+                            case 1: //Current
+                                ChangeScreen(disp, unit, true);
+                                break;
+                            default: //Specific
+                                ChangeScreen(disp, which - 2, true);
+                                break;
+                        }
                     }
                     break;
                 case ButtonFunctionsEnum.PreviousScreen:
                     int which2 = control
                                      ? disp.CurrentConfiguration.ControllerConfigurations[unit].ButtonOptionsScreens[newNum]
                                      : disp.CurrentConfiguration.DisplayConfigurations[unit].ButtonOptionsScreens[num - 1];
-                    switch (which2)
+                    if (which2 >= 0)
                     {
-                        case 0: //All
-                            for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
-                            {
-                                ChangeScreen(disp, d, false);
-                            }
-                            break;
-                        case 1: //Current
-                            ChangeScreen(disp, unit, false);
-                            break;
-                        default: //Specific
-                            ChangeScreen(disp, which2 - 2, false);
-                            break;
+                        switch (which2)
+                        {
+                            case 0: //All
+                                for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
+                                {
+                                    ChangeScreen(disp, d, false);
+                                }
+                                break;
+                            case 1: //Current
+                                ChangeScreen(disp, unit, false);
+                                break;
+                            default: //Specific
+                                ChangeScreen(disp, which2 - 2, false);
+                                break;
+                        }
                     }
                     break;
 
@@ -227,20 +233,23 @@ namespace iRduino.Classes
                                               : disp.CurrentConfiguration.DisplayConfigurations[unit].ButtonOptions[num - 1];
                     int newScreen;
                     Int32.TryParse(screenString, out newScreen);
-                    switch (which4)
+                    if (which4 >= 0)
                     {
-                        case 0: //All
-                            for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
-                            {
-                                SelectScreen(disp, d, newScreen);
-                            }
-                            break;
-                        case 1: //Current
-                            SelectScreen(disp, unit, newScreen);
-                            break;
-                        default: //Specific
-                            SelectScreen(disp, which4 - 2, newScreen);
-                            break;
+                        switch (which4)
+                        {
+                            case 0: //All
+                                for (int d = 0; d < disp.CurrentConfiguration.DisplayConfigurations.Count; d++)
+                                {
+                                    SelectScreen(disp, d, newScreen);
+                                }
+                                break;
+                            case 1: //Current
+                                SelectScreen(disp, unit, newScreen);
+                                break;
+                            default: //Specific
+                                SelectScreen(disp, which4 - 2, newScreen);
+                                break;
+                        }
                     }
                     break;
 

@@ -424,7 +424,7 @@ namespace iRduino.Classes
                             "None"
                         },
                     ButtonOptions = new List<string> {"", "", "", "", "", "", "", ""},
-                    ButtonOptionsScreens = new List<int> {0, 0, 0, 0, 0, 0, 0, 0}
+                    ButtonOptionsScreens = new List<int> {-1, -1, -1, -1, -1, -1, -1, -1}
                 };
             Inverted = false;
             IsTM1640 = false;
@@ -498,7 +498,7 @@ namespace iRduino.Classes
             }; //ButtonFunctionsEnum
 
         private List<string> buttonOptions = new List<string> {"", "", "", "", "", "", "", ""};
-        private List<int> buttonOptionsScreens = new List<int> {0, 0, 0, 0, 0, 0, 0, 0};
+        private List<int> buttonOptionsScreens = new List<int> {-1, -1, -1, -1, -1, -1, -1, -1};
 
         public List<string> ButtonFunctions
         {
@@ -537,7 +537,7 @@ namespace iRduino.Classes
                 this.buttonNumbers.Add(-1);
                 ButtonFunctions.Add("None");
                 ButtonOptions.Add("");
-                ButtonOptionsScreens.Add(0);
+                ButtonOptionsScreens.Add(-1);
             }
         }
 

@@ -30,7 +30,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="Buttons Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
-               FontSize="20" Grid.ColumnSpan="3" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" Width="199" />
+               FontSize="20" Grid.ColumnSpan="3" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" Width="271" />
         <Label Content="Function" Margin="23,1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"
                VerticalAlignment="Center" FontWeight="Bold" FontFamily="Segoe UI Semibold" Height="26" Width="58" />
         <Label Content="Options" HorizontalAlignment="Center" Margin="25,1" VerticalAlignment="Center" Grid.Column="2"
