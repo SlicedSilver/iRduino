@@ -4,6 +4,8 @@
 
 namespace iRduino.Windows
 {
+    using System.Windows.Media.Animation;
+
     using ArduinoInterfaces;
     using System;
     using System.Collections.Generic;
@@ -38,6 +40,7 @@ namespace iRduino.Windows
             InitializeComponent();
             System.Threading.Thread.CurrentThread.CurrentCulture =
                 CultureInfo.CreateSpecificCulture("en-US");
+            MainWindowBackground.Opacity = 0.6;
             this.startImage = new BitmapImage();
             this.startImage.BeginInit();
             this.startImage.UriSource = new Uri("pack://application:,,,/iRduino;component/Resources/appbar.control.play.png");
@@ -47,6 +50,31 @@ namespace iRduino.Windows
             this.stopImage.UriSource = new Uri("pack://application:,,,/iRduino;component/Resources/appbar.control.stop.png");
             this.stopImage.EndInit();
             this.Height -= 30; //Fix height for Metro Styling without Frame
+            FadeAnimationBackground(0.1, 3);
+        }
+
+        private void FadeAnimationBackground(double endOpacity, double time)
+        {
+            // Create a duration of 2 seconds.
+            var duration = new Duration(TimeSpan.FromSeconds(time));
+
+            // Create two DoubleAnimations and set their properties.
+            var myDoubleAnimation1 = new DoubleAnimation { Duration = duration };
+
+            Storyboard sb = new Storyboard { Duration = duration };
+
+            sb.Children.Add(myDoubleAnimation1);
+
+            Storyboard.SetTarget(myDoubleAnimation1, this.MainWindowBackground);
+
+            // Set the attached properties of Canvas.Left and Canvas.Top
+            // to be the target properties of the two respective DoubleAnimations
+            Storyboard.SetTargetProperty(myDoubleAnimation1, new PropertyPath(OpacityProperty));
+
+            myDoubleAnimation1.To = endOpacity;
+
+            // Begin the animation.
+            sb.Begin();
         }
 
         ////////
@@ -208,7 +236,7 @@ namespace iRduino.Windows
                 this.ArduinoConnection.Stop();
                 StartButtonLabel.Content = "Start";
                 StartButtonImage.Source = this.startImage;
-
+                FadeAnimationBackground(0.1, 2);
                 //StartButtonImage.Source = "/iRduino;component/Resources/appbar.control.play.png";
                 ComPortBox.IsEnabled = true;
             }
@@ -228,6 +256,7 @@ namespace iRduino.Windows
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";
                 StartButtonImage.Source = this.stopImage;
+                FadeAnimationBackground(0.4, 2);
                 ComPortBox.IsEnabled = false;
             }
             StatusChanged();

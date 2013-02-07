@@ -24,7 +24,7 @@
     </Window.Resources>
     <Grid>
 
-        <Image Margin="0" Source="/iRduino;component/Resources/iRduino.png" Stretch="None" Opacity="0.4"/>
+        <Image x:Name="MainWindowBackground" Margin="0" Source="/iRduino;component/Resources/iRduino.png" Stretch="None" Opacity="0.1"/>
 
         <Button x:Name="OptionsButton" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"
     		Margin="0,41,10,0" Height="39" Click="OptionsButtonClick" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1">
