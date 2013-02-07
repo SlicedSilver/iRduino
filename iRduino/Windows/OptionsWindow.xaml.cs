@@ -21,7 +21,6 @@ namespace iRduino.Windows
     using System.Windows.Threading;
     using Microsoft.Win32;
     using iRduino.Classes;
-    //using System.Drawing;
 
     public class MyTreeViewItem : TreeViewItem
     {
@@ -819,11 +818,11 @@ namespace iRduino.Windows
             var temp = OptionsTreeView.SelectedItem as MyTreeViewItem;
             if (temp != null)
             {
-                if (temp.Page != PageTypes.CurrentConfiguration)
+                if (temp.Page != PageTypes.CurrentConfiguration && temp.Page != PageTypes.Unit)
                 {
                     temp.Page = PageTypes.TMUnits;
                 }
-            }
+            } 
             OptionsTreeView.Items.Clear();
             this.treeBuilderUnitCount = 0;
             this.treeControllerCount = 0;
@@ -837,7 +836,10 @@ namespace iRduino.Windows
             {
                 // Take the next node from the front of the queue
                 MyTreeViewItem node = queue.Dequeue();
-
+                if (node.Page == PageTypes.TMUnits && temp.Page == PageTypes.Unit)
+                {
+                    node.IsExpanded = true;
+                }
                 if (node.Page == temp.Page && node.UnitNumber == temp.UnitNumber)
                 {
                     node.IsSelected = true;
