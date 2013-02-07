@@ -503,10 +503,16 @@ namespace iRduino.Windows
                 this.screenPreview = true;
                 this.previewHeader = header;
                 this.previewExample = example;
+                if (this.configurationOptions.DisplayUnitConfigurations[this.currentUnit].Screens[this.currentScreen].UseCustomHeader)
+                {
+                    this.previewHeader =
+                            this.configurationOptions.DisplayUnitConfigurations[this.currentUnit].Screens[
+                                    this.currentScreen].CustomHeader;
+                }
             }
             else
             {
-                MessageBox.Show("Start the Connection to the Unit First!");
+                MessageBox.Show("Start the Connection to the Unit First!");               
             }
         }
 
