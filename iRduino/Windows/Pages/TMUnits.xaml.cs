@@ -2,10 +2,12 @@
 // iRduino - Created by Mark Silverwood  //
 //======================================//
 
-namespace iRduino.Pages
+namespace iRduino.Windows.Pages
 {
     using ArduinoInterfaces;
+
     using iRduino.Classes;
+
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls.Primitives;
@@ -20,111 +22,111 @@ namespace iRduino.Pages
         
         public TMUnits()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void ShowHeaderCheckChecked(object sender, RoutedEventArgs e)
         {
-            HeaderDisplayTimeCBox.IsEnabled = true;
-            HeaderDisplayTimeLabel.IsEnabled = true;
+            this.HeaderDisplayTimeCBox.IsEnabled = true;
+            this.HeaderDisplayTimeLabel.IsEnabled = true;
         }
 
         private void ShowHeaderCheckUnchecked(object sender, RoutedEventArgs e)
         {
-            HeaderDisplayTimeCBox.IsEnabled = false;
-            HeaderDisplayTimeLabel.IsEnabled = false;
+            this.HeaderDisplayTimeCBox.IsEnabled = false;
+            this.HeaderDisplayTimeLabel.IsEnabled = false;
         }
 
         private void PageLoaded1(object sender, RoutedEventArgs e)
         {
-            HeaderDisplayTimeLabel.IsEnabled = false;
-            ShiftIntensityAmountLabel.IsEnabled = false;
+            this.HeaderDisplayTimeLabel.IsEnabled = false;
+            this.ShiftIntensityAmountLabel.IsEnabled = false;
 
 
             for (int i = 1; i <= Constants.MaxNumberTM1638Units; i++)
             {
-                NumberDisplayUnitsCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
-                LapDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
-                QuickInfoDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
-                HeaderDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.NumberDisplayUnitsCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.LapDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.QuickInfoDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.HeaderDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
             }
             for (int i = 0; i <= Constants.MaxIntensityTM; i++)
             {
-                IntensityCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
-                ShiftIntensityAmountCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.IntensityCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.ShiftIntensityAmountCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
             }
             
-            var temp = (ConfigurationOptions)DataContext;
-            for (int i = 0; i <= temp.DisplayUnitConfigurations.Count; i++)
+            var temp = (ConfigurationOptions)this.DataContext;
+            for (int i = 0; i < temp.DisplayUnitConfigurations.Count; i++)
             {
-                deltaMessageScreenCBox.Items.Add((i + 1).ToString(CultureInfo.InvariantCulture));
+                this.deltaMessageScreenCBox.Items.Add((i + 1).ToString(CultureInfo.InvariantCulture));
             }
-            deltaRangeCBox.Items.Add("-0.5 / +0.5 seconds");
-            deltaRangeCBox.Items.Add("-1.0 / +1.0 seconds");
-            deltaRangeCBox.Items.Add("-1.5 / +1.5 seconds");
-            deltaRangeCBox.Items.Add("-2.0 / +2.0 seconds");
+            this.deltaRangeCBox.Items.Add("-0.5 / +0.5 seconds");
+            this.deltaRangeCBox.Items.Add("-1.0 / +1.0 seconds");
+            this.deltaRangeCBox.Items.Add("-1.5 / +1.5 seconds");
+            this.deltaRangeCBox.Items.Add("-2.0 / +2.0 seconds");
             //Setup Data Binding
             var numberDisplayBinding = new Binding("NumberDisplays") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(NumberDisplayUnitsCBox, Selector.SelectedIndexProperty, numberDisplayBinding);
+            BindingOperations.SetBinding(this.NumberDisplayUnitsCBox, Selector.SelectedIndexProperty, numberDisplayBinding);
             var lapDisplayTimeBinding = new Binding("LapTimeDisplayTime") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(LapDisplayTimeCBox, Selector.SelectedIndexProperty, lapDisplayTimeBinding);
+            BindingOperations.SetBinding(this.LapDisplayTimeCBox, Selector.SelectedIndexProperty, lapDisplayTimeBinding);
             var quickInfoTimeBinding = new Binding("QuickInfoDisplayTime") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(QuickInfoDisplayTimeCBox, Selector.SelectedIndexProperty, quickInfoTimeBinding);
+            BindingOperations.SetBinding(this.QuickInfoDisplayTimeCBox, Selector.SelectedIndexProperty, quickInfoTimeBinding);
             var intensityBinding = new Binding("Intensity") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(IntensityCBox, Selector.SelectedIndexProperty, intensityBinding);
+            BindingOperations.SetBinding(this.IntensityCBox, Selector.SelectedIndexProperty, intensityBinding);
             var headerDisplayTimeBinding = new Binding("HeaderDisplayTime") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(HeaderDisplayTimeCBox, Selector.SelectedIndexProperty, headerDisplayTimeBinding);
+            BindingOperations.SetBinding(this.HeaderDisplayTimeCBox, Selector.SelectedIndexProperty, headerDisplayTimeBinding);
             var showHeaderBinding = new Binding("ShowHeader") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(ShowHeaderCheck, ToggleButton.IsCheckedProperty, showHeaderBinding);
+            BindingOperations.SetBinding(this.ShowHeaderCheck, ToggleButton.IsCheckedProperty, showHeaderBinding);
 
             var shiftIntensityBinding = new Binding("ShiftIntensity") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(ShiftIntensityCheck, ToggleButton.IsCheckedProperty, shiftIntensityBinding);
+            BindingOperations.SetBinding(this.ShiftIntensityCheck, ToggleButton.IsCheckedProperty, shiftIntensityBinding);
             var shiftIntensityTypeBinding = new Binding("ShiftIntensityType") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(ShiftIntensityTypeCheck, ToggleButton.IsCheckedProperty,
+            BindingOperations.SetBinding(this.ShiftIntensityTypeCheck, ToggleButton.IsCheckedProperty,
                                          shiftIntensityTypeBinding);
             var shiftIntensityAmountBinding = new Binding("ShiftIntensityAmount") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(ShiftIntensityAmountCBox, Selector.SelectedIndexProperty,
+            BindingOperations.SetBinding(this.ShiftIntensityAmountCBox, Selector.SelectedIndexProperty,
                                          shiftIntensityAmountBinding);
 
             var deltaDefaultBinding = new Binding("DeltaLightsOnDefault") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(deltaDefaultOnCheck, ToggleButton.IsCheckedProperty, deltaDefaultBinding);
+            BindingOperations.SetBinding(this.deltaDefaultOnCheck, ToggleButton.IsCheckedProperty, deltaDefaultBinding);
             var deltaColourBinding = new Binding("ColourDeltaByDD") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(deltaColourCheck, ToggleButton.IsCheckedProperty, deltaColourBinding);
+            BindingOperations.SetBinding(this.deltaColourCheck, ToggleButton.IsCheckedProperty, deltaColourBinding);
             var deltaRangeBinding = new Binding("DeltaRange") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(deltaRangeCBox, Selector.SelectedIndexProperty, deltaRangeBinding);
+            BindingOperations.SetBinding(this.deltaRangeCBox, Selector.SelectedIndexProperty, deltaRangeBinding);
             var deltaMessageScreenBinding = new Binding("DeltaMessageScreen") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(deltaMessageScreenCBox, Selector.SelectedIndexProperty, deltaMessageScreenBinding);
+            BindingOperations.SetBinding(this.deltaMessageScreenCBox, Selector.SelectedIndexProperty, deltaMessageScreenBinding);
         }
 
         private void ShiftIntensityCheckChecked(object sender, RoutedEventArgs e)
         {
-            ShiftIntensityAmountCBox.IsEnabled = true;
-            ShiftIntensityTypeCheck.IsEnabled = true;
-            ShiftIntensityAmountLabel.IsEnabled = true;
+            this.ShiftIntensityAmountCBox.IsEnabled = true;
+            this.ShiftIntensityTypeCheck.IsEnabled = true;
+            this.ShiftIntensityAmountLabel.IsEnabled = true;
         }
 
         private void ShiftIntensityCheckUnchecked(object sender, RoutedEventArgs e)
         {
-            ShiftIntensityAmountCBox.IsEnabled = false;
-            ShiftIntensityTypeCheck.IsEnabled = false;
-            ShiftIntensityAmountLabel.IsEnabled = false;
+            this.ShiftIntensityAmountCBox.IsEnabled = false;
+            this.ShiftIntensityTypeCheck.IsEnabled = false;
+            this.ShiftIntensityAmountLabel.IsEnabled = false;
         }
 
         private void ShiftIntensityTypeCheckUnchecked(object sender, RoutedEventArgs e)
         {
-            ShiftIntensityAmountCBox.Items.Clear();
+            this.ShiftIntensityAmountCBox.Items.Clear();
             for (int i = 0; i <= Constants.MaxIntensityTM; i++)
             {
-                ShiftIntensityAmountCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.ShiftIntensityAmountCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         private void ShiftIntensityTypeCheckChecked(object sender, RoutedEventArgs e)
         {
-            ShiftIntensityAmountCBox.Items.Clear();
+            this.ShiftIntensityAmountCBox.Items.Clear();
             for (int i = 1; i <= Constants.MaxIntensityTM; i++)
             {
-                ShiftIntensityAmountCBox.Items.Add("+" + i.ToString(CultureInfo.InvariantCulture));
+                this.ShiftIntensityAmountCBox.Items.Add("+" + i.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

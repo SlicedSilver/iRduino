@@ -2,7 +2,7 @@
 // iRduino - Created by Mark Silverwood  //
 //======================================//
 
-namespace iRduino.Pages
+namespace iRduino.Windows.Pages
 {
     /// <summary>
     ///     Interaction logic for BlankPage.xaml
@@ -11,7 +11,7 @@ namespace iRduino.Pages
     {
         public BlankPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

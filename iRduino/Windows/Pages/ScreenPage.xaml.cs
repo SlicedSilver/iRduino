@@ -2,14 +2,16 @@
 // iRduino - Created by Mark Silverwood  //
 //======================================//
 
-namespace iRduino
+namespace iRduino.Windows.Pages
 {
     using ArduinoInterfaces;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+
     using iRduino.Classes;
 
     /// <summary>
@@ -25,23 +27,23 @@ namespace iRduino
 
         public ScreenPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void StartLoading()
         {
             this.firstLoad = true;
-            Temp = (DisplayUnitConfiguration) DataContext;
+            this.Temp = (DisplayUnitConfiguration) this.DataContext;
             this.scv = new List<ComboBox>
                 {
-                    ScreenVariable1CBox,
-                    ScreenVariable2CBox,
-                    ScreenVariable3CBox,
-                    ScreenVariable4CBox,
-                    ScreenVariable5CBox,
-                    ScreenVariable6CBox
+                    this.ScreenVariable1CBox,
+                    this.ScreenVariable2CBox,
+                    this.ScreenVariable3CBox,
+                    this.ScreenVariable4CBox,
+                    this.ScreenVariable5CBox,
+                    this.ScreenVariable6CBox
                 };
-            foreach (var variable in Temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables)
+            foreach (var variable in this.Temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables)
             {
                 foreach (ComboBox comboBox in this.scv)
                 {
@@ -54,17 +56,17 @@ namespace iRduino
                 cbox.IsEnabled = false;
             }
             this.scv[0].IsEnabled = true;
-            screen = Temp.ScreenToEdit;
-            if (Temp.Screens[screen].Variables.Count > 0)
+            this.screen = this.Temp.ScreenToEdit;
+            if (this.Temp.Screens[this.screen].Variables.Count > 0)
             {
-                for (int i = 0; i < Temp.Screens[screen].Variables.Count; i++)
+                for (int i = 0; i < this.Temp.Screens[this.screen].Variables.Count; i++)
                 {
                     this.scv[i].IsEnabled = true;
                     DisplayVarsEnum temp222;
-                    if (Enum.TryParse(Temp.Screens[screen].Variables[i],
+                    if (Enum.TryParse(this.Temp.Screens[this.screen].Variables[i],
                                       out temp222))
                     {
-                        this.scv[i].SelectedItem = Temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables[temp222].Name;
+                        this.scv[i].SelectedItem = this.Temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables[temp222].Name;
                     }
                     else
                     {
@@ -77,14 +79,14 @@ namespace iRduino
                 this.scv[0].IsEnabled = true;
                 this.scv[0].SelectedIndex = -1;
             }
-            this.UseCustomHeaderCheck.IsChecked = Temp.Screens[screen].UseCustomHeader;
-            this.HeaderTextBox.Text = Temp.Screens[screen].CustomHeader;
+            this.UseCustomHeaderCheck.IsChecked = this.Temp.Screens[this.screen].UseCustomHeader;
+            this.HeaderTextBox.Text = this.Temp.Screens[this.screen].CustomHeader;
             this.firstLoad = false;
         }
 
         private void ScreenVariablesUpdated(object sender, SelectionChangedEventArgs e)
         {
-            ScreenVariablesUpdatedExtracted(Constants.MaxDisplayLengthTM1638, "{0} / 8", 6, this.scv, Temp, SpaceUsedLabel, this.firstLoad);
+            this.ScreenVariablesUpdatedExtracted(Constants.MaxDisplayLengthTM1638, "{0} / 8", 6, this.scv, this.Temp, this.SpaceUsedLabel, this.firstLoad);
         }
 
         protected void ScreenVariablesUpdatedExtracted(int maxDisplayLengthTM1638, string format, int param, List<ComboBox> scvIn, DisplayUnitConfiguration temp, Label spaceUsedLabel, bool firstLoadIn)
@@ -159,9 +161,9 @@ namespace iRduino
 
         private void PageDataContextChanged1(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (DataContext != null)
+            if (this.DataContext != null)
             {
-                StartLoading();
+                this.StartLoading();
             }
             else
             {
@@ -171,7 +173,7 @@ namespace iRduino
 
         private void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            foreach (var cb in scv)
+            foreach (var cb in this.scv)
             {
                 cb.SelectedValue = "Space";
                 cb.SelectedIndex = -1;
@@ -180,20 +182,20 @@ namespace iRduino
 
         private void UseCustomHeaderCheckUnchecked(object sender, RoutedEventArgs e)
         {
-            HeaderTextBox.Text = "";
-            HeaderTextBox.IsEnabled = false;
-            Temp.Screens[screen].UseCustomHeader = false;
+            this.HeaderTextBox.Text = "";
+            this.HeaderTextBox.IsEnabled = false;
+            this.Temp.Screens[this.screen].UseCustomHeader = false;
         }
 
         private void UseCustomHeaderCheckChecked(object sender, RoutedEventArgs e)
         {
-            HeaderTextBox.IsEnabled = true;
-            Temp.Screens[screen].UseCustomHeader = true;
+            this.HeaderTextBox.IsEnabled = true;
+            this.Temp.Screens[this.screen].UseCustomHeader = true;
         }
 
         private void HeaderTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            Temp.Screens[screen].CustomHeader = HeaderTextBox.Text;
+            this.Temp.Screens[this.screen].CustomHeader = this.HeaderTextBox.Text;
         }
     }
 }

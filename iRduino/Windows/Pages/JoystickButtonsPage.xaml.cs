@@ -2,9 +2,10 @@
 // iRduino - Created by Mark Silverwood  //
 //======================================//
 
-namespace iRduino.Pages
+namespace iRduino.Windows.Pages
 {
     using iRduino.Classes;
+
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -15,6 +16,7 @@ namespace iRduino.Pages
     using System.Windows.Data;
     using System.Windows.Forms;
     using System.Windows.Threading;
+
     using Binding = System.Windows.Data.Binding;
     using ComboBox = System.Windows.Controls.ComboBox;
 
@@ -39,7 +41,7 @@ namespace iRduino.Pages
 
         public JoystickButtonsPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void PageLoaded1(object sender, RoutedEventArgs e)
@@ -49,50 +51,50 @@ namespace iRduino.Pages
             this.joysticks = ControllerDevice.Available();
             foreach (ControllerDevice joystickDevice in this.joysticks)
             {
-                JoyDevicesCBox.Items.Add(joystickDevice.Name);
+                this.JoyDevicesCBox.Items.Add(joystickDevice.Name);
             }
-            Temp = (ConfigurationOptions) DataContext;
-            JoyButtonCBoxs = new List<ComboBox>
+            this.Temp = (ConfigurationOptions) this.DataContext;
+            this.JoyButtonCBoxs = new List<ComboBox>
                 {
-                    JoyButtonCBox1,
-                    JoyButtonCBox2,
-                    JoyButtonCBox3,
-                    JoyButtonCBox4
+                    this.JoyButtonCBox1,
+                    this.JoyButtonCBox2,
+                    this.JoyButtonCBox3,
+                    this.JoyButtonCBox4
                 };
-            ButtonFunctionsCBoxs = new List<ComboBox>
+            this.ButtonFunctionsCBoxs = new List<ComboBox>
                 {
-                    ButtonFunctionCBox1,
-                    ButtonFunctionCBox2,
-                    ButtonFunctionCBox3,
-                    ButtonFunctionCBox4
+                    this.ButtonFunctionCBox1,
+                    this.ButtonFunctionCBox2,
+                    this.ButtonFunctionCBox3,
+                    this.ButtonFunctionCBox4
                 };
-            ButtonOptionsCBoxs = new List<ComboBox>
+            this.ButtonOptionsCBoxs = new List<ComboBox>
                 {
-                    ButtonOptionCBox1,
-                    ButtonOptionCBox2,
-                    ButtonOptionCBox3,
-                    ButtonOptionCBox4
+                    this.ButtonOptionCBox1,
+                    this.ButtonOptionCBox2,
+                    this.ButtonOptionCBox3,
+                    this.ButtonOptionCBox4
                 };
-            ButtonScreensCBoxs = new List<ComboBox>
+            this.ButtonScreensCBoxs = new List<ComboBox>
                 {
-                    ButtonScreenCBox1,
-                    ButtonScreenCBox2,
-                    ButtonScreenCBox3,
-                    ButtonScreenCBox4
+                    this.ButtonScreenCBox1,
+                    this.ButtonScreenCBox2,
+                    this.ButtonScreenCBox3,
+                    this.ButtonScreenCBox4
                 };
             //populate combo boxs
-            foreach (var butFunc in Temp.Dictionarys.ButtonFunctions)
+            foreach (var butFunc in this.Temp.Dictionarys.ButtonFunctions)
             {
-                foreach (ComboBox cbox in ButtonFunctionsCBoxs)
+                foreach (ComboBox cbox in this.ButtonFunctionsCBoxs)
                 {
                     cbox.Items.Add(butFunc.Value.Name);
                 }
             }
-            foreach (ComboBox cBox in ButtonScreensCBoxs)
+            foreach (ComboBox cBox in this.ButtonScreensCBoxs)
             {
                 cBox.IsEnabled = true;
                 cBox.Items.Add("All");
-                for (int i = 1; i <= Temp.NumberDisplays + 1; i++)
+                for (int i = 1; i <= this.Temp.NumberDisplays + 1; i++)
                 {
                     cBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
                 }
@@ -101,42 +103,42 @@ namespace iRduino.Pages
             for (int x = 0; x < NumberButtonsPerPage; x++)
             {
                 var buttonFuncBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonFunctions[{1}]", Temp.EditNumber, x))
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonFunctions[{1}]", this.Temp.EditNumber, x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty, buttonFuncBinding);
+                BindingOperations.SetBinding(this.ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty, buttonFuncBinding);
                 var buttonOptBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptions[{1}]", Temp.EditNumber, x))
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptions[{1}]", this.Temp.EditNumber, x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonOptionsCBoxs[x], Selector.SelectedValueProperty, buttonOptBinding);
+                BindingOperations.SetBinding(this.ButtonOptionsCBoxs[x], Selector.SelectedValueProperty, buttonOptBinding);
                 var buttonScreenBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptionsScreens[{1}]", Temp.EditNumber,
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptionsScreens[{1}]", this.Temp.EditNumber,
                                               x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonScreensCBoxs[x], Selector.SelectedIndexProperty, buttonScreenBinding);
+                BindingOperations.SetBinding(this.ButtonScreensCBoxs[x], Selector.SelectedIndexProperty, buttonScreenBinding);
                 var buttonNumberBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonNumbers[{1}]", Temp.EditNumber, x))
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonNumbers[{1}]", this.Temp.EditNumber, x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(JoyButtonCBoxs[x], Selector.SelectedIndexProperty, buttonNumberBinding);
+                BindingOperations.SetBinding(this.JoyButtonCBoxs[x], Selector.SelectedIndexProperty, buttonNumberBinding);
             }
 
 
-            if (Temp.ControllerConfigurations[Temp.EditNumber].Selected)
+            if (this.Temp.ControllerConfigurations[this.Temp.EditNumber].Selected)
             {
                 //try select correct device in dropdown menu
                 for (int p = 0; p < this.joysticks.Count; p++)
                 {
-                    if (this.joysticks[p].Guid == Temp.ControllerConfigurations[Temp.EditNumber].DeviceGuid)
+                    if (this.joysticks[p].Guid == this.Temp.ControllerConfigurations[this.Temp.EditNumber].DeviceGuid)
                     {
                         //found
-                        JoyDevicesCBox.SelectedIndex = p;
+                        this.JoyDevicesCBox.SelectedIndex = p;
                     }
                 }
             }
@@ -146,7 +148,7 @@ namespace iRduino.Pages
         {
             string temp = this.selectedJoystick.GetButtons()
                                            .Aggregate("", (current, item) => current + item.ToString(" 00"));
-            ButtonPressLabel.Content = temp;
+            this.ButtonPressLabel.Content = temp;
         }
 
         private void ButtonFunctionSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -155,71 +157,71 @@ namespace iRduino.Pages
             //foreach (var butFuncCBOX in bf)
             for (int x = 0; x < NumberButtonsPerPage; x++)
             {
-                if (ButtonFunctionsCBoxs[x].SelectedIndex < 0) continue;
+                if (this.ButtonFunctionsCBoxs[x].SelectedIndex < 0) continue;
                 int x1 = x;
                 foreach (
                     var butFunc in
-                        Temp.Dictionarys.ButtonFunctions.Where(
-                            butFunc => ButtonFunctionsCBoxs[x1].SelectedItem.ToString() == butFunc.Value.Name))
+                        this.Temp.Dictionarys.ButtonFunctions.Where(
+                            butFunc => this.ButtonFunctionsCBoxs[x1].SelectedItem.ToString() == butFunc.Value.Name))
                 {
                     if (butFunc.Key == ButtonFunctionsEnum.NextScreen ||
                         butFunc.Key == ButtonFunctionsEnum.PreviousScreen ||
                         butFunc.Key == ButtonFunctionsEnum.SpecificScreen ||
                         butFunc.Key == ButtonFunctionsEnum.DisplayQuickInfo)
                     {
-                        ButtonScreensCBoxs[x].IsEnabled = true;
-                        if (ButtonScreensCBoxs[x].SelectedIndex == -1)
+                        this.ButtonScreensCBoxs[x].IsEnabled = true;
+                        if (this.ButtonScreensCBoxs[x].SelectedIndex == -1)
                         {
-                            ButtonScreensCBoxs[x].SelectedIndex = 0;
+                            this.ButtonScreensCBoxs[x].SelectedIndex = 0;
                         }
                     }
                     else
                     {
-                        ButtonScreensCBoxs[x].IsEnabled = false;
-                        ButtonScreensCBoxs[x].SelectedIndex = -1;
+                        this.ButtonScreensCBoxs[x].IsEnabled = false;
+                        this.ButtonScreensCBoxs[x].SelectedIndex = -1;
                     }
                     //found
                     if (butFunc.Value.Options.Count > 0)
                     {
-                        ButtonOptionsCBoxs[x].IsEnabled = true;
-                        int currentSelection = ButtonOptionsCBoxs[x].SelectedIndex;
-                        ButtonOptionsCBoxs[x].Items.Clear();
+                        this.ButtonOptionsCBoxs[x].IsEnabled = true;
+                        int currentSelection = this.ButtonOptionsCBoxs[x].SelectedIndex;
+                        this.ButtonOptionsCBoxs[x].Items.Clear();
                         foreach (string option in butFunc.Value.Options)
                         {
-                            ButtonOptionsCBoxs[x].Items.Add(option);
+                            this.ButtonOptionsCBoxs[x].Items.Add(option);
                         }
-                        if (currentSelection <= ButtonOptionsCBoxs[x].Items.Count - 1)
+                        if (currentSelection <= this.ButtonOptionsCBoxs[x].Items.Count - 1)
                         {
-                            ButtonOptionsCBoxs[x].SelectedIndex = currentSelection;
+                            this.ButtonOptionsCBoxs[x].SelectedIndex = currentSelection;
                         }
-                        if (ButtonOptionsCBoxs[x].SelectedIndex == -1)
+                        if (this.ButtonOptionsCBoxs[x].SelectedIndex == -1)
                         {
-                            ButtonOptionsCBoxs[x].SelectedIndex = 0;
+                            this.ButtonOptionsCBoxs[x].SelectedIndex = 0;
                         }
                     }
                     else if (butFunc.Key == ButtonFunctionsEnum.SpecificScreen)
                     {
-                        ButtonOptionsCBoxs[x].IsEnabled = true;
-                        int currentSelection = ButtonOptionsCBoxs[x].SelectedIndex;
-                        ButtonOptionsCBoxs[x].Items.Clear();
+                        this.ButtonOptionsCBoxs[x].IsEnabled = true;
+                        int currentSelection = this.ButtonOptionsCBoxs[x].SelectedIndex;
+                        this.ButtonOptionsCBoxs[x].Items.Clear();
                         for (int sc = 1; sc <= 16; sc++)
                             //not using Screens.Count on purpose, so that configurations can be changed without needing to reset button configs
                         {
-                            ButtonOptionsCBoxs[x].Items.Add(sc.ToString(CultureInfo.InvariantCulture));
+                            this.ButtonOptionsCBoxs[x].Items.Add(sc.ToString(CultureInfo.InvariantCulture));
                         }
-                        if (currentSelection <= ButtonOptionsCBoxs[x].Items.Count - 1)
+                        if (currentSelection <= this.ButtonOptionsCBoxs[x].Items.Count - 1)
                         {
-                            ButtonOptionsCBoxs[x].SelectedIndex = currentSelection;
+                            this.ButtonOptionsCBoxs[x].SelectedIndex = currentSelection;
                         }
-                        if (ButtonOptionsCBoxs[x].SelectedIndex == -1)
+                        if (this.ButtonOptionsCBoxs[x].SelectedIndex == -1)
                         {
-                            ButtonOptionsCBoxs[x].SelectedIndex = 0;
+                            this.ButtonOptionsCBoxs[x].SelectedIndex = 0;
                         }
                     }
                     else
                     {
-                        ButtonOptionsCBoxs[x].SelectedIndex = -1;
-                        ButtonOptionsCBoxs[x].IsEnabled = false;
+                        this.ButtonOptionsCBoxs[x].SelectedIndex = -1;
+                        this.ButtonOptionsCBoxs[x].IsEnabled = false;
                     }
                 }
             }
@@ -227,13 +229,13 @@ namespace iRduino.Pages
 
         private void JoyDevicesCBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (JoyDevicesCBox.SelectedIndex >= 0)
+            if (this.JoyDevicesCBox.SelectedIndex >= 0)
             {
-                this.selectedJoystick = this.joysticks[JoyDevicesCBox.SelectedIndex];
+                this.selectedJoystick = this.joysticks[this.JoyDevicesCBox.SelectedIndex];
                 this.selectedJoystick.Acquire(new Form());
-                Temp.ControllerConfigurations[Temp.EditNumber].DeviceGuid = this.selectedJoystick.Guid;
-                Temp.ControllerConfigurations[Temp.EditNumber].Selected = true;
-                foreach (ComboBox joyButtonCBox in JoyButtonCBoxs)
+                this.Temp.ControllerConfigurations[this.Temp.EditNumber].DeviceGuid = this.selectedJoystick.Guid;
+                this.Temp.ControllerConfigurations[this.Temp.EditNumber].Selected = true;
+                foreach (ComboBox joyButtonCBox in this.JoyButtonCBoxs)
                 {
                     for (int y = 0; y < this.selectedJoystick.ButtonCount; y++)
                     {
@@ -241,11 +243,11 @@ namespace iRduino.Pages
                     }
                 }
                 this.updateUiTimer.Start();
-                foreach (ComboBox item in JoyButtonCBoxs)
+                foreach (ComboBox item in this.JoyButtonCBoxs)
                 {
                     item.IsEnabled = true;
                 }
-                foreach (ComboBox item2 in ButtonFunctionsCBoxs)
+                foreach (ComboBox item2 in this.ButtonFunctionsCBoxs)
                 {
                     item2.IsEnabled = true;
                 }
@@ -254,12 +256,12 @@ namespace iRduino.Pages
             {
                 this.updateUiTimer.Stop();
                 this.selectedJoystick = null;
-                Temp.ControllerConfigurations[Temp.EditNumber].Selected = false;
-                foreach (ComboBox item in JoyButtonCBoxs)
+                this.Temp.ControllerConfigurations[this.Temp.EditNumber].Selected = false;
+                foreach (ComboBox item in this.JoyButtonCBoxs)
                 {
                     item.IsEnabled = false;
                 }
-                foreach (ComboBox item2 in ButtonFunctionsCBoxs)
+                foreach (ComboBox item2 in this.ButtonFunctionsCBoxs)
                 {
                     item2.IsEnabled = false;
                 }
@@ -271,71 +273,71 @@ namespace iRduino.Pages
             // decouple data binding
             for (int x = 0; x < NumberButtonsPerPage; x++)
             {
-                BindingOperations.ClearBinding(ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty);
-                BindingOperations.ClearBinding(ButtonOptionsCBoxs[x], Selector.SelectedValueProperty);
-                BindingOperations.ClearBinding(ButtonScreensCBoxs[x], Selector.SelectedIndexProperty);
-                BindingOperations.ClearBinding(JoyButtonCBoxs[x], Selector.SelectedIndexProperty);
-                ButtonFunctionsCBoxs[x].SelectedIndex = -1;
-                ButtonOptionsCBoxs[x].SelectedIndex = -1;
-                ButtonScreensCBoxs[x].SelectedIndex = -1;
-                JoyButtonCBoxs[x].SelectedIndex = -1;
+                BindingOperations.ClearBinding(this.ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty);
+                BindingOperations.ClearBinding(this.ButtonOptionsCBoxs[x], Selector.SelectedValueProperty);
+                BindingOperations.ClearBinding(this.ButtonScreensCBoxs[x], Selector.SelectedIndexProperty);
+                BindingOperations.ClearBinding(this.JoyButtonCBoxs[x], Selector.SelectedIndexProperty);
+                this.ButtonFunctionsCBoxs[x].SelectedIndex = -1;
+                this.ButtonOptionsCBoxs[x].SelectedIndex = -1;
+                this.ButtonScreensCBoxs[x].SelectedIndex = -1;
+                this.JoyButtonCBoxs[x].SelectedIndex = -1;
             }
             // change page label
             int startNumber = currentPageParameter * NumberButtonsPerPage;
-            PageLabel.Content = String.Format("Buttons {0} to {1}", startNumber + 1, startNumber + NumberButtonsPerPage);
+            this.PageLabel.Content = String.Format("Buttons {0} to {1}", startNumber + 1, startNumber + NumberButtonsPerPage);
             // recouple data binding
             this.changingPages = false;
             //data binding here!!!
             for (int x = 0; x < NumberButtonsPerPage; x++)
             {
                 var buttonFuncBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonFunctions[{1}]", Temp.EditNumber,
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonFunctions[{1}]", this.Temp.EditNumber,
                                               startNumber + x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty, buttonFuncBinding);
+                BindingOperations.SetBinding(this.ButtonFunctionsCBoxs[x], Selector.SelectedValueProperty, buttonFuncBinding);
                 var buttonOptBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptions[{1}]", Temp.EditNumber,
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptions[{1}]", this.Temp.EditNumber,
                                               startNumber + x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonOptionsCBoxs[x], Selector.SelectedValueProperty, buttonOptBinding);
+                BindingOperations.SetBinding(this.ButtonOptionsCBoxs[x], Selector.SelectedValueProperty, buttonOptBinding);
                 var buttonScreenBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptionsScreens[{1}]", Temp.EditNumber,
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonOptionsScreens[{1}]", this.Temp.EditNumber,
                                               startNumber + x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(ButtonScreensCBoxs[x], Selector.SelectedIndexProperty, buttonScreenBinding);
+                BindingOperations.SetBinding(this.ButtonScreensCBoxs[x], Selector.SelectedIndexProperty, buttonScreenBinding);
                 var buttonNumberBinding =
-                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonNumbers[{1}]", Temp.EditNumber,
+                    new Binding(String.Format("ControllerConfigurations[{0}].ButtonNumbers[{1}]", this.Temp.EditNumber,
                                               startNumber + x))
                         {
                             Mode = BindingMode.TwoWay
                         };
-                BindingOperations.SetBinding(JoyButtonCBoxs[x], Selector.SelectedIndexProperty, buttonNumberBinding);
+                BindingOperations.SetBinding(this.JoyButtonCBoxs[x], Selector.SelectedIndexProperty, buttonNumberBinding);
             }
         }
 
 
         private void ChangeNextPageButtonClick(object sender, RoutedEventArgs e)
         {
-            ChangePage(true);
+            this.ChangePage(true);
             e.Handled = true;
         }
 
         private void ChangePreviousPageButtonClick(object sender, RoutedEventArgs e)
         {
-            ChangePage(false);
+            this.ChangePage(false);
             e.Handled = true;
         }
 
         private void ChangePage(bool direction)
         {
-            NextPageButton.IsEnabled = false;
-            PreviousPageButton.IsEnabled = false;
+            this.NextPageButton.IsEnabled = false;
+            this.PreviousPageButton.IsEnabled = false;
             this.changingPages = true;
             if (direction)
             {
@@ -345,38 +347,38 @@ namespace iRduino.Pages
             {
                 this.currentPage--;
             }
-            PageChange(this.currentPage);
+            this.PageChange(this.currentPage);
             switch (this.currentPage)
             {
                 case 0:
-                    NextPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
                     break;
                 case 1:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 2:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 3:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 4:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 5:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 6:
-                    NextPageButton.IsEnabled = true;
-                    PreviousPageButton.IsEnabled = true;
+                    this.NextPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
                 case 7:
-                    PreviousPageButton.IsEnabled = true;
+                    this.PreviousPageButton.IsEnabled = true;
                     break;
             }
             //_changingPages = false;
@@ -386,10 +388,10 @@ namespace iRduino.Pages
         {
             for (int x = 0; x < NumberButtonsPerPage; x++)
             {
-                ButtonFunctionsCBoxs[x].SelectedIndex = -1;
-                ButtonOptionsCBoxs[x].SelectedIndex = -1;
-                ButtonScreensCBoxs[x].SelectedIndex = -1;
-                JoyButtonCBoxs[x].SelectedIndex = -1;
+                this.ButtonFunctionsCBoxs[x].SelectedIndex = -1;
+                this.ButtonOptionsCBoxs[x].SelectedIndex = -1;
+                this.ButtonScreensCBoxs[x].SelectedIndex = -1;
+                this.JoyButtonCBoxs[x].SelectedIndex = -1;
             }
         }
     }
