@@ -22,11 +22,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ComboBox x:Name="CurrentConfigurationCBox" Margin="0,31,20,0" VerticalAlignment="Top" MaxDropDownHeight="200"
-                  SelectionChanged="CurrentConfigurationCBoxSelectionChanged" Width="272" HorizontalAlignment="Right" />
+                  SelectionChanged="CurrentConfigurationCBoxSelectionChanged" Width="272" HorizontalAlignment="Right" ToolTip="Select a configuration. Configurations saved in Documents/iRduino will be loaded automatically at startup." />
         <Label Content="Current Configuration: " HorizontalAlignment="Right" Margin="0,4,152,0" VerticalAlignment="Top"
                Width="140" Foreground="White" />
         <Button Content="Apply &amp; Save" Margin="0,5,20,0" VerticalAlignment="Top" HorizontalAlignment="Right"
-                Width="125" Click="ApplySaveButtonClick" />
+                Width="125" Click="ApplySaveButtonClick" ToolTip="Apply and save the current configuration settings." />
         <Image HorizontalAlignment="Left" Height="48" Margin="10,6,0,0" VerticalAlignment="Top" Width="48"
                Source="/iRduino;component/Resources/Configuration-Settings-icon.png" />
         <Label Content="iRduino Options" HorizontalAlignment="Left" Margin="63,10,0,0" VerticalAlignment="Top"
