@@ -27,7 +27,7 @@
         <Image x:Name="MainWindowBackground" Margin="0" Source="/iRduino;component/Resources/iRduino.png" Stretch="None" Opacity="0.1"/>
 
         <Button x:Name="OptionsButton" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"
-    		Margin="0,41,10,0" Height="39" Click="OptionsButtonClick" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1">
+    		Margin="0,41,10,0" Height="39" Click="OptionsButtonClick" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1" ToolTip="Opens the options window that allows the application to be configured.">
             <WrapPanel x:Name="OptionsButtonWrapPanel">
                 <Image x:Name="OptionButtonImage" Height="32" Width="32" Source="/iRduino;component/Resources/appbar.cog.png" VerticalAlignment="Center"/>
                 <Label x:Name="OptionButtonLabel" Content="Options" VerticalAlignment="Center"/>
@@ -35,33 +35,33 @@
         </Button>
         <Button x:Name="StartButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130"
     		Margin="10,41,0,0" Height="90" FontSize="20" BorderBrush="#FF1CBCE1" BorderThickness="1"
-    		Click="StartButtonClick" Background="#F2F7F7F7" >
+    		Click="StartButtonClick" Background="#F2F7F7F7" ToolTip="Starts/stops the serial connection to the Arduino." >
             <WrapPanel x:Name="StartButtonWrapPanel">
                 <Image x:Name="StartButtonImage" Height="48" Width="48" Source="/iRduino;component/Resources/appbar.control.play.png"/>
                 <Label x:Name="StartButtonLabel" Content="Start" VerticalAlignment="Center"/>
             </WrapPanel>
         </Button>
         <Label x:Name="ConnectionStatusLabel" Content="..." HorizontalAlignment="Left" Margin="46,164,0,0"
-               VerticalAlignment="Top" FontWeight="Bold" Width="236" Background="{x:Null}" Foreground="#FF057DAA" />
+               VerticalAlignment="Top" FontWeight="Bold" Width="236" Background="{x:Null}" Foreground="#FF057DAA" ToolTip="Current iRacing API connection status." />
         <ComboBox x:Name="ComPortBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="130"
-                  Margin="0,104,10,0" SelectionChanged="ComPortBoxSelectionChanged" Height="25" MaxDropDownHeight="260" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1" />
+                  Margin="0,104,10,0" SelectionChanged="ComPortBoxSelectionChanged" Height="25" MaxDropDownHeight="260" Background="#F2F7F7F7" BorderBrush="#FF1CBCE1" ToolTip="Select the serial COM port on which to attempt communication with the Arduino board." />
         <Label Content="Current Configuration:" HorizontalAlignment="Left" Margin="12,138,0,0" VerticalAlignment="Top"
                FontWeight="Bold" Background="{x:Null}" Foreground="#FF057DAA" />
         <Label x:Name="CurrentConfigurationLabel" Content="None Loaded!"
-               Margin="150,138,8,0" VerticalAlignment="Top" Background="{x:Null}" />
+               Margin="150,138,8,0" VerticalAlignment="Top" Background="{x:Null}" ToolTip="Current selected configuration. To switch configurations open the options window." />
         <Label Content="" HorizontalAlignment="Left" Margin="12,164,0,0" VerticalAlignment="Top" Width="34" Height="26" Background="{x:Null}"/>
         <Grid x:Name="TitleBar" Height="34" VerticalAlignment="Top" Background="#E505B7E0" MouseDown="TitleBarMouseDown">
-            <Label x:Name="AboutBox" Content="" HorizontalAlignment="Right" Margin="0,0,96,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="AboutBoxMouseEnter" MouseDown="AboutBoxMouseDown" MouseLeave="AboutBoxMouseLeave">
+            <Label x:Name="AboutBox" Content="" HorizontalAlignment="Right" Margin="0,0,96,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="AboutBoxMouseEnter" MouseDown="AboutBoxMouseDown" MouseLeave="AboutBoxMouseLeave" ToolTip="Shows the about box.">
                 <Label.Background>
                     <ImageBrush ImageSource="/iRduino;component/Resources/appbar.information.circle32W.png"/>
                 </Label.Background>
             </Label>
-            <Label x:Name="HelpButton" Content="" HorizontalAlignment="Right" Margin="0,0,64,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="HelpButtonMouseEnter" MouseLeave="HelpButtonMouseLeave" MouseDown="HelpButtonMouseDown">
+            <Label x:Name="HelpButton" Content="" HorizontalAlignment="Right" Margin="0,0,64,0" Opacity="0.5" VerticalAlignment="Top" Width="32" Height="32" MouseEnter="HelpButtonMouseEnter" MouseLeave="HelpButtonMouseLeave" MouseDown="HelpButtonMouseDown" ToolTip="Opens the online documentation and help in your default internet browser.">
                 <Label.Background>
                     <ImageBrush ImageSource="/iRduino;component/Resources/appbar.lifesaver32W.png"/>
                 </Label.Background>
             </Label>
-            <Label x:Name="MinimizeButton" Content="" HorizontalAlignment="Right" Margin="0,0,32,0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="MinimizeButtonMouseEnter" MouseLeave="MinimizeButtonMouseLeave" MouseDown="MinimizeButtonMouseDown">
+            <Label x:Name="MinimizeButton" Content="" HorizontalAlignment="Right" Margin="0,0,32,0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="MinimizeButtonMouseEnter" MouseLeave="MinimizeButtonMouseLeave" MouseDown="MinimizeButtonMouseDown" ToolTip="Minimises the application window.">
                 <Label.Background>
                     <ImageBrush ImageSource="/iRduino;component/Resources/appbar.minus32W.png"/>
                 </Label.Background>
@@ -71,7 +71,7 @@
                     <ImageBrush ImageSource="/iRduino;component/Resources/iRdunio-Logo32.png"/>
                 </Label.Background>
             </Label>
-            <Label x:Name="CloseButton" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="CloseButtonMouseEnter" MouseLeave="CloseButtonMouseLeave" MouseDown="CloseButtonMouseDown">
+            <Label x:Name="CloseButton" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Width="32" Height="32" Opacity="0.5" MouseEnter="CloseButtonMouseEnter" MouseLeave="CloseButtonMouseLeave" MouseDown="CloseButtonMouseDown" ToolTip="Closes the iRduino application.">
                 <Label.Background>
                     <ImageBrush ImageSource="/iRduino;component/Resources/appbar.close32W.png"/>
                 </Label.Background>
@@ -79,7 +79,7 @@
             <Label x:Name="TitleLabel" Content="iRduino" HorizontalAlignment="Left" Margin="41,0,0,0" VerticalAlignment="Center" Foreground="White" FontSize="18"/>
         </Grid>
         <Ellipse x:Name="StatusLight" HorizontalAlignment="Left" Height="25" Stroke="#FFFF2B2B" VerticalAlignment="Top"
-                 Width="25" Margin="16,164,0,0" StrokeThickness="2" MouseDown="StatusLightMouseDown">
+                 Width="25" Margin="16,164,0,0" StrokeThickness="2" MouseDown="StatusLightMouseDown" ToolTip="Shows the current iRacing API connection status in a visual form. Click the ellipse to invoke a test sequence on a TM display unit.">
             <Ellipse.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF7E0404" Offset="1" />
