@@ -23,15 +23,15 @@
                FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" />
         <Label Content="Name:" HorizontalAlignment="Left" Margin="17,56,0,0" VerticalAlignment="Top" />
         <TextBox x:Name="NameTextBox" Controls:TextboxHelper.ClearTextButton="True" Height="23" Margin="66,56,20,0" TextWrapping="Wrap"
-                 Text="" VerticalAlignment="Top" />
+                 Text="" VerticalAlignment="Top" ToolTip="Name of the configuration." />
         <Label Content="Preferred COM Port:" HorizontalAlignment="Left" Margin="17,94,0,0" VerticalAlignment="Top" />
         <ComboBox x:Name="PrefComPortCBox" HorizontalAlignment="Left" Margin="139,94,0,0" VerticalAlignment="Top"
-                  Width="120" />
+                  Width="120" ToolTip="Preferred COM port to try pre-select in the main iRduino window." />
         <Label x:Name="NumberControllersLabel" Content="Number: " HorizontalAlignment="Left" Margin="235,196,0,0" VerticalAlignment="Top" />
-        <ComboBox x:Name="ControllerNumCBox" Margin="300,196,20,0" VerticalAlignment="Top" SelectionChanged="ControllerNumCBoxSelectionChanged" IsEnabled="False" />
+        <ComboBox x:Name="ControllerNumCBox" Margin="300,196,20,0" VerticalAlignment="Top" SelectionChanged="ControllerNumCBoxSelectionChanged" IsEnabled="False" ToolTip="Number of USB controllers to use in this configuration." />
         <Label Content="Components" HorizontalAlignment="Left" Margin="15,141,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="#FF057DAA"/>
-        <CheckBox x:Name="UseDXUnitsCheck" Content="DX SLI Display Units (TM1638/TM1640)" HorizontalAlignment="Left" Margin="31,175,0,0" VerticalAlignment="Top" Checked="UseDxUnitsCheckChecked" Unchecked="UseDxUnitsCheckUnchecked"/>
-        <CheckBox x:Name="UseControllersCheck" Content="Use External USB Controllers" HorizontalAlignment="Left" Margin="31,200,0,0" VerticalAlignment="Top" Unchecked="UseControllersCheckUnchecked" Checked="UseControllersCheckChecked"/>
+        <CheckBox x:Name="UseDXUnitsCheck" Content="DX SLI Display Units (TM1638/TM1640)" HorizontalAlignment="Left" Margin="31,175,0,0" VerticalAlignment="Top" Checked="UseDxUnitsCheckChecked" Unchecked="UseDxUnitsCheckUnchecked" ToolTip="Use TM1638/TM1640 display units in this configuration."/>
+        <CheckBox x:Name="UseControllersCheck" Content="Use External USB Controllers" HorizontalAlignment="Left" Margin="31,200,0,0" VerticalAlignment="Top" Unchecked="UseControllersCheckUnchecked" Checked="UseControllersCheckChecked" ToolTip="Use an USB controller to control functions in the iRduino application."/>
 
     </Grid>
 </Page>

@@ -45,29 +45,29 @@
         <Label Content="Button 6" HorizontalAlignment="Left" Margin="10,155,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
         <Label Content="Button 7" HorizontalAlignment="Left" Margin="10,185,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
         <Label Content="Button 8" HorizontalAlignment="Left" Margin="10,215,0,-3" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="55" />
-        <ComboBox x:Name="ButtonFunctionCBox1" Grid.Column="1" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox2" Grid.Column="1" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox3" Grid.Column="1" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox4" Grid.Column="1" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox5" Grid.Column="1" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox6" Grid.Column="1" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox7" Grid.Column="1" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonFunctionCBox8" Grid.Column="1" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox1" Grid.Column="2" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox2" Grid.Column="2" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox3" Grid.Column="2" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox4" Grid.Column="2" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox5" Grid.Column="2" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox6" Grid.Column="2" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox7" Grid.Column="2" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonOptionCBox8" Grid.Column="2" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox1" Grid.Column="3" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox2" Grid.Column="3" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox3" Grid.Column="3" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox4" Grid.Column="3" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox5" Grid.Column="3" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox6" Grid.Column="3" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox7" Grid.Column="3" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
-        <ComboBox x:Name="ButtonScreenCBox8" Grid.Column="3" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" />
+        <ComboBox x:Name="ButtonFunctionCBox1" Grid.Column="1" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox2" Grid.Column="1" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox3" Grid.Column="1" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox4" Grid.Column="1" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox5" Grid.Column="1" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox6" Grid.Column="1" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox7" Grid.Column="1" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonFunctionCBox8" Grid.Column="1" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" SelectionChanged="ButtonFunctionSelectionChanged" Height="26" ToolTip="The function that will be executed when the corresponding button is pressed on the display unit." />
+        <ComboBox x:Name="ButtonOptionCBox1" Grid.Column="2" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox2" Grid.Column="2" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox3" Grid.Column="2" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox4" Grid.Column="2" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox5" Grid.Column="2" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox6" Grid.Column="2" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox7" Grid.Column="2" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonOptionCBox8" Grid.Column="2" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The additional options available for the selected button function." />
+        <ComboBox x:Name="ButtonScreenCBox1" Grid.Column="3" Margin="10,5,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox2" Grid.Column="3" Margin="10,35,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox3" Grid.Column="3" Margin="10,65,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox4" Grid.Column="3" Margin="10,95,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox5" Grid.Column="3" Margin="10,125,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox6" Grid.Column="3" Margin="10,155,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox7" Grid.Column="3" Margin="10,185,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
+        <ComboBox x:Name="ButtonScreenCBox8" Grid.Column="3" Margin="10,215,10,0" Grid.Row="2" VerticalAlignment="Top" IsEnabled="False" Height="26" ToolTip="The display unit/s that the button will function on." />
     </Grid>
 </Page>

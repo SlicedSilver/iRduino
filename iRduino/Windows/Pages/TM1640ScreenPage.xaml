@@ -31,48 +31,48 @@
         <Label Content="Variable 1:" HorizontalAlignment="Left" Margin="2,116,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
         <ComboBox x:Name="ScreenVariable1CBox" Margin="2,141,5,0" VerticalAlignment="Top" Grid.Column="1"
-                  SelectionChanged="ScreenVariablesUpdated" />
+                  SelectionChanged="ScreenVariablesUpdated" ToolTip="Display variable" />
         <Label Content="Variable 2:" HorizontalAlignment="Left" Margin="3,116,0,0" VerticalAlignment="Top"
                Grid.Column="2" />
         <ComboBox x:Name="ScreenVariable2CBox" Margin="2,141,5,0" VerticalAlignment="Top" Grid.Column="2"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 3:" HorizontalAlignment="Left" Margin="4,116,0,0" VerticalAlignment="Top"
                Grid.Column="3" />
         <ComboBox x:Name="ScreenVariable3CBox" Margin="2,141,10,0" VerticalAlignment="Top" Grid.Column="3"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 4:" HorizontalAlignment="Left" Margin="2,167,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
         <ComboBox x:Name="ScreenVariable4CBox" Margin="2,192,5,0" VerticalAlignment="Top" Grid.Column="1"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 5:" HorizontalAlignment="Left" Margin="4,167,0,0" VerticalAlignment="Top"
                Grid.Column="2" />
         <ComboBox x:Name="ScreenVariable5CBox" Margin="2,192,5,0" VerticalAlignment="Top" Grid.Column="2"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 6:" HorizontalAlignment="Left" Margin="5,167,0,0" VerticalAlignment="Top"
                Grid.Column="3" />
         <ComboBox x:Name="ScreenVariable6CBox" Margin="2,192,10,0" VerticalAlignment="Top" Grid.Column="3"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Screen Space used: " Grid.Column="1" HorizontalAlignment="Left" Margin="2,275,0,0"
                VerticalAlignment="Top" />
         <Label x:Name="SpaceUsedLabel" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="121,272,0,0"
-               VerticalAlignment="Top" Grid.ColumnSpan="2" Width="75" />
-        <Button x:Name="PreviewOnUnitButton" Content="Preview on unit" Grid.Column="1" Margin="2,311,2,0" VerticalAlignment="Top" />
+               VerticalAlignment="Top" Grid.ColumnSpan="2" Width="75" ToolTip="Number of segments used on the current display unit for this screen." />
+        <Button x:Name="PreviewOnUnitButton" Content="Preview on unit" Grid.Column="1" Margin="2,311,2,0" VerticalAlignment="Top" ToolTip="Preview the current screen on the display unit. Need to be connected to the Arduino with iRacing not running." />
         <Label Content="Variable 7:" HorizontalAlignment="Left" Margin="2,219,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
         <ComboBox x:Name="ScreenVariable7CBox" Margin="2,244,5,0" VerticalAlignment="Top" Grid.Column="1"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 8:" HorizontalAlignment="Left" Margin="4,219,0,0" VerticalAlignment="Top"
                Grid.Column="2" />
         <ComboBox x:Name="ScreenVariable8CBox" Margin="2,244,5,0" VerticalAlignment="Top" Grid.Column="2"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
         <Label Content="Variable 9:" HorizontalAlignment="Left" Margin="5,219,0,0" VerticalAlignment="Top"
                Grid.Column="3" />
         <ComboBox x:Name="ScreenVariable9CBox" Margin="2,244,10,0" VerticalAlignment="Top" Grid.Column="3"
-                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" />
-        <Button x:Name="ClearButton" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="27,282,27,0" VerticalAlignment="Top" Click="ClearButtonClick" Width="75"/>
-        <CheckBox x:Name="UseCustomHeaderCheck" Content="Use Custom Screen Header" Grid.Column="1" HorizontalAlignment="Left" Margin="32,55,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="187" Unchecked="UseCustomHeaderCheckUnchecked" Checked="UseCustomHeaderCheckChecked"/>
+                  SelectionChanged="ScreenVariablesUpdated" IsEnabled="False" ToolTip="Display variable" />
+        <Button x:Name="ClearButton" Content="Clear" Grid.Column="3" HorizontalAlignment="Center" Margin="27,282,27,0" VerticalAlignment="Top" Click="ClearButtonClick" Width="75" ToolTip="Clear all display variable selections."/>
+        <CheckBox x:Name="UseCustomHeaderCheck" Content="Use Custom Screen Header" Grid.Column="1" HorizontalAlignment="Left" Margin="32,55,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="187" Unchecked="UseCustomHeaderCheckUnchecked" Checked="UseCustomHeaderCheckChecked" ToolTip="Use a custom screen header instead of the default generated header."/>
         <Label Content="Header Text: " Grid.Column="1" HorizontalAlignment="Left" Margin="32,81,0,0" VerticalAlignment="Top" Width="82"/>
-        <TextBox x:Name="HeaderTextBox" Controls:TextboxHelper.ClearTextButton="True" Grid.Column="2" Height="23" Margin="0,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" TextChanged="HeaderTextBoxTextChanged"/>
+        <TextBox x:Name="HeaderTextBox" Controls:TextboxHelper.ClearTextButton="True" Grid.Column="2" Height="23" Margin="0,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" TextChanged="HeaderTextBoxTextChanged" ToolTip="Custom screen header to use."/>
 
     </Grid>
 </Page>
