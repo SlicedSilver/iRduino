@@ -38,6 +38,9 @@ namespace iRduino.Classes
         public int DeltaMessageScreen = -1;
         public int DeltaRange = 1;
         public bool ColourDeltaByDD = false;
+        public bool UseCustomFuelCalculationOptions = false;
+        public int FuelCalculationLaps = 3;
+        public bool UseWeightedFuelCalculations = false;
 
         public Configuration()
         {
@@ -102,6 +105,15 @@ namespace iRduino.Classes
                                 break;
                             case "DisplayRefreshRate":
                                 int.TryParse(value, out newConf.DisplayRefreshRate);
+                                break;
+                            case "UseCustomFuelCalculations":
+                                Boolean.TryParse(value, out newConf.UseCustomFuelCalculationOptions);
+                                break;
+                            case "UseWeightedFuelCalculation":
+                                Boolean.TryParse(value, out newConf.UseWeightedFuelCalculations);
+                                break;
+                            case "CustomFuelLaps":
+                                int.TryParse(value, out newConf.FuelCalculationLaps);
                                 break;
                             case "ButtonFunction1":
                                 if (Enum.TryParse(value, out temp))
@@ -446,6 +458,9 @@ namespace iRduino.Classes
             sb.AppendLine(String.Format("{0},{1}", "UseCustomSerialSpeed", conf.UseCustomSerialSpeed));
             sb.AppendLine(String.Format("{0},{1}", "LogArduinoMessages", conf.LogArduinoMessages));
             sb.AppendLine(String.Format("{0},{1}", "DisplayRefreshRate", conf.DisplayRefreshRate));
+            sb.AppendLine(String.Format("{0},{1}", "UseCustomFuelCalculations", conf.UseCustomFuelCalculationOptions));
+            sb.AppendLine(String.Format("{0},{1}", "UseWeightedFuelCalculation", conf.UseWeightedFuelCalculations));
+            sb.AppendLine(String.Format("{0},{1}", "CustomFuelLaps", conf.FuelCalculationLaps));
             sb.AppendLine("[ Common Display Options ]");
             sb.AppendLine(String.Format("{0},{1}", "HeaderDisplayTime",
                                         conf.HeaderDisplayTime.ToString(

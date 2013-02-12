@@ -39,7 +39,8 @@ namespace iRduino.Classes
         public List<ShiftStyleEnum> MatchedShiftStyles;
         public bool Previewing;
         public List<SLIDisplayVariables> RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
-        public SavedTelemetryValues SavedTelemetry = new SavedTelemetryValues();
+
+        public SavedTelemetryValues SavedTelemetry;// = new SavedTelemetryValues();
         public ShiftData ShiftLightData;
         public bool Test;
         public bool UseCustomShiftLights;
@@ -191,7 +192,7 @@ namespace iRduino.Classes
 
         public void ResetSavedTelemetryValues()
         {
-            this.SavedTelemetry = new SavedTelemetryValues();
+            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps, CurrentConfiguration.UseWeightedFuelCalculations);
         }
 
         //method for sending sdv stuff to actual unit. checks for _ledsOn
@@ -342,6 +343,12 @@ namespace iRduino.Classes
             CurrentConfiguration.NumberControllers = CurrentConfiguration.ControllerConfigurations.Count;
             int units = CurrentConfiguration.NumDisplayUnits;
             this.WaitTime.Clear();
+            if (!CurrentConfiguration.UseCustomFuelCalculationOptions)
+            {
+                CurrentConfiguration.FuelCalculationLaps = 3;
+                CurrentConfiguration.UseWeightedFuelCalculations = true;
+            }
+            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps,CurrentConfiguration.UseWeightedFuelCalculations);
             FinalSLIDisplayVariables = new List<SLIDisplayVariables>();
             RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
             for (int k = 1; k <= units; k++)
@@ -1504,12 +1511,23 @@ namespace iRduino.Classes
     public class FuelValues
     {
         public float CurrentFuelLevel = 0f;
-        public Stack<float> FuelHistory = new Stack<float>(14); //Store last 3 laps + 1 sector
 
+        public Stack<float> FuelHistory; //= new Stack<float>(14); //Store last 3 laps + 1 sector
+
+        private readonly int maxLapsInHistory;
         public float LastLapDistPct = 0f;
-
         private float burnRate;
         private float lapsLeft;
+
+        private readonly Boolean useWeightedCalculation;
+
+        public FuelValues(int laps, Boolean useWeighted)
+        {
+            maxLapsInHistory = laps;
+            FuelHistory = new Stack<float>(laps * 4 + 1);
+            useWeightedCalculation = useWeighted;
+        }
+
         public float BurnRate
         {
             get
@@ -1527,7 +1545,7 @@ namespace iRduino.Classes
         }
         public void ResetFuel()
         {
-            FuelHistory = new Stack<float>(13);
+            FuelHistory = new Stack<float>(maxLapsInHistory * 4 + 1);
             lapsLeft = 0f;
             burnRate = 0f;
         }
@@ -1541,28 +1559,50 @@ namespace iRduino.Classes
                 burnRate = 0f;
                 return;
             }
-
-            //copy out array
-            var fuelHistoryCopy = new float[FuelHistory.Count];
-            FuelHistory.CopyTo(fuelHistoryCopy, 0);
-            float burn;
-            if (numberFuelMeasure == 14)
+            if (useWeightedCalculation)
             {
-                //three laps
-                burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3 + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2 + (fuelHistoryCopy[8] - fuelHistoryCopy[12]) * 2) / 7;
+                //copy out array
+                var fuelHistoryCopy = new float[FuelHistory.Count];
+                FuelHistory.CopyTo(fuelHistoryCopy, 0);
+                float burn;
+                if (numberFuelMeasure >= 14)
+                {
+                    //three laps or more laps
+                    float burntemp = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3
+                            + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2
+                            + (fuelHistoryCopy[8] - fuelHistoryCopy[12]) * 2); // / 7;
+                    int place = 16;
+                    int divisionCount = 7;
+                    while (place <= fuelHistoryCopy.Count() - 1)
+                    {
+                        burntemp += fuelHistoryCopy[place - 4] - fuelHistoryCopy[place];
+                        divisionCount++;
+                        place += 4;
+                    }
+                    burn = burntemp / Convert.ToSingle(divisionCount);
+                }
+                else if (numberFuelMeasure >= 10)
+                {
+                    //two laps
+                    burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3
+                            + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2) / 5;
+                }
+                else
+                {
+                    //one lap
+                    burn = (fuelHistoryCopy[0] - fuelHistoryCopy[4]);
+                }
+                burnRate = Math.Abs(burn);
+                lapsLeft = Math.Abs(CurrentFuelLevel / burn);
             }
-            else if (numberFuelMeasure >= 10)
+            else //Don't Use Weighted Fuel Calc.
             {
-                //two laps
-                burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3 + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2) / 5;
+                var fuelHistoryCopy = new float[FuelHistory.Count];
+                int count = fuelHistoryCopy.Count();
+                float burn = (fuelHistoryCopy[count - 1] - fuelHistoryCopy[0]) / (count / 4f);
+                burnRate = Math.Abs(burn);
+                lapsLeft = Math.Abs(CurrentFuelLevel / burn);
             }
-            else
-            {
-                //one lap
-                burn = (fuelHistoryCopy[0] - fuelHistoryCopy[4]);
-            }
-            burnRate = Math.Abs(burn);
-            lapsLeft = Math.Abs(CurrentFuelLevel / burn);
         }
     }
 
@@ -1586,7 +1626,7 @@ namespace iRduino.Classes
         public float DeltaSesOpt = 0f;
         public bool DeltaSesOptOK = false;
         public List<Driver> Drivers = new List<Driver>();
-        public FuelValues Fuel = new FuelValues();
+        public FuelValues Fuel;
         public float LastLapPosition;
         public double LastLapTimeMeasured; // measured using SDK now
         public float LastMeasuredCurrentLapTime = 0f;
@@ -1600,6 +1640,11 @@ namespace iRduino.Classes
         public int SessionLapsRemaining = 0;
         public float SessionTimeRemaining = 0f;
         public int TotalLaps = -1;
+
+        public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation)
+        {
+            Fuel = new FuelValues(fuelLaps,fuelWeightedCalculation);
+        }
     }
 
     /// <summary>

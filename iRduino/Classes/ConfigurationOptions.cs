@@ -62,6 +62,12 @@ namespace iRduino.Classes
 
         public int DeltaRange { get; set; }
 
+        public bool UseCustomFuelCalculationOptions { get; set; }
+
+        public int FuelCalculationLaps { get; set; }
+
+        public bool UseWeightedFuelCalculations { get; set; }
+
         public Dictionarys Dictionarys { get; set; }
 
         public void LoadConfiguration(Configuration configuration, Dictionarys dicts)
@@ -85,6 +91,9 @@ namespace iRduino.Classes
             DeltaLightsOnDefault = configuration.DeltaLightsOnDefault;
             DeltaMessageScreen = configuration.DeltaMessageScreen;
             DeltaRange = configuration.DeltaRange - 1;
+            UseCustomFuelCalculationOptions = configuration.UseCustomFuelCalculationOptions;
+            FuelCalculationLaps = configuration.FuelCalculationLaps - 2;
+            UseWeightedFuelCalculations = configuration.UseWeightedFuelCalculations;
 
             ControllerConfigurations = new List<ControllerButtonConfiguration>();
             foreach (ControllerConfiguration item in configuration.ControllerConfigurations)
@@ -221,7 +230,10 @@ namespace iRduino.Classes
                                          AdvancedOptions.ParseSerialSpeedString(this.SerialPortSpeed),
                                      DisplayRefreshRate =
                                          AdvancedOptions.ParseDisplayRefreshRatesString(
-                                             this.DisplayRefreshRate)
+                                             this.DisplayRefreshRate),
+                                     UseCustomFuelCalculationOptions = UseCustomFuelCalculationOptions,
+                                     UseWeightedFuelCalculations = UseWeightedFuelCalculations,
+                                     FuelCalculationLaps = FuelCalculationLaps + 2
                                  };
             if(returnConf.DeltaRange <= 0)
             {

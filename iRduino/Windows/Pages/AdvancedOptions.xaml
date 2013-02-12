@@ -28,6 +28,11 @@
         <Label x:Name="RecommendSpeed" Content="" HorizontalAlignment="Left" Margin="222,139,0,0" VerticalAlignment="Top" Width="124" ToolTip="Recommend serial port speed. This value will be used by default. Make sure that your custom serial speed is higher than this value for best results."/>
         <ComboBox x:Name="SerialSpeedCBox" HorizontalAlignment="Left" Margin="227,113,0,0" VerticalAlignment="Top" Width="124" IsEnabled="False" ToolTip="Custom serial port communication speed to use."/>
         <CheckBox x:Name="LogMessagesCheck" Content="Log Arduino Serial Messages to File" HorizontalAlignment="Left" Margin="27,170,0,0" VerticalAlignment="Top" ToolTip="Logs all serial messages sent to the Arduino in the log.txt file (stored in the same directory as the applications executable)."/>
+        <CheckBox x:Name="UseCustomFuelOptionsCheck" Content="Use Custom Fuel Calculation Options" HorizontalAlignment="Left" Margin="27,226,0,0" VerticalAlignment="Top" ToolTip="Use custom fuel calculation options?" Checked="UseCustomFuelOptionsCheckChecked" Unchecked="UseCustomFuelOptionsCheckUnchecked"/>
+        <CheckBox x:Name="WeightedFuelCheck" Content="Use Weighted Fuel Calculations" HorizontalAlignment="Left" Margin="47,248,0,0" VerticalAlignment="Top" ToolTip="Use calculations which weight recent laps higher. Reacts quicker to changes in driving style in recent laps"/>
+        <ComboBox x:Name="FuelLapsCBox" HorizontalAlignment="Left" Margin="61,296,0,0" VerticalAlignment="Top" Width="124" ToolTip="Number of laps (newest first) to consider for the fuel calculations."/>
+        <Label Content="Maximum number of previous laps to use in calculation:" HorizontalAlignment="Left" Margin="47,270,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fuel Calculations" HorizontalAlignment="Left" Margin="20,192,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="#FF057DAA"/>
 
     </Grid>
 </Page>
