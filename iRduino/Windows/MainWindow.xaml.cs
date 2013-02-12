@@ -34,6 +34,9 @@ namespace iRduino.Windows
         private readonly BitmapImage startImage;
         private readonly BitmapImage stopImage;
 
+        public readonly string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                                               + "\\iRduino\\";
+
         // Constructor
         public MainWindow()
         {
@@ -351,7 +354,12 @@ namespace iRduino.Windows
         {
             string currentConf = null;
             string currentConfLocationFile = null;
-            string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+            string path = DocumentsPath + "current.opt";
+            FileInfo file = new FileInfo(path);
+            if (file.Directory != null)
+            {
+                file.Directory.Create(); // If the directory already exists, this method does nothing.
+            }
             if (File.Exists(path))
             {
                 using (var sr = new StreamReader(path))
@@ -368,7 +376,7 @@ namespace iRduino.Windows
                 }
             }
             //get current directory
-            IEnumerable<string> files = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.scft");
+            IEnumerable<string> files = Directory.EnumerateFiles(DocumentsPath, "*.scft");
             string[] fileLocs = files as string[] ?? files.ToArray();
             if (fileLocs.Any())
             {

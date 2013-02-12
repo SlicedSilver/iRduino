@@ -221,6 +221,7 @@ namespace iRduino.Windows
             var dlg = new SaveFileDialog
             {
                 FileName = this.configurationOptions.Name,
+                InitialDirectory = hostApp.DocumentsPath,
                 DefaultExt = ".scft",
                 Filter = "SLI Configuration File (.scft)|*.scft"
             };
@@ -238,7 +239,7 @@ namespace iRduino.Windows
                                                       this.hostApp.DisplayMngr.Dictionarys));
             this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation = filename;
             //write new current.opt
-            string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+            string path = hostApp.DocumentsPath + "current.opt";
             using (var outfile = new StreamWriter(path))
             {
                 outfile.Write(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation);
@@ -273,7 +274,7 @@ namespace iRduino.Windows
                     if (!string.IsNullOrEmpty(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation))
                     {
                         //write new current.opt
-                        string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+                        string path = hostApp.DocumentsPath + "current.opt";
                         using (var outfile = new StreamWriter(path))
                         {
                             outfile.Write(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation);
