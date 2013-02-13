@@ -9,9 +9,9 @@ namespace iRduino.Classes
     using System.Linq;
     using System.Windows.Forms;
     using SlimDX;
-    using SlimDX.DirectInput;    
-    
-    public class ControllerDevice
+    using SlimDX.DirectInput;
+
+    public class ControllerDevice : IDisposable
     {
         public int ButtonCount;
         public Guid Guid;
@@ -19,6 +19,24 @@ namespace iRduino.Classes
         public Joystick Pad;
         public JoystickState State;
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+                if (Pad != null)
+                {
+                    Pad.Dispose();
+                    Pad = null;
+                }
+        }
+        ~ControllerDevice()
+        {
+            Dispose(false);
+        }
         public void Acquire(Form parent)
         {
             var dinput = new DirectInput();
