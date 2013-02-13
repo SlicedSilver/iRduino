@@ -4,6 +4,7 @@
 
 namespace iRduino.Windows
 {
+    using System.Threading;
     using System.Windows.Media.Animation;
 
     using ArduinoInterfaces;
@@ -41,7 +42,7 @@ namespace iRduino.Windows
         public MainWindow()
         {
             InitializeComponent();
-            System.Threading.Thread.CurrentThread.CurrentCulture =
+            Thread.CurrentThread.CurrentCulture =
                 CultureInfo.CreateSpecificCulture("en-US");
             MainWindowBackground.Opacity = 0.6;
             this.startImage = new BitmapImage();
@@ -103,8 +104,9 @@ namespace iRduino.Windows
             {
                 if (ex.Source != "iRacingSdkWrapper")
                 {
+                    ErrorReporting.ApplicationThreadException(ex);
                     #if !DEBUG
-                        MessageBox.Show(ex.Message);
+                        
                     #endif
                 }
             }

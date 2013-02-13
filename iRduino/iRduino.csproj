@@ -57,6 +57,10 @@
     <ApplicationIcon>Resources\iRdunio-ICON.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrashReporter.NET, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>CrashReporter.Net\CrashReporter.NET.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.10.1.12-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -85,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\ErrorReporting.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -452,8 +457,15 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MahApps.Metro\MahApps.Metro.dll" />
-    <Content Include="MahApps.Metro\System.Windows.Interactivity.dll" />
+    <Content Include="CrashReporter.Net\CrashReporter.NET.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MahApps.Metro\MahApps.Metro.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MahApps.Metro\System.Windows.Interactivity.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
