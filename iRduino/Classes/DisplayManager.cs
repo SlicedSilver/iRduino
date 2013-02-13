@@ -81,6 +81,7 @@ namespace iRduino.Classes
         private bool useDeltaTiming;
         private bool useFuelCalcs;
         private bool useLapTiming;
+        private int telemetryRefreshRate;
         #endregion Private Fields Properties
 
         /// <summary>
@@ -192,7 +193,8 @@ namespace iRduino.Classes
 
         public void ResetSavedTelemetryValues()
         {
-            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps, CurrentConfiguration.UseWeightedFuelCalculations);
+
+            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps, CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
         }
 
         //method for sending sdv stuff to actual unit. checks for _ledsOn
@@ -337,8 +339,9 @@ namespace iRduino.Classes
         /// <summary>
         /// Setup Display Manager Instance before using the Start Method
         /// </summary>
-        public void SetupDisplayMngr()
+        public void SetupDisplayMngr(int telemetryRefreshRateParameter)
         {
+            this.telemetryRefreshRate = telemetryRefreshRateParameter;
             CurrentConfiguration.NumDisplayUnits = CurrentConfiguration.DisplayConfigurations.Count;
             CurrentConfiguration.NumberControllers = CurrentConfiguration.ControllerConfigurations.Count;
             int units = CurrentConfiguration.NumDisplayUnits;
@@ -348,7 +351,7 @@ namespace iRduino.Classes
                 CurrentConfiguration.FuelCalculationLaps = 3;
                 CurrentConfiguration.UseWeightedFuelCalculations = true;
             }
-            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps,CurrentConfiguration.UseWeightedFuelCalculations);
+            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps,CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
             FinalSLIDisplayVariables = new List<SLIDisplayVariables>();
             RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
             for (int k = 1; k <= units; k++)
@@ -569,12 +572,20 @@ namespace iRduino.Classes
             {
                 this.SavedTelemetry.DeltaBest = e.TelemetryInfo.LapDeltaToBestLap.Value;
                 this.SavedTelemetry.DeltaBestOK = e.TelemetryInfo.LapDeltaToBestLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[0].Push(
+                        e.TelemetryInfo.LapDeltaToBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToBestLap.Value : 500);
                 this.SavedTelemetry.DeltaOpt = e.TelemetryInfo.LapDeltaToOptimalLap.Value;
                 this.SavedTelemetry.DeltaOptOK = e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[1].Push(
+                        e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToOptimalLap.Value : 500);
                 this.SavedTelemetry.DeltaSesBest = e.TelemetryInfo.LapDeltaToSessionBestLap.Value;
                 this.SavedTelemetry.DeltaSesBestOK = e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[2].Push(
+                        e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionBestLap.Value : 500);
                 this.SavedTelemetry.DeltaSesOpt = e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value;
                 this.SavedTelemetry.DeltaSesOptOK = e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[3].Push(
+                        e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value : 500);
             }
 
             if (this.refreshCount % 30 == 0 && useFuelCalcs) //Only Check Fuel Consumption Stuff Once a Second
@@ -853,6 +864,10 @@ namespace iRduino.Classes
                 //crossed line
                 this.SavedTelemetry.LastLapTimeMeasured = e.TelemetryInfo.LapLastLapTime.Value;
                     this.ShowLapTimeDisplay();
+                    for (var i = 0; i <= this.SavedTelemetry.DeltaHistory.Count; i++)
+                {
+                    this.SavedTelemetry.DeltaHistory[i].Clear();
+                }
             }
             this.SavedTelemetry.PersonalBestLap = e.TelemetryInfo.LapBestLapTime.Value;
             this.SavedTelemetry.LastMeasuredCurrentLapTime = e.TelemetryInfo.LapCurrentLapTime.Value;
@@ -1640,10 +1655,18 @@ namespace iRduino.Classes
         public int SessionLapsRemaining = 0;
         public float SessionTimeRemaining = 0f;
         public int TotalLaps = -1;
+        public List<Stack<float>> DeltaHistory;
+        public int ExpectedDeltaHistoryLength;
 
-        public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation)
+        public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation, int refreshRate)
         {
             Fuel = new FuelValues(fuelLaps,fuelWeightedCalculation);
+            DeltaHistory = new List<Stack<float>>(4);
+            for (var i = 0; i <= DeltaHistory.Count; i++)
+            {
+                DeltaHistory[i] = new Stack<float>(refreshRate * 5 + 1); //keeps for 5 seconds
+            }
+            ExpectedDeltaHistoryLength = refreshRate * 5 + 1;
         }
     }
 

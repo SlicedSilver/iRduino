@@ -240,7 +240,6 @@ namespace iRduino.Windows
                 StartButtonLabel.Content = "Start";
                 StartButtonImage.Source = this.startImage;
                 FadeAnimationBackground(0.1, 2);
-                //StartButtonImage.Source = "/iRduino;component/Resources/appbar.control.play.png";
                 ComPortBox.IsEnabled = true;
             }
             else
@@ -254,7 +253,7 @@ namespace iRduino.Windows
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
                           DisplayMngr.CurrentConfiguration.SerialPortSpeed,
                           DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, useDx, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
-                DisplayMngr.SetupDisplayMngr();
+                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency);
                 DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";

@@ -62,6 +62,7 @@ namespace iRduino.Classes
             quick.Options.Add("Lap Delta to Session Best Lap");
             quick.Options.Add("Lap Delta to Session Optimal Lap");
             quick.Options.Add("Current Selected Lap Delta Type (for Selectable Lap Delta Variable)");
+            quick.Options.Add("Change in delta for last 5 seconds (for Selectable Lap Delta Variable)");
             quick.Options.Add("Class Sessions Fastest Lap");
             quick.Options.Add("Fuel Percentage");
             quick.Options.Add("Session Time");
@@ -700,7 +701,29 @@ namespace iRduino.Classes
                             disp.ShowStringTimed("ses opt", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
                             break;
                     }
-
+                    break;
+                case "Change in delta for last 5 seconds (for Selectable Lap Delta Variable)":
+                    string result;
+                    float[] array = disp.SavedTelemetry.DeltaHistory[disp.CurrentDeltaType].ToArray(); 
+                    bool dataOk = true;
+                    foreach (var reading in array)
+                    {
+                        if (reading >= 500 - 1)
+                        {
+                            dataOk = false;
+                        }
+                    }                 
+                    if (disp.Wrapper.IsConnected && dataOk)
+                    {
+                        float answer = array[0] - array[array.Length - 2];
+                        result = String.Format("{0}", answer.ToString(" 0.00;-0.00; 0.00"));
+                    }
+                    else
+                    {
+                        result = "_.__";
+                    }
+                    disp.ShowStringTimed(
+                            String.Format("ld5 {0}", result), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
                     break;
             }
         }
