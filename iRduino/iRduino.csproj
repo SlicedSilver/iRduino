@@ -95,6 +95,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Pages\PageHelper.cs" />
     <Compile Include="Windows\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>

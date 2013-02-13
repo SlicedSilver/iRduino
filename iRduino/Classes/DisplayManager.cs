@@ -1157,6 +1157,7 @@ namespace iRduino.Classes
         ///     Method called for everytime that the SessionInfo String is Updated
         /// </summary>
         /// <param name="e">SessionInfo Argument</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
         internal void SessionUpdate(SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
             if (this.newSession)
