@@ -254,7 +254,7 @@ namespace ArduinoInterfaces
             {
                 if (Sb.ToString() != "")
                 {
-                    using (var outfile = new StreamWriter("log.txt"))
+                    using (var outfile = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\iRduino\\log.txt"))
                     {
                         outfile.Write(this.Sb.ToString());
                     }
