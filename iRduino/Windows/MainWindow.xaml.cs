@@ -119,87 +119,55 @@ namespace iRduino.Windows
             {
                 if (this.wrapper.IsRunning)
                 {
-                    ConnectionStatusLabel.Content = "Connected!";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 53, 255, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 11, 156, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 24, 220, 5), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    OptionsButton.IsEnabled = false;
-                    if (OptionsWindowOpen)
-                    {
-                        this.optionsWindow.DisableChanges();
-                    }
+                    GUIStatusUpdate("Connected!", Color.FromArgb(255, 53, 255, 43), Color.FromArgb(255, 11, 156, 4), Color.FromArgb(255, 24, 220, 5), true);
                 }
                 else
                 {
-                    ConnectionStatusLabel.Content = "Disconnected.";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 43, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 126, 4, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 226, 13, 13), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected.", Color.FromArgb(255, 255, 43, 43), Color.FromArgb(255, 126, 4, 4), Color.FromArgb(255, 226, 13, 13), false);
                 }
             }
             else
             {
                 if (this.wrapper.IsRunning)
                 {
-                    ConnectionStatusLabel.Content = "Disconnected, waiting for sim...";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 207, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 224, 125, 6), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 253, 253, 3), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected, waiting for sim...", Color.FromArgb(255, 255, 207, 43), Color.FromArgb(255, 224, 125, 6), Color.FromArgb(255, 253, 253, 3), false);
                 }
                 else
                 {
-                    ConnectionStatusLabel.Content = "Disconnected.";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 43, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 126, 4, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 226, 13, 13), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected.", Color.FromArgb(255, 255, 43, 43), Color.FromArgb(255, 126, 4, 4), Color.FromArgb(255, 226, 13, 13),false);
+                }
+            }
+        }
+
+        private void GUIStatusUpdate(string text, Color stroke, Color colour1, Color colour2, bool connected)
+        {
+            ConnectionStatusLabel.Content = text;
+            StatusLight.Stroke = new SolidColorBrush { Color = stroke };
+            var myHorizontalGradient = new LinearGradientBrush
+            {
+                StartPoint = new Point(0.5, 0),
+                EndPoint = new Point(0.5, 1)
+            };
+            myHorizontalGradient.GradientStops.Add(new GradientStop(colour1, 1.0));
+            myHorizontalGradient.GradientStops.Add(new GradientStop(colour2, 0.0));
+            StatusLight.Fill = myHorizontalGradient;
+            if (connected)
+            {
+                OptionsButton.IsEnabled = false;
+                if (OptionsWindowOpen)
+                {
+                    this.optionsWindow.DisableChanges();
+                }
+            }
+            else
+            {
+                if (!OptionsWindowOpen)
+                {
+                    OptionsButton.IsEnabled = true;
+                }
+                else
+                {
+                    this.optionsWindow.EnableChanges();
                 }
             }
         }

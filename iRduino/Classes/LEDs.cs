@@ -870,51 +870,41 @@ namespace iRduino.Classes
         {
         }
 
-        public Rpmstyle(int length, bool useShiftArray, List<byte> normalGreens, List<byte> normalReds,
+        private void RpmstyleExtracted(List<byte> Greens, List<byte> Reds, int longerCount, List<Lights> normalOrShifted)
+        {
+            for (int j = 0; j < longerCount; j++)
+            {
+                if (j < Reds.Count && j < Greens.Count)
+                {
+                    normalOrShifted.Add(new Lights(Reds[j], Greens[j]));
+                }
+                else
+                    if (j < Reds.Count)
+                    {
+                        //reds left
+                        normalOrShifted.Add(new Lights(Reds[j], 0));
+                    }
+                    else
+                        if (j < Greens.Count)
+                        {
+                            //greens left
+                            normalOrShifted.Add(new Lights(0, Greens[j]));
+                        }
+            }
+        }
+        public Rpmstyle(int length, bool useShiftArrayIn, List<byte> normalGreens, List<byte> normalReds,
                         List<byte> shiftedGreens, List<byte> shiftedReds)
         {
             Length = length;
-            UseShiftedArray = useShiftArray;
+            UseShiftedArray = useShiftArrayIn;
             Normal = new List<Lights>();
             int longerCountNormal = Math.Max(normalGreens.Count, normalReds.Count);
-            for (int i = 0; i < longerCountNormal; i++)
-            {
-                if (i < normalReds.Count && i < normalGreens.Count)
-                {
-                    Normal.Add(new Lights(normalReds[i], normalGreens[i]));
-                }
-                else if (i < normalReds.Count)
-                {
-                    //reds left
-                    Normal.Add(new Lights(normalReds[i], 0));
-                }
-                else if (i < normalGreens.Count)
-                {
-                    //greens left
-                    Normal.Add(new Lights(0, normalGreens[i]));
-                }
-            }
+            RpmstyleExtracted(normalGreens, normalReds, longerCountNormal, Normal);
             if (UseShiftedArray)
             {
                 Shifted = new List<Lights>();
                 int longerCountShifted = Math.Max(shiftedGreens.Count, shiftedReds.Count);
-                for (int j = 0; j < longerCountShifted; j++)
-                {
-                    if (j < shiftedReds.Count && j < shiftedGreens.Count)
-                    {
-                        Shifted.Add(new Lights(shiftedReds[j], shiftedGreens[j]));
-                    }
-                    else if (j < shiftedReds.Count)
-                    {
-                        //reds left
-                        Shifted.Add(new Lights(shiftedReds[j], 0));
-                    }
-                    else if (j < shiftedGreens.Count)
-                    {
-                        //greens left
-                        Shifted.Add(new Lights(0, shiftedGreens[j]));
-                    }
-                }
+                RpmstyleExtracted(shiftedGreens, shiftedReds, longerCountShifted, Shifted);
             }
         }
     }

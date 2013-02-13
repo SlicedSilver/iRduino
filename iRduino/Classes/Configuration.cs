@@ -472,7 +472,7 @@ namespace iRduino.Classes
                                         conf.QuickInfoDisplayTime.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ShowHeaders",
-                                        conf.ShowHeaders.ToString()));
+                                        conf.ShowHeaders));
             sb.AppendLine(String.Format("{0},{1}", "Intensity",
                                         conf.Intensity.ToString(
                                             CultureInfo.InvariantCulture)));
@@ -505,21 +505,21 @@ namespace iRduino.Classes
                 sb.AppendLine(String.Format("{0},{1}", "DisplayUnit", unit));
                 sb.AppendLine("     [ Display Unit Button Functions ]");
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction1",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[0].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[0]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction2",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[1].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[1]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction3",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[2].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[2]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction4",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[3].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[3]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction5",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[4].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[4]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction6",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[5].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[5]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction7",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[6].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[6]));
                 sb.AppendLine(String.Format("{0},{1}", "ButtonFunction8",
-                                            conf.DisplayConfigurations[unit].ButtonFunctions[7].ToString()));
+                                            conf.DisplayConfigurations[unit].ButtonFunctions[7]));
                 sb.AppendLine("     [ Display Unit Button Options ]");
                 sb.AppendLine(String.Format("{0},{1}", "ButtonOption1",
                                             conf.DisplayConfigurations[unit].ButtonOptions[0]));
@@ -556,48 +556,48 @@ namespace iRduino.Classes
                                             conf.DisplayConfigurations[unit].ButtonOptionsScreens[7]));
                 sb.AppendLine("     [ Display Unit Configuration ]");
                 sb.AppendLine(String.Format("{0},{1}", "FFBClipLights",
-                                            conf.DisplayConfigurations[unit].FFBClippingLights.ToString()));
+                                            conf.DisplayConfigurations[unit].FFBClippingLights));
                 sb.AppendLine(String.Format("{0},{1}", "FFBClipScreen",
                                             conf.DisplayConfigurations[unit].FFBClippingScreen.ToString(
                                                 CultureInfo.InvariantCulture)));
                 sb.AppendLine(String.Format("{0},{1}", "Inverted",
-                                            conf.DisplayConfigurations[unit].Inverted.ToString()));
+                                            conf.DisplayConfigurations[unit].Inverted));
                 sb.AppendLine(String.Format("{0},{1}", "TM1640",
-                                            conf.DisplayConfigurations[unit].IsTM1640.ToString()));
+                                            conf.DisplayConfigurations[unit].IsTM1640));
                 sb.AppendLine(String.Format("{0},{1}", "SwitchLEDs",
-                                            conf.DisplayConfigurations[unit].SwitchLEDs.ToString()));
+                                            conf.DisplayConfigurations[unit].SwitchLEDs));
                 sb.AppendLine(String.Format("{0},{1}", "ShowDC",
-                                            conf.DisplayConfigurations[unit].ShowDC.ToString()));
+                                            conf.DisplayConfigurations[unit].ShowDC));
                 sb.AppendLine(String.Format("{0},{1}", "DCDisplayTime",
                                             conf.DisplayConfigurations[unit].DCDisplayTime.ToString(
                                                 CultureInfo.InvariantCulture)));
                 sb.AppendLine(String.Format("{0},{1}", "LapStyle",
-                                            conf.DisplayConfigurations[unit].LapStyle.ToString()));
+                                            conf.DisplayConfigurations[unit].LapStyle));
                 sb.AppendLine(String.Format("{0},{1}", "PitLights",
-                                            conf.DisplayConfigurations[unit].PitLights.ToString()));
+                                            conf.DisplayConfigurations[unit].PitLights));
                 sb.AppendLine(String.Format("{0},{1}", "PitLimiterSpeed",
-                                            conf.DisplayConfigurations[unit].PitLimiterSpeed.ToString()));
+                                            conf.DisplayConfigurations[unit].PitLimiterSpeed));
                 sb.AppendLine(String.Format("{0},{1}", "PitLimiterStyle",
-                                            conf.DisplayConfigurations[unit].PitLimiterStyle.ToString()));
+                                            conf.DisplayConfigurations[unit].PitLimiterStyle));
                 sb.AppendLine(String.Format("{0},{1}", "RevLimiterLights",
-                                            conf.DisplayConfigurations[unit].RevLimiterLights.ToString()));
+                                            conf.DisplayConfigurations[unit].RevLimiterLights));
                 sb.AppendLine(String.Format("{0},{1}", "RevLimiterStyle",
-                                            conf.DisplayConfigurations[unit].RevLimiterStyle.ToString()));
+                                            conf.DisplayConfigurations[unit].RevLimiterStyle));
                 sb.AppendLine(String.Format("{0},{1}", "ShiftLightStyle",
-                                            conf.DisplayConfigurations[unit].ShiftLightStyle.ToString()));
-                sb.AppendLine(String.Format("{0},{1}", "MatchCarShiftStyle", conf.DisplayConfigurations[unit].MatchCarShiftStyle.ToString()));
-                sb.AppendLine(String.Format("{0},{1}", "MatchCarShiftConfiguration", conf.DisplayConfigurations[unit].MatchCarShiftStyleOption.ToString()));
-                sb.AppendLine(String.Format("{0},{1}", "MatchRedShift", conf.DisplayConfigurations[unit].MatchRedShift.ToString()));
+                                            conf.DisplayConfigurations[unit].ShiftLightStyle));
+                sb.AppendLine(String.Format("{0},{1}", "MatchCarShiftStyle", conf.DisplayConfigurations[unit].MatchCarShiftStyle));
+                sb.AppendLine(String.Format("{0},{1}", "MatchCarShiftConfiguration", conf.DisplayConfigurations[unit].MatchCarShiftStyleOption));
+                sb.AppendLine(String.Format("{0},{1}", "MatchRedShift", conf.DisplayConfigurations[unit].MatchRedShift));
                 sb.AppendLine(String.Format("{0},{1}", "ShowLap",
-                                            conf.DisplayConfigurations[unit].ShowLap.ToString()));
+                                            conf.DisplayConfigurations[unit].ShowLap));
                 sb.AppendLine(String.Format("{0},{1}", "ShowShiftLights",
-                                            conf.DisplayConfigurations[unit].ShowShiftLights.ToString()));
+                                            conf.DisplayConfigurations[unit].ShowShiftLights));
                 sb.AppendLine(String.Format("{0},{1}", "ShiftClumps",
-                                            conf.DisplayConfigurations[unit].ShiftClumps.ToString()));
+                                            conf.DisplayConfigurations[unit].ShiftClumps));
                 sb.AppendLine(String.Format("{0},{1}", "DeltaLightsShow",
-                                            conf.DisplayConfigurations[unit].DeltaLightsShow.ToString()));
+                                            conf.DisplayConfigurations[unit].DeltaLightsShow));
                 sb.AppendLine(String.Format("{0},{1}", "DeltaLightsPosition",
-                                            conf.DisplayConfigurations[unit].DeltaLightsPosition.ToString()));
+                                            conf.DisplayConfigurations[unit].DeltaLightsPosition));
                 sb.AppendLine("     [ Display Unit Screens ]");
                 sb.AppendLine(String.Format("{0},{1}", "NumScreens",
                                             conf.DisplayConfigurations[unit].NumScreens.ToString(
@@ -622,7 +622,7 @@ namespace iRduino.Classes
                 for (int t = 1; t <= Constants.MaxNumberJoystickButtons; t++)
                 {
                     sb.AppendLine(String.Format("{0},{1}", "ConButtonFunction",
-                                                conf.ControllerConfigurations[c].ButtonFunctions[t - 1].ToString()));
+                                                conf.ControllerConfigurations[c].ButtonFunctions[t - 1]));
                     sb.AppendLine(String.Format("{0},{1}", "ConButtonOption",
                                                 conf.ControllerConfigurations[c].ButtonOptions[t - 1]));
                     sb.AppendLine(String.Format("{0},{1}", "ConButtonOptionScreens",

@@ -53,114 +53,13 @@ namespace iRduino.Windows.Pages
                     comboBox.Items.Add(variable.Value.Name);
                 }
             }
-            foreach (ComboBox cbox in this.scv)
-            {
-                cbox.SelectedIndex = -1;
-                cbox.IsEnabled = false;
-            }
-            this.scv[0].IsEnabled = true;
-            this.screen = this.Temp.ScreenToEdit;
-            if (this.Temp.Screens[this.screen].Variables.Count > 0)
-            {
-                for (int i = 0; i < this.Temp.Screens[this.screen].Variables.Count; i++)
-                {
-                    this.scv[i].IsEnabled = true;
-                    DisplayVarsEnum temp222;
-                    if (Enum.TryParse(this.Temp.Screens[this.screen].Variables[i],
-                                      out temp222))
-                    {
-                        this.scv[i].SelectedItem = this.Temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables[temp222].Name;
-                    }
-                    else
-                    {
-                        this.scv[i].SelectedIndex = -1;
-                    }
-                }
-            }
-            else
-            {
-                this.scv[0].IsEnabled = true;
-                this.scv[0].SelectedIndex = -1;
-            }
-            this.UseCustomHeaderCheck.IsChecked = this.Temp.Screens[this.screen].UseCustomHeader;
-            this.HeaderTextBox.Text = this.Temp.Screens[this.screen].CustomHeader;
-            this.firstLoad = false;
+            PageHelper.StartLoading1(this.scv, ref this.screen, this.Temp, this.UseCustomHeaderCheck, this.HeaderTextBox, ref this.firstLoad);
             this.firstLoad = false;
         }
 
         private void ScreenVariablesUpdated(object sender, SelectionChangedEventArgs e)
         {
-            this.ScreenVariablesUpdatedExtracted(Constants.MaxDisplayLengthTM1640, "{0} / 16", 9, this.scv, this.Temp, this.SpaceUsedLabel, this.firstLoad);
-        }
-
-        protected void ScreenVariablesUpdatedExtracted(int maxDisplayLengthTM1638, string format, int param, List<ComboBox> scvIn, DisplayUnitConfiguration temp, Label spaceUsedLabel, bool firstLoadIn)
-        {
-            int count = 0;
-            int i = 0;
-            int stop = 0;
-            while (count < maxDisplayLengthTM1638 && i < scvIn.Count)
-            {
-                stop = i + 1;
-                if (scvIn[i].SelectedIndex >= 0)
-                {
-                    count += temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables.Where(item => item.Value.Name == scvIn[i].SelectedItem.ToString()).Sum(item => item.Value.Length);
-                    spaceUsedLabel.Content = String.Format(format, count);
-                    if (count > maxDisplayLengthTM1638)
-                    {
-                        stop = i;
-                        i = scvIn.Count;
-                    }
-                    i++;
-                }
-                else
-                {
-                    scvIn[i].IsEnabled = true;
-                    scvIn[i].Items.Clear();
-                    foreach (var variable in temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables)
-                    {
-                        if (variable.Value.Length <= maxDisplayLengthTM1638 - count)
-                        {
-                            scvIn[i].Items.Add(variable.Value.Name);
-                        }
-                    }
-                    i = scvIn.Count;
-                }
-            }
-            for (int j = stop; j < scvIn.Count; j++)
-            {
-                scvIn[j].Items.Clear();
-                scvIn[j].SelectedIndex = -1;
-                scvIn[j].IsEnabled = false;
-            }
-            //save to config
-            if (!firstLoadIn)
-            {
-                for (int p = 0; p < param; p++)
-                {
-                    if (scvIn[p].SelectedValue != null)
-                    {
-                        string tempV = scvIn[p].SelectedValue.ToString();
-                        var temp2 = new DisplayVarsEnum();
-                        bool found = false;
-                        foreach (var disVar in temp.HostApp.DisplayMngr.Dictionarys.DisplayVariables)
-                        {
-                            if (disVar.Value.Name == tempV)
-                            {
-                                temp2 = disVar.Key;
-                                found = true;
-                            }
-                        }
-                        if (found)
-                        {
-                            if (temp.Screens[temp.ScreenToEdit].Variables.Count - 1 < p)
-                            {
-                                temp.Screens[temp.ScreenToEdit].Variables.Add("");
-                            }
-                            temp.Screens[temp.ScreenToEdit].Variables[p] = temp2.ToString();
-                        }
-                    }
-                }
-            }
+            PageHelper.ScreenVariablesUpdatedExtracted(Constants.MaxDisplayLengthTM1640, "{0} / 16", 9, this.scv, this.Temp, this.SpaceUsedLabel, this.firstLoad);
         }
 
         private void PageDataContextChanged1(object sender, DependencyPropertyChangedEventArgs e)

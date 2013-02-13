@@ -320,37 +320,12 @@ namespace ArduinoInterfaces
                 {
                     this.butByte[0] = Convert.ToByte(this.buttonsRead);
                     this.buttons = new BitArray(this.butByte);
-                    if (this.buttons[0])
+                    for (var i = 0; i < Constants.NumberButtonsOnTm1638; i++)
                     {
-                        Invoke(ref this.ButtonPress, u, 1);
-                    }
-                    if (this.buttons[1])
-                    {
-                        Invoke(ref this.ButtonPress, u, 2);
-                    }
-                    if (this.buttons[2])
-                    {
-                        Invoke(ref this.ButtonPress, u, 3);
-                    }
-                    if (this.buttons[3])
-                    {
-                        Invoke(ref this.ButtonPress, u, 4);
-                    }
-                    if (this.buttons[4])
-                    {
-                        Invoke(ref this.ButtonPress, u, 5);
-                    }
-                    if (this.buttons[5])
-                    {
-                        Invoke(ref this.ButtonPress, u, 6);
-                    }
-                    if (this.buttons[6])
-                    {
-                        Invoke(ref this.ButtonPress, u, 7);
-                    }
-                    if (this.buttons[7])
-                    {
-                        Invoke(ref this.ButtonPress, u, 8);
+                        if (this.buttons[i])
+                        {
+                            Invoke(ref this.ButtonPress, u, i + 1);
+                        }
                     }
                 }
             }
@@ -386,9 +361,8 @@ namespace ArduinoInterfaces
             var displays = new List<string>(this.numberUnits);
             var greens = new List<byte>(this.numberUnits);
             var reds = new List<byte>(this.numberUnits);
-            var dotss = new List<byte[]>(this.numberUnits); //stupid name :)
+            var dotsList = new List<byte[]>(this.numberUnits);
 
-            string display;
             byte green;
             byte red;
             byte dots;
@@ -398,9 +372,50 @@ namespace ArduinoInterfaces
                 displays.Add("");
                 greens.Add(0);
                 reds.Add(0);
-                dotss.Add(this.tm1640Units[t] ? new Byte[] { 0, 0 } : new Byte[] { 0 });
+                dotsList.Add(this.tm1640Units[t] ? new Byte[] { 0, 0 } : new Byte[] { 0 });
             }
-            switch (this.testCounter)
+            
+            string display = this.TestSequence(this.testCounter, out green, out red, out dots);
+
+            this.DuplicateDisplayAcrossAllUnits(display, green, red, dots, displays, greens, reds, dotsList, this.tm1640Units);
+
+            var dxMessage = new DxMessage
+            {
+                DisplayList = displays,
+                Intensity = 3,
+                GreenLEDSList = greens,
+                RedLEDSList = reds,
+                DotsList = dotsList
+            };
+            this.SendStringMulti(dxMessage);
+        }
+
+        private void DuplicateDisplayAcrossAllUnits(string display, byte green, byte red, byte dots, List<string> displays, List<byte> greens, List<byte> reds, List<byte[]> dotsList, List<bool> tm1640UnitsIn)
+        {
+            for (int i = 0; i < this.numberUnits; i++)
+            {
+                if (tm1640UnitsIn[i])
+                {
+                    displays[i] = display + display;
+                    greens[i] = green;
+                    reds[i] = red;
+                    dotsList[i][0] = dots;
+                    dotsList[i][1] = dots;
+                }
+                else
+                {
+                    displays[i] = display;
+                    greens[i] = green;
+                    reds[i] = red;
+                    dotsList[i][0] = dots;
+                }
+            }
+        }
+
+        private string TestSequence(int count, out byte green, out byte red, out byte dots)
+        {
+            string display;
+            switch (count)
             {
                 case 1:
                     display = "*";
@@ -481,33 +496,7 @@ namespace ArduinoInterfaces
                     dots = 0;
                     break;
             }
-            for (int i = 0; i < this.numberUnits; i++)
-            {
-                if (this.tm1640Units[i])
-                {
-                    displays[i] = display + display;
-                    greens[i] = green;
-                    reds[i] = red;
-                    dotss[i][0] = dots;
-                    dotss[i][1] = dots;
-                }
-                else
-                {
-                    displays[i] = display;
-                    greens[i] = green;
-                    reds[i] = red;
-                    dotss[i][0] = dots;
-                }
-            }
-            var dxMessage = new DxMessage
-            {
-                DisplayList = displays,
-                Intensity = 3,
-                GreenLEDSList = greens,
-                RedLEDSList = reds,
-                DotsList = dotss
-            };
-            this.SendStringMulti(dxMessage);
+            return display;
         }
 
         #endregion
@@ -595,48 +584,11 @@ namespace ArduinoInterfaces
                     this.newSerialData[++serialCount] = redLEDSList[u];
                 }
                 //string conversion
-                byte[] display;
-                if (this.tm1640Units[u])
-                {
-                    display = displayList[u].Length > 0
-                                  ? Encoding.ASCII.GetBytes(displayList[u])
-                                  : new byte[] { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32 };
-                }
-                else
-                {
-                    display = displayList[u].Length > 0
-                                  ? Encoding.ASCII.GetBytes(displayList[u])
-                                  : new byte[] { 32, 32, 32, 32, 32, 32, 32, 32 };
-                }
-
-                for (var i = 0; i < display.Length; i++)
-                {
-                    display[i] = FontBytes[display[i] - 32];
-                }
+                var display = this.DisplayStringConversion(displayList, u);
                 //add dots
-                byte[] tempDots;
                 int textLength;
-                if (this.tm1640Units[u])
-                {
-                    textLength = 16;
-                    tempDots = new byte[2];
-                    tempDots[0] = Convert.ToByte(dotsList[u][0]);
-                    if (dotsList[u].Length < 2)
-                    {
-                        tempDots[1] = Convert.ToByte(0);
-                    }
-                    else
-                    {
-                        tempDots[1] = Convert.ToByte(dotsList[u][1]);
-                    }
-                }
-                else
-                {
-                    tempDots = new byte[1];
-                    tempDots[0] = Convert.ToByte(dotsList[u][0]);
-                    textLength = 8;
-                }
-                var dotsArray = new BitArray(tempDots);
+                var dotsArray = this.DisplayDotsAdd(dotsList, u, out textLength);
+                //final building of display string
                 for (var i = 0; i < textLength; i++)
                 {
                     if (display.Length - 1 < i)
@@ -654,6 +606,56 @@ namespace ArduinoInterfaces
                 }
             }
             return serialCount;
+        }
+
+        private BitArray DisplayDotsAdd(IList<byte[]> dotsList, int u, out int textLength)
+        {
+            byte[] tempDots;
+            if (this.tm1640Units[u])
+            {
+                textLength = 16;
+                tempDots = new byte[2];
+                tempDots[0] = Convert.ToByte(dotsList[u][0]);
+                if (dotsList[u].Length < 2)
+                {
+                    tempDots[1] = Convert.ToByte(0);
+                }
+                else
+                {
+                    tempDots[1] = Convert.ToByte(dotsList[u][1]);
+                }
+            }
+            else
+            {
+                tempDots = new byte[1];
+                tempDots[0] = Convert.ToByte(dotsList[u][0]);
+                textLength = 8;
+            }
+            var dotsArray = new BitArray(tempDots);
+            return dotsArray;
+        }
+
+        private byte[] DisplayStringConversion(IList<string> displayList, int u)
+        {
+            byte[] display;
+            if (this.tm1640Units[u])
+            {
+                display = displayList[u].Length > 0
+                                  ? Encoding.ASCII.GetBytes(displayList[u])
+                                  : new byte[] { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32 };
+            }
+            else
+            {
+                display = displayList[u].Length > 0
+                                  ? Encoding.ASCII.GetBytes(displayList[u])
+                                  : new byte[] { 32, 32, 32, 32, 32, 32, 32, 32 };
+            }
+
+            for (var i = 0; i < display.Length; i++)
+            {
+                display[i] = FontBytes[display[i] - 32];
+            }
+            return display;
         }
 
         public void WriteToFile(byte[] message)
