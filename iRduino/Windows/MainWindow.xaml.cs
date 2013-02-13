@@ -55,6 +55,8 @@ namespace iRduino.Windows
             this.stopImage.EndInit();
             this.Height -= 30; //Fix height for Metro Styling without Frame
             FadeAnimationBackground(0.1, 3);
+            //AppDomain currentDomain = AppDomain.CurrentDomain;
+            //currentDomain.UnhandledException += ErrorReporting.MyHandler;
         }
 
         private void FadeAnimationBackground(double endOpacity, double time)
@@ -104,7 +106,7 @@ namespace iRduino.Windows
             {
                 if (ex.Source != "iRacingSdkWrapper")
                 {
-                    ErrorReporting.ApplicationThreadException(ex);
+                    ErrorReporting.ApplicationException(ex);
                     #if !DEBUG
                         
                     #endif
