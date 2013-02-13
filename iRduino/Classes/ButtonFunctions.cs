@@ -594,7 +594,7 @@ namespace iRduino.Classes
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.SessionLapsRemaining > 0)
                     {
                         disp.ShowStringTimed(
-                            String.Format("{0} LaPS", (disp.SavedTelemetry.SessionLapsRemaining * 100).ToString("000")),
+                            String.Format("{0} LaPS", (disp.SavedTelemetry.SessionLapsRemaining).ToString("000")),  //why was I multiplying this value by 100?
                             disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
                     }
                     break;
