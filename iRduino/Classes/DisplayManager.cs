@@ -859,7 +859,7 @@ namespace iRduino.Classes
         private double TelemetryLapTimer(
             SdkWrapper.TelemetryUpdatedEventArgs e, TrackSurfaces mySurface, double updateTime)
         {
-            if (((e.TelemetryInfo.LapCurrentLapTime.Value - SavedTelemetry.LastMeasuredCurrentLapTime) < -5) && (mySurface == TrackSurfaces.OnTrack || mySurface == TrackSurfaces.OffTrack))
+            if ((((e.TelemetryInfo.LapCurrentLapTime.Value - SavedTelemetry.LastMeasuredCurrentLapTime) < -5) || (this.SavedTelemetry.LastLapTimeAPI < 1 && e.TelemetryInfo.LapLastLapTime.Value > 5)) && (mySurface == TrackSurfaces.OnTrack || mySurface == TrackSurfaces.OffTrack))
             {
                 //crossed line
                 this.SavedTelemetry.LastLapTimeMeasured = e.TelemetryInfo.LapLastLapTime.Value;
@@ -871,6 +871,7 @@ namespace iRduino.Classes
             }
             this.SavedTelemetry.PersonalBestLap = e.TelemetryInfo.LapBestLapTime.Value;
             this.SavedTelemetry.LastMeasuredCurrentLapTime = e.TelemetryInfo.LapCurrentLapTime.Value;
+            this.SavedTelemetry.LastLapTimeAPI = e.TelemetryInfo.LapLastLapTime.Value;
             return updateTime;
         }
         private void UpdateDCVars(SdkWrapper.TelemetryUpdatedEventArgs e)
@@ -1658,6 +1659,7 @@ namespace iRduino.Classes
         public int TotalLaps = -1;
         public List<Stack<float>> DeltaHistory;
         public int ExpectedDeltaHistoryLength;
+        public float LastLapTimeAPI;
 
         public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation, int refreshRate)
         {
