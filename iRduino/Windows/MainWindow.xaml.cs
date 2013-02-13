@@ -106,9 +106,9 @@ namespace iRduino.Windows
             {
                 if (ex.Source != "iRacingSdkWrapper")
                 {
-                    ErrorReporting.ApplicationException(ex);
+                    //ErrorReporting.ApplicationException(ex);
                     #if !DEBUG
-                        
+                        MessageBox.Show(String.Format("An error has occured. Please notify the developer with a copy of the information in this window and your current configuration file.   {0}",ex.Message));
                     #endif
                 }
             }
