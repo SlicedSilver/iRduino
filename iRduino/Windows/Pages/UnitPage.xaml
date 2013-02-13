@@ -39,7 +39,7 @@
         <CheckBox x:Name="SwitchLEDsCheck" Content="Switch Green and Red LEDs" HorizontalAlignment="Left"
                   Margin="20,246,0,0" VerticalAlignment="Top" ToolTip="Switch the colour logic such that Red is Green and Green is Red. Useful for units which have the LEDs wired differently." />
         <CheckBox x:Name="TM1640Check" Content="Is TM1640? (16-Segment Display)" HorizontalAlignment="Left" Margin="20,60,0,0"
-                  VerticalAlignment="Top" Checked="TM1640CheckChecked" Unchecked="TM1640CheckUnchecked" FontSize="14" FontWeight="Bold" ToolTip="Select this option if the display unit is a TM1640. The TM1640 is the display unit with 16 segments (digits) and no leds or buttons." />
+                  VerticalAlignment="Top" Checked="TM1640CheckChecked" Unchecked="TM1640CheckUnchecked" FontWeight="Bold" ToolTip="Select this option if the display unit is a TM1640. The TM1640 is the display unit with 16 segments (digits) and no leds or buttons." />
         <Label x:Name="DeltaLightsOptionsLabel" Content="Delta LED Lights Option: " HorizontalAlignment="Left" Margin="40,296,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="UseDeltaLightsCheck" Content="Use Unit for Delta LED Lights?" HorizontalAlignment="Left" Margin="20,275,0,0" VerticalAlignment="Top" Checked="UseDeltaLightsCheckChecked" Unchecked="UseDeltaLightsCheckUnchecked" ToolTip="Use this display unit for display delta LED lights."/>
         <ComboBox x:Name="DeltaLightsOptionCBox" HorizontalAlignment="Left" Margin="187,296,0,0" VerticalAlignment="Top" Width="188" IsEnabled="False" ToolTip="Select the delta LED lights display option for this unit. "/>
