@@ -12,7 +12,6 @@ namespace iRduino.Windows
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -403,7 +402,7 @@ namespace iRduino.Windows
                 FileName = "SLIConfiguration",
                 DefaultExt = ".scft",
                 Filter = "SLI Configuration File (.scft)|*.scft",
-                InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)
+                InitialDirectory = hostApp.DocumentsPath
             };
 
             // Show open file dialog box 
