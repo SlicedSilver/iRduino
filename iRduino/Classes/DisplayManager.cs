@@ -573,19 +573,19 @@ namespace iRduino.Classes
                 this.SavedTelemetry.DeltaBest = e.TelemetryInfo.LapDeltaToBestLap.Value;
                 this.SavedTelemetry.DeltaBestOK = e.TelemetryInfo.LapDeltaToBestLap_OK.Value;
                 this.SavedTelemetry.DeltaHistory[0].Push(
-                        e.TelemetryInfo.LapDeltaToBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToBestLap.Value : 500);
+                        e.TelemetryInfo.LapDeltaToBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToBestLap.Value : 500f);
                 this.SavedTelemetry.DeltaOpt = e.TelemetryInfo.LapDeltaToOptimalLap.Value;
                 this.SavedTelemetry.DeltaOptOK = e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value;
                 this.SavedTelemetry.DeltaHistory[1].Push(
-                        e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToOptimalLap.Value : 500);
+                        e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToOptimalLap.Value : 500f);
                 this.SavedTelemetry.DeltaSesBest = e.TelemetryInfo.LapDeltaToSessionBestLap.Value;
                 this.SavedTelemetry.DeltaSesBestOK = e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value;
                 this.SavedTelemetry.DeltaHistory[2].Push(
-                        e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionBestLap.Value : 500);
+                        e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionBestLap.Value : 500f);
                 this.SavedTelemetry.DeltaSesOpt = e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value;
                 this.SavedTelemetry.DeltaSesOptOK = e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value;
                 this.SavedTelemetry.DeltaHistory[3].Push(
-                        e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value : 500);
+                        e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value : 500f);
             }
 
             if (this.refreshCount % 30 == 0 && useFuelCalcs) //Only Check Fuel Consumption Stuff Once a Second
@@ -864,10 +864,10 @@ namespace iRduino.Classes
                 //crossed line
                 this.SavedTelemetry.LastLapTimeMeasured = e.TelemetryInfo.LapLastLapTime.Value;
                     this.ShowLapTimeDisplay();
-                    for (var i = 0; i <= this.SavedTelemetry.DeltaHistory.Count; i++)
-                {
-                    this.SavedTelemetry.DeltaHistory[i].Clear();
-                }
+                    foreach (Stack<float> t in this.SavedTelemetry.DeltaHistory)
+                    {
+                        t.Push(500f);
+                    }
             }
             this.SavedTelemetry.PersonalBestLap = e.TelemetryInfo.LapBestLapTime.Value;
             this.SavedTelemetry.LastMeasuredCurrentLapTime = e.TelemetryInfo.LapCurrentLapTime.Value;
@@ -1662,10 +1662,10 @@ namespace iRduino.Classes
         public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation, int refreshRate)
         {
             Fuel = new FuelValues(fuelLaps,fuelWeightedCalculation);
-            DeltaHistory = new List<Stack<float>>(4);
-            for (var i = 0; i <= DeltaHistory.Count; i++)
+            DeltaHistory = new List<Stack<float>>();
+            for (var i = 0; i < 4; i++)
             {
-                DeltaHistory[i] = new Stack<float>(refreshRate * 5 + 1); //keeps for 5 seconds
+                DeltaHistory.Add(new Stack<float>(refreshRate * 5 + 1)); //keeps for 5 seconds
             }
             ExpectedDeltaHistoryLength = refreshRate * 5 + 1;
         }

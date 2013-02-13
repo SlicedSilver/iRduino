@@ -706,24 +706,25 @@ namespace iRduino.Classes
                     string result;
                     float[] array = disp.SavedTelemetry.DeltaHistory[disp.CurrentDeltaType].ToArray(); 
                     bool dataOk = true;
-                    foreach (var reading in array)
+                    int limit = Math.Min(disp.SavedTelemetry.ExpectedDeltaHistoryLength, array.Length);
+                    for (int x = 0; x < limit; x++)
                     {
-                        if (reading >= 500 - 1)
+                        if (array[x] > 500 - 10)
                         {
                             dataOk = false;
                         }
-                    }                 
+                    }
                     if (disp.Wrapper.IsConnected && dataOk)
                     {
-                        float answer = array[0] - array[array.Length - 2];
+                        float answer = array[0] - array[disp.SavedTelemetry.ExpectedDeltaHistoryLength - 2];
                         result = String.Format("{0}", answer.ToString(" 0.00;-0.00; 0.00"));
                     }
                     else
                     {
-                        result = "_.__";
+                        result = " _.__";
                     }
                     disp.ShowStringTimed(
-                            String.Format("ld5 {0}", result), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            String.Format("Ld5 {0}", result), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
                     break;
             }
         }
