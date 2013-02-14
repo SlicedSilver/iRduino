@@ -55,6 +55,7 @@ namespace iRduino.Windows
         private int treeControllerCount;
         private DateTime waitTime;
         private List<bool> tm1640UnitsTree;
+        private bool applySaveFlag;
 
         private string currentBranch = "";
 
@@ -445,6 +446,7 @@ namespace iRduino.Windows
 
         private void ApplySaveButtonClick(object sender, RoutedEventArgs e)
         {
+            applySaveFlag = true;
             ApplySaveConfiguration();
         }
 
@@ -828,7 +830,12 @@ namespace iRduino.Windows
                 {
                     temp.Page = PageTypes.TMUnits;
                 }
-            } 
+                if (this.applySaveFlag)
+                {
+                    temp.Page = PageTypes.Configuration;
+                    this.applySaveFlag = false;
+                }
+            }
             OptionsTreeView.Items.Clear();
             this.treeBuilderUnitCount = 0;
             this.treeControllerCount = 0;
