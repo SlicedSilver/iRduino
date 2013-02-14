@@ -55,8 +55,8 @@ namespace iRduino.Windows
             this.stopImage.EndInit();
             this.Height -= 30; //Fix height for Metro Styling without Frame
             FadeAnimationBackground(0.1, 3);
-            //AppDomain currentDomain = AppDomain.CurrentDomain;
-            //currentDomain.UnhandledException += ErrorReporting.MyHandler;
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += ErrorReporting.MyHandler;
         }
 
         private void FadeAnimationBackground(double endOpacity, double time)
@@ -98,20 +98,20 @@ namespace iRduino.Windows
         // This happens (max) 60 times per second
         private void WrapperTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 DisplayMngr.TelemetryUpdate(e);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Source != "iRacingSdkWrapper")
-                {
-                    //ErrorReporting.ApplicationException(ex);
-                    #if !DEBUG
-                        MessageBox.Show(String.Format("An error has occured. Please notify the developer with a copy of the information in this window and your current configuration file.   {0}",ex.Message));
-                    #endif
-                }
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex.Source != "iRacingSdkWrapper")
+            //    {
+            //        //ErrorReporting.ApplicationException(ex);
+            //        #if !DEBUG
+            //            MessageBox.Show(String.Format("An error has occured. Please notify the developer with a copy of the information in this window and your current configuration file.   {0}",ex.Message));
+            //        #endif
+            //    }
+            //}
         }
 
         /// <summary>
