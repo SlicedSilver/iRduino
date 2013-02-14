@@ -4,6 +4,11 @@
 
 namespace iRduino.Classes
 {
+    using System;
+    using System.Globalization;
+    using System.Reflection;
+    using System.Xml;
+
     public enum PageTypes
     {
         Configuration,
@@ -22,5 +27,23 @@ namespace iRduino.Classes
     
     class OptionPages
     {
+        public static Version GetPublishedVersion()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            Assembly asmCurrent = Assembly.GetExecutingAssembly();
+            string executePath = new Uri(asmCurrent.GetName().CodeBase).LocalPath;
+
+            xmlDoc.Load(executePath + ".manifest");
+            string retval = string.Empty;
+            if (xmlDoc.HasChildNodes)
+            {
+                var attributes = xmlDoc.ChildNodes[1].ChildNodes[0].Attributes;
+                if (attributes != null)
+                {
+                    retval = attributes.GetNamedItem("version").Value.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+            return new Version(retval);
+        }
     }
 }
