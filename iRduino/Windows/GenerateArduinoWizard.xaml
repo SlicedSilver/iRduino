@@ -37,15 +37,15 @@
             <Label x:Name="Unit3Label" Content="Unit 3 Strobe Pin: " HorizontalAlignment="Left" Margin="10,232,0,0"
                    VerticalAlignment="Top" />
             <ComboBox x:Name="DataPinCBox" HorizontalAlignment="Left" Margin="127,112,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the data pin (DIO) of the TM display unit." />
             <ComboBox x:Name="ClockPinCBox" HorizontalAlignment="Left" Margin="127,143,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the clock pin (CLK) of the TM display unit." />
             <ComboBox x:Name="Unit1PinCBox" HorizontalAlignment="Left" Margin="127,174,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 0 pin (STB0) of the TM display unit." />
             <ComboBox x:Name="Unit2PinCBox" HorizontalAlignment="Left" Margin="127,205,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 1 pin (STB1) of the TM display unit." />
             <ComboBox x:Name="Unit3PinCBox" HorizontalAlignment="Left" Margin="127,236,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 2 pin (STB2) of the TM display unit." />
             <Label x:Name="Unit4Label" Content="Unit 4 Strobe Pin: " HorizontalAlignment="Left" Margin="225,170,0,0"
                    VerticalAlignment="Top" />
             <Label x:Name="Unit5Label" Content="Unit 5 Strobe Pin: " HorizontalAlignment="Left" Margin="225,201,0,0"
@@ -53,28 +53,28 @@
             <Label x:Name="Unit6Label" Content="Unit 6 Strobe Pin: " HorizontalAlignment="Left" Margin="225,232,0,0"
                    VerticalAlignment="Top" />
             <ComboBox x:Name="Unit4PinCBox" HorizontalAlignment="Left" Margin="342,174,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 3 pin (STB3) of the TM display unit." />
             <ComboBox x:Name="Unit5PinCBox" HorizontalAlignment="Left" Margin="342,205,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 4 pin (STB4) of the TM display unit." />
             <ComboBox x:Name="Unit6PinCBox" HorizontalAlignment="Left" Margin="342,236,0,0" VerticalAlignment="Top"
-                      Width="75" SelectionChanged="CboxSelectionChanged" />
+                      Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the strobe 5 pin (STB5) of the TM display unit." />
             <Label x:Name="ConfSelectedLabel" Content="" HorizontalAlignment="Left" Margin="161,46,0,0"
-                   VerticalAlignment="Top" Width="256" />
+                   VerticalAlignment="Top" Width="256" ToolTip="Current configuration for which the corresponding Arduino sketch will be generated." />
             <Label x:Name="NumberUnitsLabel" Content="" HorizontalAlignment="Left" Margin="172,77,0,0"
-                   VerticalAlignment="Top" Width="100" />
+                   VerticalAlignment="Top" Width="100" ToolTip="Number of TM1638 Units used in this configuration." />
             <Button x:Name="NextButton1" Content="Next" HorizontalAlignment="Left" Margin="127,279,0,0"
-                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="NextButton1Click" />
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="NextButton1Click" ToolTip="Go to the next step of the wizard." />
             <Button x:Name="PreviousButton1" Content="Previous" HorizontalAlignment="Left" Margin="10,279,0,0"
-                    VerticalAlignment="Top" Width="110" IsEnabled="False" />
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" ToolTip="Go to previous step of the wizard." />
             <Button x:Name="GenerateButton" Content="Generate Arduino Sketch" HorizontalAlignment="Left"
                     Margin="296,279,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False"
-                    Click="GenerateButtonClick" />
+                    Click="GenerateButtonClick" ToolTip="Generate the Arduino sketch." />
         </Grid>
         <Grid x:Name="Grid2" Visibility="Hidden">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFEDF5FF" Offset="0" />
-                    <GradientStop Color="#FF6AA7FF" Offset="1" />
+                    <GradientStop Color="White" Offset="1" />
+                    <GradientStop Color="#FFE7F1FF" />
                 </LinearGradientBrush>
             </Grid.Background>
             <Label Content="Generate Arduino Sketch" HorizontalAlignment="Left" Margin="10,10,0,0"
@@ -88,36 +88,36 @@
             <Label x:Name="TM1640Unit1ClockLabel" Content="Unit 1 Clock Pin: " HorizontalAlignment="Left"
                    Margin="10,139,0,0" VerticalAlignment="Top" />
             <ComboBox x:Name="TM1640DataPin1CBox" HorizontalAlignment="Left" Margin="127,112,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the data pin of the TM display unit." />
             <ComboBox x:Name="TM1640ClockPin1CBox" HorizontalAlignment="Left" Margin="127,143,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the clock pin of the TM display unit." />
             <Label x:Name="ConfSelectedLabel2" Content="" HorizontalAlignment="Left" Margin="161,46,0,0"
-                   VerticalAlignment="Top" Width="256" />
+                   VerticalAlignment="Top" Width="256" ToolTip="Current configuration for which the corresponding Arduino sketch will be generated." />
             <Label x:Name="NumberTM1640UnitsLabel" Content="" HorizontalAlignment="Left" Margin="172,77,0,0"
-                   VerticalAlignment="Top" Width="100" />
+                   VerticalAlignment="Top" Width="100" ToolTip="Number of TM1640 Units used in this configuration." />
             <Button x:Name="NextButton2" Content="Next" HorizontalAlignment="Left" Margin="127,279,0,0"
-                    VerticalAlignment="Top" Width="110" IsEnabled="False" />
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" ToolTip="Go to the next step of the wizard." />
             <Button x:Name="PreviousButton2" Content="Previous" HorizontalAlignment="Left" Margin="10,279,0,0"
-                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="PreviousButton2Click" />
+                    VerticalAlignment="Top" Width="110" IsEnabled="False" Click="PreviousButton2Click" ToolTip="Go to previous step of the wizard." />
             <Button x:Name="GenerateButton2" Content="Generate Arduino Sketch" HorizontalAlignment="Left"
                     Margin="296,279,0,0" VerticalAlignment="Top" Width="160" IsEnabled="False"
-                    Click="GenerateButtonClick" />
+                    Click="GenerateButtonClick" ToolTip="Generate the Arduino sketch." />
             <Label x:Name="TM1640Unit2DataLabel" Content="Unit 2 Data Pin: " HorizontalAlignment="Left"
                    Margin="10,173,0,0" VerticalAlignment="Top" />
             <Label x:Name="TM1640Unit2ClockLabel" Content="Unit 2 Clock Pin: " HorizontalAlignment="Left"
                    Margin="10,204,0,0" VerticalAlignment="Top" />
             <ComboBox x:Name="TM1640DataPin2CBox" HorizontalAlignment="Left" Margin="127,177,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the data pin of the TM display unit." />
             <ComboBox x:Name="TM1640ClockPin2CBox" HorizontalAlignment="Left" Margin="127,208,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the clock pin of the TM display unit." />
             <Label x:Name="TM1640Unit3DataLabel" Content="Unit 3 Data Pin: " HorizontalAlignment="Left"
                    Margin="225,108,0,0" VerticalAlignment="Top" />
             <Label x:Name="TM1640Unit3ClockLabel" Content="Unit 3 Clock Pin: " HorizontalAlignment="Left"
                    Margin="225,139,0,0" VerticalAlignment="Top" />
             <ComboBox x:Name="TM1640DataPin3CBox" HorizontalAlignment="Left" Margin="342,112,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the data pin of the TM display unit." />
             <ComboBox x:Name="TM1640ClockPin3CBox" HorizontalAlignment="Left" Margin="342,143,0,0"
-                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" />
+                      VerticalAlignment="Top" Width="75" SelectionChanged="CboxSelectionChanged" ToolTip="Arduino pin number connected to the clock pin of the TM display unit." />
         </Grid>
     </Grid>
 </Controls:MetroWindow>

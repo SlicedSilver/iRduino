@@ -39,7 +39,8 @@ namespace iRduino.Classes
         public List<ShiftStyleEnum> MatchedShiftStyles;
         public bool Previewing;
         public List<SLIDisplayVariables> RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
-        public SavedTelemetryValues SavedTelemetry = new SavedTelemetryValues();
+
+        public SavedTelemetryValues SavedTelemetry;// = new SavedTelemetryValues();
         public ShiftData ShiftLightData;
         public bool Test;
         public bool UseCustomShiftLights;
@@ -80,6 +81,7 @@ namespace iRduino.Classes
         private bool useDeltaTiming;
         private bool useFuelCalcs;
         private bool useLapTiming;
+        private int telemetryRefreshRate;
         #endregion Private Fields Properties
 
         /// <summary>
@@ -191,7 +193,8 @@ namespace iRduino.Classes
 
         public void ResetSavedTelemetryValues()
         {
-            this.SavedTelemetry = new SavedTelemetryValues();
+
+            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps, CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
         }
 
         //method for sending sdv stuff to actual unit. checks for _ledsOn
@@ -336,12 +339,19 @@ namespace iRduino.Classes
         /// <summary>
         /// Setup Display Manager Instance before using the Start Method
         /// </summary>
-        public void SetupDisplayMngr()
+        public void SetupDisplayMngr(int telemetryRefreshRateParameter)
         {
+            this.telemetryRefreshRate = telemetryRefreshRateParameter;
             CurrentConfiguration.NumDisplayUnits = CurrentConfiguration.DisplayConfigurations.Count;
             CurrentConfiguration.NumberControllers = CurrentConfiguration.ControllerConfigurations.Count;
             int units = CurrentConfiguration.NumDisplayUnits;
             this.WaitTime.Clear();
+            if (!CurrentConfiguration.UseCustomFuelCalculationOptions)
+            {
+                CurrentConfiguration.FuelCalculationLaps = 3;
+                CurrentConfiguration.UseWeightedFuelCalculations = true;
+            }
+            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps,CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
             FinalSLIDisplayVariables = new List<SLIDisplayVariables>();
             RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
             for (int k = 1; k <= units; k++)
@@ -351,7 +361,7 @@ namespace iRduino.Classes
                 RequestedSLIDisplayVariables.Add(new SLIDisplayVariables());
                 CurrentScreen.Add(0);
             }
-            displayRefreshRateFactor = 30 / CurrentConfiguration.DisplayRefreshRate;
+            displayRefreshRateFactor = this.telemetryRefreshRate / CurrentConfiguration.DisplayRefreshRate;
             useFuelCalcs = false;
             useDeltaTiming = true; // Add Checks for whether to log delta variables
             useLapTiming = false;
@@ -548,10 +558,9 @@ namespace iRduino.Classes
             TrackSurfaces mySurface = surfaces[Wrapper.DriverId]; // Your car data is at your id index;
             if (refreshCount % 15 == 0)
             {
-                this._2NdLastTrackSurface = this.lastTrackSurface;
+                this._2NdLastTrackSurface = this.lastTrackSurface; //used for DC Vars
             }
             this.lastTrackSurface = mySurface;
-
             if (useLapTiming)
             {
                 updateTime = this.TelemetryLapTimer(e, mySurface, updateTime);
@@ -562,12 +571,20 @@ namespace iRduino.Classes
             {
                 this.SavedTelemetry.DeltaBest = e.TelemetryInfo.LapDeltaToBestLap.Value;
                 this.SavedTelemetry.DeltaBestOK = e.TelemetryInfo.LapDeltaToBestLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[0].Push(
+                        e.TelemetryInfo.LapDeltaToBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToBestLap.Value : 500f);
                 this.SavedTelemetry.DeltaOpt = e.TelemetryInfo.LapDeltaToOptimalLap.Value;
                 this.SavedTelemetry.DeltaOptOK = e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[1].Push(
+                        e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToOptimalLap.Value : 500f);
                 this.SavedTelemetry.DeltaSesBest = e.TelemetryInfo.LapDeltaToSessionBestLap.Value;
                 this.SavedTelemetry.DeltaSesBestOK = e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[2].Push(
+                        e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionBestLap.Value : 500f);
                 this.SavedTelemetry.DeltaSesOpt = e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value;
                 this.SavedTelemetry.DeltaSesOptOK = e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value;
+                this.SavedTelemetry.DeltaHistory[3].Push(
+                        e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value ? e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value : 500f);
             }
 
             if (this.refreshCount % 30 == 0 && useFuelCalcs) //Only Check Fuel Consumption Stuff Once a Second
@@ -841,14 +858,19 @@ namespace iRduino.Classes
         private double TelemetryLapTimer(
             SdkWrapper.TelemetryUpdatedEventArgs e, TrackSurfaces mySurface, double updateTime)
         {
-            if (((e.TelemetryInfo.LapCurrentLapTime.Value - SavedTelemetry.LastMeasuredCurrentLapTime) < -5) && (mySurface == TrackSurfaces.OnTrack || mySurface == TrackSurfaces.OffTrack))
+            if ((((e.TelemetryInfo.LapCurrentLapTime.Value - SavedTelemetry.LastMeasuredCurrentLapTime) < -5) || (this.SavedTelemetry.LastLapTimeAPI < 1 && e.TelemetryInfo.LapLastLapTime.Value > 5)) && (mySurface == TrackSurfaces.OnTrack || mySurface == TrackSurfaces.OffTrack))
             {
                 //crossed line
                 this.SavedTelemetry.LastLapTimeMeasured = e.TelemetryInfo.LapLastLapTime.Value;
                     this.ShowLapTimeDisplay();
+                    foreach (Stack<float> t in this.SavedTelemetry.DeltaHistory)
+                    {
+                        t.Push(500f);
+                    }
             }
             this.SavedTelemetry.PersonalBestLap = e.TelemetryInfo.LapBestLapTime.Value;
             this.SavedTelemetry.LastMeasuredCurrentLapTime = e.TelemetryInfo.LapCurrentLapTime.Value;
+            this.SavedTelemetry.LastLapTimeAPI = e.TelemetryInfo.LapLastLapTime.Value;
             return updateTime;
         }
         private void UpdateDCVars(SdkWrapper.TelemetryUpdatedEventArgs e)
@@ -1135,6 +1157,7 @@ namespace iRduino.Classes
         ///     Method called for everytime that the SessionInfo String is Updated
         /// </summary>
         /// <param name="e">SessionInfo Argument</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
         internal void SessionUpdate(SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
             if (this.newSession)
@@ -1504,12 +1527,23 @@ namespace iRduino.Classes
     public class FuelValues
     {
         public float CurrentFuelLevel = 0f;
-        public Stack<float> FuelHistory = new Stack<float>(14); //Store last 3 laps + 1 sector
 
+        public Stack<float> FuelHistory; //= new Stack<float>(14); //Store last 3 laps + 1 sector
+
+        private readonly int maxLapsInHistory;
         public float LastLapDistPct = 0f;
-
         private float burnRate;
         private float lapsLeft;
+
+        private readonly Boolean useWeightedCalculation;
+
+        public FuelValues(int laps, Boolean useWeighted)
+        {
+            maxLapsInHistory = laps;
+            FuelHistory = new Stack<float>(laps * 4 + 1);
+            useWeightedCalculation = useWeighted;
+        }
+
         public float BurnRate
         {
             get
@@ -1527,7 +1561,7 @@ namespace iRduino.Classes
         }
         public void ResetFuel()
         {
-            FuelHistory = new Stack<float>(13);
+            FuelHistory = new Stack<float>(maxLapsInHistory * 4 + 1);
             lapsLeft = 0f;
             burnRate = 0f;
         }
@@ -1541,28 +1575,50 @@ namespace iRduino.Classes
                 burnRate = 0f;
                 return;
             }
-
-            //copy out array
-            var fuelHistoryCopy = new float[FuelHistory.Count];
-            FuelHistory.CopyTo(fuelHistoryCopy, 0);
-            float burn;
-            if (numberFuelMeasure == 14)
+            if (useWeightedCalculation)
             {
-                //three laps
-                burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3 + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2 + (fuelHistoryCopy[8] - fuelHistoryCopy[12]) * 2) / 7;
+                //copy out array
+                var fuelHistoryCopy = new float[FuelHistory.Count];
+                FuelHistory.CopyTo(fuelHistoryCopy, 0);
+                float burn;
+                if (numberFuelMeasure >= 14)
+                {
+                    //three laps or more laps
+                    float burntemp = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3
+                            + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2
+                            + (fuelHistoryCopy[8] - fuelHistoryCopy[12]) * 2); // / 7;
+                    int place = 16;
+                    int divisionCount = 7;
+                    while (place <= fuelHistoryCopy.Count() - 1)
+                    {
+                        burntemp += fuelHistoryCopy[place - 4] - fuelHistoryCopy[place];
+                        divisionCount++;
+                        place += 4;
+                    }
+                    burn = burntemp / Convert.ToSingle(divisionCount);
+                }
+                else if (numberFuelMeasure >= 10)
+                {
+                    //two laps
+                    burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3
+                            + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2) / 5;
+                }
+                else
+                {
+                    //one lap
+                    burn = (fuelHistoryCopy[0] - fuelHistoryCopy[4]);
+                }
+                burnRate = Math.Abs(burn);
+                lapsLeft = Math.Abs(CurrentFuelLevel / burn);
             }
-            else if (numberFuelMeasure >= 10)
+            else //Don't Use Weighted Fuel Calc.
             {
-                //two laps
-                burn = ((fuelHistoryCopy[0] - fuelHistoryCopy[4]) * 3 + (fuelHistoryCopy[4] - fuelHistoryCopy[8]) * 2) / 5;
+                var fuelHistoryCopy = new float[FuelHistory.Count];
+                int count = fuelHistoryCopy.Count();
+                float burn = (fuelHistoryCopy[count - 1] - fuelHistoryCopy[0]) / (count / 4f);
+                burnRate = Math.Abs(burn);
+                lapsLeft = Math.Abs(CurrentFuelLevel / burn);
             }
-            else
-            {
-                //one lap
-                burn = (fuelHistoryCopy[0] - fuelHistoryCopy[4]);
-            }
-            burnRate = Math.Abs(burn);
-            lapsLeft = Math.Abs(CurrentFuelLevel / burn);
         }
     }
 
@@ -1586,7 +1642,7 @@ namespace iRduino.Classes
         public float DeltaSesOpt = 0f;
         public bool DeltaSesOptOK = false;
         public List<Driver> Drivers = new List<Driver>();
-        public FuelValues Fuel = new FuelValues();
+        public FuelValues Fuel;
         public float LastLapPosition;
         public double LastLapTimeMeasured; // measured using SDK now
         public float LastMeasuredCurrentLapTime = 0f;
@@ -1600,6 +1656,20 @@ namespace iRduino.Classes
         public int SessionLapsRemaining = 0;
         public float SessionTimeRemaining = 0f;
         public int TotalLaps = -1;
+        public List<Stack<float>> DeltaHistory;
+        public int ExpectedDeltaHistoryLength;
+        public float LastLapTimeAPI;
+
+        public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation, int refreshRate)
+        {
+            Fuel = new FuelValues(fuelLaps,fuelWeightedCalculation);
+            DeltaHistory = new List<Stack<float>>();
+            for (var i = 0; i < 4; i++)
+            {
+                DeltaHistory.Add(new Stack<float>(refreshRate * 5 + 1)); //keeps for 5 seconds
+            }
+            ExpectedDeltaHistoryLength = refreshRate * 5 + 1;
+        }
     }
 
     /// <summary>

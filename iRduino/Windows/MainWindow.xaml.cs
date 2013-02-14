@@ -4,6 +4,7 @@
 
 namespace iRduino.Windows
 {
+    using System.Threading;
     using System.Windows.Media.Animation;
 
     using ArduinoInterfaces;
@@ -34,11 +35,14 @@ namespace iRduino.Windows
         private readonly BitmapImage startImage;
         private readonly BitmapImage stopImage;
 
+        public readonly string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                                               + "\\iRduino\\";
+
         // Constructor
         public MainWindow()
         {
             InitializeComponent();
-            System.Threading.Thread.CurrentThread.CurrentCulture =
+            Thread.CurrentThread.CurrentCulture =
                 CultureInfo.CreateSpecificCulture("en-US");
             MainWindowBackground.Opacity = 0.6;
             this.startImage = new BitmapImage();
@@ -51,6 +55,8 @@ namespace iRduino.Windows
             this.stopImage.EndInit();
             this.Height -= 30; //Fix height for Metro Styling without Frame
             FadeAnimationBackground(0.1, 3);
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += ErrorReporting.MyHandler;
         }
 
         private void FadeAnimationBackground(double endOpacity, double time)
@@ -92,19 +98,20 @@ namespace iRduino.Windows
         // This happens (max) 60 times per second
         private void WrapperTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 DisplayMngr.TelemetryUpdate(e);
-            }
-            catch (Exception ex)
-            {
-                if (ex.Source != "iRacingSdkWrapper")
-                {
-                    #if !DEBUG
-                        MessageBox.Show(ex.Message);
-                    #endif
-                }
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex.Source != "iRacingSdkWrapper")
+            //    {
+            //        //ErrorReporting.ApplicationException(ex);
+            //        #if !DEBUG
+            //            MessageBox.Show(String.Format("An error has occured. Please notify the developer with a copy of the information in this window and your current configuration file.   {0}",ex.Message));
+            //        #endif
+            //    }
+            //}
         }
 
         /// <summary>
@@ -116,87 +123,55 @@ namespace iRduino.Windows
             {
                 if (this.wrapper.IsRunning)
                 {
-                    ConnectionStatusLabel.Content = "Connected!";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 53, 255, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 11, 156, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 24, 220, 5), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    OptionsButton.IsEnabled = false;
-                    if (OptionsWindowOpen)
-                    {
-                        this.optionsWindow.DisableChanges();
-                    }
+                    GUIStatusUpdate("Connected!", Color.FromArgb(255, 53, 255, 43), Color.FromArgb(255, 11, 156, 4), Color.FromArgb(255, 24, 220, 5), true);
                 }
                 else
                 {
-                    ConnectionStatusLabel.Content = "Disconnected.";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 43, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 126, 4, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 226, 13, 13), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected.", Color.FromArgb(255, 255, 43, 43), Color.FromArgb(255, 126, 4, 4), Color.FromArgb(255, 226, 13, 13), false);
                 }
             }
             else
             {
                 if (this.wrapper.IsRunning)
                 {
-                    ConnectionStatusLabel.Content = "Disconnected, waiting for sim...";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 207, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 224, 125, 6), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 253, 253, 3), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected, waiting for sim...", Color.FromArgb(255, 255, 207, 43), Color.FromArgb(255, 224, 125, 6), Color.FromArgb(255, 253, 253, 3), false);
                 }
                 else
                 {
-                    ConnectionStatusLabel.Content = "Disconnected.";
-                    StatusLight.Stroke = new SolidColorBrush {Color = Color.FromArgb(255, 255, 43, 43)};
-                    var myHorizontalGradient = new LinearGradientBrush
-                        {
-                            StartPoint = new Point(0.5, 0),
-                            EndPoint = new Point(0.5, 1)
-                        };
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 126, 4, 4), 1.0));
-                    myHorizontalGradient.GradientStops.Add(new GradientStop(Color.FromArgb(255, 226, 13, 13), 0.0));
-                    StatusLight.Fill = myHorizontalGradient;
-                    if (!OptionsWindowOpen)
-                    {
-                        OptionsButton.IsEnabled = true;
-                    }
-                    else
-                    {
-                        this.optionsWindow.EnableChanges();
-                    }
+                    GUIStatusUpdate("Disconnected.", Color.FromArgb(255, 255, 43, 43), Color.FromArgb(255, 126, 4, 4), Color.FromArgb(255, 226, 13, 13),false);
+                }
+            }
+        }
+
+        private void GUIStatusUpdate(string text, Color stroke, Color colour1, Color colour2, bool connected)
+        {
+            ConnectionStatusLabel.Content = text;
+            StatusLight.Stroke = new SolidColorBrush { Color = stroke };
+            var myHorizontalGradient = new LinearGradientBrush
+            {
+                StartPoint = new Point(0.5, 0),
+                EndPoint = new Point(0.5, 1)
+            };
+            myHorizontalGradient.GradientStops.Add(new GradientStop(colour1, 1.0));
+            myHorizontalGradient.GradientStops.Add(new GradientStop(colour2, 0.0));
+            StatusLight.Fill = myHorizontalGradient;
+            if (connected)
+            {
+                OptionsButton.IsEnabled = false;
+                if (OptionsWindowOpen)
+                {
+                    this.optionsWindow.DisableChanges();
+                }
+            }
+            else
+            {
+                if (!OptionsWindowOpen)
+                {
+                    OptionsButton.IsEnabled = true;
+                }
+                else
+                {
+                    this.optionsWindow.EnableChanges();
                 }
             }
         }
@@ -237,7 +212,6 @@ namespace iRduino.Windows
                 StartButtonLabel.Content = "Start";
                 StartButtonImage.Source = this.startImage;
                 FadeAnimationBackground(0.1, 2);
-                //StartButtonImage.Source = "/iRduino;component/Resources/appbar.control.play.png";
                 ComPortBox.IsEnabled = true;
             }
             else
@@ -251,7 +225,7 @@ namespace iRduino.Windows
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
                           DisplayMngr.CurrentConfiguration.SerialPortSpeed,
                           DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, useDx, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
-                DisplayMngr.SetupDisplayMngr();
+                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency);
                 DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";
@@ -295,7 +269,7 @@ namespace iRduino.Windows
             this.wrapper = new SdkWrapper
                 {
                     EventRaiseType = SdkWrapper.EventRaiseTypes.CurrentThread,
-                    TelemetryUpdateFrequency = 60//60  //NEWBUILD
+                    TelemetryUpdateFrequency = 30//60  //NEWBUILD
                 };
             // Tell it to raise events on the current thread (don't worry if you don't know what a thread is)
             // Only update telemetry 60 times per second
@@ -351,7 +325,12 @@ namespace iRduino.Windows
         {
             string currentConf = null;
             string currentConfLocationFile = null;
-            string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+            string path = DocumentsPath + "current.opt";
+            FileInfo file = new FileInfo(path);
+            if (file.Directory != null)
+            {
+                file.Directory.Create(); // If the directory already exists, this method does nothing.
+            }
             if (File.Exists(path))
             {
                 using (var sr = new StreamReader(path))
@@ -368,7 +347,7 @@ namespace iRduino.Windows
                 }
             }
             //get current directory
-            IEnumerable<string> files = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.scft");
+            IEnumerable<string> files = Directory.EnumerateFiles(DocumentsPath, "*.scft");
             string[] fileLocs = files as string[] ?? files.ToArray();
             if (fileLocs.Any())
             {
