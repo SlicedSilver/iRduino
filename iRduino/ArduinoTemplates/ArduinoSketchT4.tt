@@ -1,0 +1,314 @@
+<#@ template language="C#" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="ArduinoInterfaces" #>
+<#
+	var numberTm1640S = 0;
+    var tm1640UnitNumbers = new List<int>();
+    for (var m = 0; m < configurationOptions.DisplayUnitConfigurations.Count; m++)
+    {
+        if (configurationOptions.DisplayUnitConfigurations[m].IsTM1640)
+        {
+            tm1640UnitNumbers.Add(m);
+            numberTm1640S += 1;
+        }
+    }
+	string temp = "";
+	int numberTM1638 = configurationOptions.DisplayUnitConfigurations.Count - numberTm1640S;
+	int messageLengthInt = 0;
+	string serialSpeed = configurationOptions.SerialPortSpeed;
+	switch (configurationOptions.DisplayUnitConfigurations.Count)
+	{
+		case 1:
+			temp = "single (1)";
+			messageLengthInt = 16;
+			break;
+		case 2:
+			temp = "double (2)";
+			messageLengthInt = 27;
+			break;
+		case 3:
+			temp = "triple (3)";
+			messageLengthInt = 38;
+			break;
+		case 4:
+			temp = "quadruple (4)";
+			messageLengthInt = 49;
+			break;
+		case 5:
+			temp = "quintuple (5)";
+			messageLengthInt = 60;
+			break;
+		case 6:
+			temp = "sextuple (6)";
+			messageLengthInt = 71;
+			break;
+	}
+	string messageLength = (messageLengthInt + Constants.ExtraMessageLengthTM1640 * numberTm1640S).ToString(CultureInfo.InvariantCulture);
+    string messageReadUnitCheck = "";
+	var count = 0;
+        for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+        {
+            if (configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+            {
+                if (count != 0)
+                {
+                    messageReadUnitCheck += " || ";
+                }
+                messageReadUnitCheck += string.Format("u=={0}", p + 1);
+                count++;
+            }
+        }
+        if (count == 0)
+        {
+            messageReadUnitCheck += "false";
+        }
+#>
+/*
+iRduino - Arduino Sketch
+ Author: Mark Silverwood
+ 
+ Using TM1638 library from Ricardo Batista <rjbatista at gmail dot com>
+ 
+ This Arduino Sketch interfaces to the iRduino windows application.
+ This Sketch was generated on: <#= DateTime.Now.ToShortDateString() #>
+ This Sketch is for a <#= temp #> Display Unit Configuration
+ 
+ */
+
+<#
+ bool normal = false;
+            bool inverted = false;
+            foreach (var unit in configurationOptions.DisplayUnitConfigurations)
+            {
+                if (unit.Inverted)
+                {
+                    inverted = true;
+                }
+                else
+                {
+                    normal = true;
+                }
+            }
+            if (numberTM1638 > 0)
+            {
+                if (normal)
+                {
+#>
+#include <TM1638.h>
+<#
+                }
+                if (inverted)
+                {
+#>
+#include <InvertedTM1638.h>
+<#
+                }
+            }
+            if (numberTm1640S > 0)
+            {
+#>
+#include <TM1640.h>
+<#
+            }
+ #>
+
+//////Setup Here
+<# if (numberTM1638 > 0)
+ { #>
+#define dataPin <#= pins.DataPin#>
+#define clockPin <#= pins.ClockPin#>
+<# }  #>
+<#
+	int tmCount = 0;
+    for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+    {
+        if (!configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+        {
+#>
+#define strobePin<#= p + 1 #> <#= pins.UnitStrobePins[p] #>
+<#
+        }
+        else
+        {
+#>
+#define TM1640dataPin<#= p + 1 #> <#= pins.TM1640DataPins[tmCount] #>
+#define TM1640clockPin<#= p + 1 #> <#= pins.TM1640ClockPins[tmCount] #>
+<#
+            tmCount++;
+        }
+    }
+#>
+#define NumberUnit <#= configurationOptions.DisplayUnitConfigurations.Count #>
+#define NumberTM1638Units <#= configurationOptions.DisplayUnitConfigurations.Count - numberTm1640S #>
+//////Setup Finished
+
+#define startByte1 <#= Constants.MessageStartByte1#>
+#define startByte2 <#= Constants.MessageStartByte2#>
+#define endByte <#= Constants.MessageEndByte#>
+#define messageLength <#= messageLength#>
+
+<#
+for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+{
+    if (configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+    {
+#>
+TM1640 module<#= p + 1 #>(TM1640dataPin<#= p + 1 #>,TM1640clockPin<#= p + 1 #>,false,0);
+<#
+    }
+    else
+    {
+        if (!configurationOptions.DisplayUnitConfigurations[p].Inverted)
+        {
+#>
+TM1638 module<#= p + 1 #>(dataPin,clockPin,strobePin<#= p + 1 #>,false,0);
+<#
+        }
+        else
+        {
+#>
+InvertedTM1638 module<#= p + 1 #>(dataPin,clockPin,strobePin<#= p + 1 #>,false,0);
+<#
+        }
+    }
+}
+#>
+
+//// Variable Declarations
+word leds; 
+byte segments[8], TM1640segments[16], redLeds, greenLeds, intensity, unit, sum, i, readCount, checkerPosition;
+byte buttons[NumberTM1638Units], oldbuttons[NumberTM1638Units], lastButtonSend[NumberTM1638Units];
+long lastCheck, debounceDelay = 100;
+boolean sendButtons = false;
+byte messageHolder[messageLength], message[messageLength-4], messagePosition = -1;
+
+void setup() {
+	Serial.begin(<#= serialSpeed #>);
+	for(int u = 0; u < NumberTM1638Units; u++)
+	{
+		oldbuttons[u] = 0;
+	}
+	intensity = 0;
+	lastCheck = millis();
+}
+
+void loop() {
+	buttonsCheck();
+	if (Serial.available() > 0){
+		messagePosition++;
+		if(messagePosition == messageLength) messagePosition = 0;
+		messageHolder[messagePosition] = Serial.read();
+		messageChecker();
+	}
+}
+
+void messageChecker()
+{
+	checkerPosition = (messagePosition == 0) ? messageLength-1 : messagePosition - 1;
+	if(messageHolder[checkerPosition] != endByte) return; //end byte
+	checkerPosition = (messagePosition == messageLength -1) ? 0 : messagePosition + 1;
+	if(messageHolder[checkerPosition]!= startByte1) return; //start byte1
+	checkerPosition = (checkerPosition == messageLength - 1) ? 0 : checkerPosition+1;
+	if(messageHolder[checkerPosition]!= startByte2) return; // start byte 2
+	checkerPosition++;
+	readCount = 0;
+	sum = 0;
+	while (readCount < messageLength-4)
+	{
+		if(checkerPosition == messageLength) checkerPosition = 0;
+		message[readCount] = messageHolder[checkerPosition];
+		sum += messageHolder[checkerPosition];
+		readCount++;
+		checkerPosition++;
+	}
+	if(sum == messageHolder[messagePosition]) messageRead(message);
+}
+
+void messageRead(byte _message[]){
+	i = 0;
+	intensity = _message[i++];
+	for(int u = 1; u <= NumberUnits; u++)
+	{
+		unit = _message[i++];
+		if(<#= messageReadUnitCheck #>)
+		{
+			for(int x = 0;x<16;x++){
+				TM1640segments[x] = _message[i++];
+			}
+			updateDisplay(unit,word(0,0),TM1640segments,intensity);
+		}
+		else
+		{
+			greenLeds = _message[i++];
+			redLeds = _message[i++];
+			for(int x = 0;x<8;x++){
+				segments[x] = _message[i++];
+			}
+			updateDisplay(unit,word(greenLeds,redLeds),segments,intensity);
+		}
+	}
+}
+
+void buttonsCheck(){
+	if ((millis() - lastCheck)<debounceDelay) return;
+	lastCheck = millis();
+<#
+	int buttonCount = 0;
+	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+	{
+		if (!configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+		{
+#>
+	buttons[<#= buttonCount #>] = module<#= p + 1 #>.getButtons();
+<#
+			buttonCount++;
+		}
+	}
+#>
+	sendButtons = false;
+	for(int u = 0; u < NumberTM1638Units; u++)
+	{
+		if (buttons[u] != lastButtonSend[u] && buttons[u] != oldbuttons[u]){
+			sendButtons = true;
+		}
+		oldbuttons[u] = buttons[u];
+	}
+	if(sendButtons){
+		Serial.write(startByte1);
+		for(int u = 0; u < NumberTM1638Units; u++)
+		{
+			lastButtonSend[u] = buttons[u];
+			Serial.write(lastButtonSend[u]);
+		}
+	}
+}
+
+void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
+	switch(unit){
+<#
+	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+	{
+		if (configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+		{
+#>
+		case <#= p + 1#>:
+		module<#= p + 1#>.setupDisplay(true,_intensity);
+		module<#= p + 1#>.setDisplay(_segments,16);
+		break;
+<#
+		}
+		else
+		{
+#>
+		case <#= p + 1#>:
+		module<#= p + 1#>.setupDisplay(true,_intensity);
+		module<#= p + 1#>.setLEDs(_leds);
+		module<#= p + 1#>.setDisplay(_segments);
+		break;
+<#
+		}
+	}
+#>
+  }
+}
