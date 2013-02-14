@@ -20,7 +20,7 @@
     </Page.Resources>
     <Grid>
         <Button x:Name="LoadButton" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64"
-                Margin="21,176,0,0" Height="64" >
+                Margin="21,176,0,0" Height="64" ToolTip="Load a configuration file from disk." >
             <Rectangle Width="28" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -29,7 +29,7 @@
             </Rectangle>
         </Button>
         <Button x:Name="NewButton"  Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64"
-                Margin="21,286,0,0" Height="64">
+                Margin="21,286,0,0" Height="64" ToolTip="Create a new configuration.">
             <Rectangle Width="32" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -38,7 +38,7 @@
             </Rectangle>
          </Button>
         <Button x:Name="RemoveButton"  Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64"
-                Margin="231,66,0,0" Height="64" >
+                Margin="231,66,0,0" Height="64" ToolTip="Remove current configuration from the hard-drive." >
             <Rectangle Width="28" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -47,7 +47,7 @@
             </Rectangle>
         </Button>
         <Button x:Name="SaveButton"  Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64"
-                Margin="231,176,0,0" Height="64" >
+                Margin="231,176,0,0" Height="64" ToolTip="Save current configuration to disk." >
             <Rectangle Width="34" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -55,7 +55,7 @@
                 </Rectangle.Fill>
             </Rectangle>
         </Button>
-        <Button x:Name="DuplicateButton"  Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Margin="231,286,0,0" Height="64" >
+        <Button x:Name="DuplicateButton"  Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Margin="231,286,0,0" Height="64" ToolTip="Create a new configuration that is a duplicate of the current configuration." >
             <Rectangle Width="28" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
@@ -66,7 +66,7 @@
         <Label Content="Configurations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"
                FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" />
         <Button x:Name="GenerateArduinoSketchButton" Style="{DynamicResource MetroCircleButtonStyle}" HorizontalAlignment="Left"
-                Margin="21,66,0,0" VerticalAlignment="Top" Width="64" BorderBrush="#FF0E38A8" BorderThickness="1" FontWeight="Bold" Height="64" >
+                Margin="21,66,0,0" VerticalAlignment="Top" Width="64" BorderBrush="#FF0E38A8" BorderThickness="1" FontWeight="Bold" Height="64" ToolTip="Generate an Arduino sketch for the current configuration." >
             <Rectangle Width="26" Height="32">
                 <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"

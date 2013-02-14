@@ -21,13 +21,18 @@
         <Label Content="Advanced Options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
         	FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" />
         <Label Content="TM Units Refresh Rate (per second): " HorizontalAlignment="Left" Margin="20,58,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="TMRefreshRateCBox" HorizontalAlignment="Left" Margin="227,58,0,0" VerticalAlignment="Top" Width="124" SelectionChanged="TMRefreshRateCBoxSelectionChanged"/>
+        <ComboBox x:Name="TMRefreshRateCBox" HorizontalAlignment="Left" Margin="227,58,0,0" VerticalAlignment="Top" Width="124" SelectionChanged="TMRefreshRateCBoxSelectionChanged" ToolTip="TM display units update rate (updates / second)"/>
         <Label x:Name="SerialPortSpeedLabel" Content="Serial Port Speed: " HorizontalAlignment="Left" Margin="47,113,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="UseCustomSpeedCheck" Content="Use Custom Serial Port Speed" HorizontalAlignment="Left" Margin="27,92,0,0" VerticalAlignment="Top" Unchecked="SerialSpeedCheckBoxUnchecked1" Checked="SerialSpeedCheckBoxChecked1"/>
+        <CheckBox x:Name="UseCustomSpeedCheck" Content="Use Custom Serial Port Speed" HorizontalAlignment="Left" Margin="27,92,0,0" VerticalAlignment="Top" Unchecked="SerialSpeedCheckBoxUnchecked1" Checked="SerialSpeedCheckBoxChecked1" ToolTip="Check to enable use of custom serial port speed."/>
         <Label Content="Recommend Mininum Speed: " HorizontalAlignment="Left" Margin="47,139,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="RecommendSpeed" Content="" HorizontalAlignment="Left" Margin="222,139,0,0" VerticalAlignment="Top" Width="124"/>
-        <ComboBox x:Name="SerialSpeedCBox" HorizontalAlignment="Left" Margin="227,113,0,0" VerticalAlignment="Top" Width="124" IsEnabled="False"/>
-        <CheckBox x:Name="LogMessagesCheck" Content="Log Arduino Serial Messages to File" HorizontalAlignment="Left" Margin="27,170,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="RecommendSpeed" Content="" HorizontalAlignment="Left" Margin="222,139,0,0" VerticalAlignment="Top" Width="124" ToolTip="Recommend serial port speed. This value will be used by default. Make sure that your custom serial speed is higher than this value for best results."/>
+        <ComboBox x:Name="SerialSpeedCBox" HorizontalAlignment="Left" Margin="227,113,0,0" VerticalAlignment="Top" Width="124" IsEnabled="False" ToolTip="Custom serial port communication speed to use."/>
+        <CheckBox x:Name="LogMessagesCheck" Content="Log Arduino Serial Messages to File" HorizontalAlignment="Left" Margin="27,170,0,0" VerticalAlignment="Top" ToolTip="Logs all serial messages sent to the Arduino in the log.txt file (stored in the iRduino directory within your user's Documents folder)."/>
+        <CheckBox x:Name="UseCustomFuelOptionsCheck" Content="Use Custom Fuel Calculation Options" HorizontalAlignment="Left" Margin="27,226,0,0" VerticalAlignment="Top" ToolTip="Use custom fuel calculation options?" Checked="UseCustomFuelOptionsCheckChecked" Unchecked="UseCustomFuelOptionsCheckUnchecked"/>
+        <CheckBox x:Name="WeightedFuelCheck" Content="Use Weighted Fuel Calculations" HorizontalAlignment="Left" Margin="47,248,0,0" VerticalAlignment="Top" ToolTip="Use calculations which weight recent laps higher. Reacts quicker to changes in driving style in recent laps"/>
+        <ComboBox x:Name="FuelLapsCBox" HorizontalAlignment="Left" Margin="61,296,0,0" VerticalAlignment="Top" Width="124" ToolTip="Number of laps (newest first) to consider for the fuel calculations." IsEnabled="False"/>
+        <Label Content="Maximum number of previous laps to use in calculation:" HorizontalAlignment="Left" Margin="47,270,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fuel Calculations" HorizontalAlignment="Left" Margin="20,192,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="#FF057DAA"/>
 
     </Grid>
 </Page>

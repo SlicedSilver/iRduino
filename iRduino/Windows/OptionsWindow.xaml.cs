@@ -12,7 +12,6 @@ namespace iRduino.Windows
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -56,6 +55,7 @@ namespace iRduino.Windows
         private int treeControllerCount;
         private DateTime waitTime;
         private List<bool> tm1640UnitsTree;
+        private bool applySaveFlag;
 
         private string currentBranch = "";
 
@@ -221,6 +221,7 @@ namespace iRduino.Windows
             var dlg = new SaveFileDialog
             {
                 FileName = this.configurationOptions.Name,
+                InitialDirectory = hostApp.DocumentsPath,
                 DefaultExt = ".scft",
                 Filter = "SLI Configuration File (.scft)|*.scft"
             };
@@ -238,7 +239,7 @@ namespace iRduino.Windows
                                                       this.hostApp.DisplayMngr.Dictionarys));
             this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation = filename;
             //write new current.opt
-            string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+            string path = hostApp.DocumentsPath + "current.opt";
             using (var outfile = new StreamWriter(path))
             {
                 outfile.Write(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation);
@@ -273,7 +274,7 @@ namespace iRduino.Windows
                     if (!string.IsNullOrEmpty(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation))
                     {
                         //write new current.opt
-                        string path = AppDomain.CurrentDomain.BaseDirectory + "current.opt";
+                        string path = hostApp.DocumentsPath + "current.opt";
                         using (var outfile = new StreamWriter(path))
                         {
                             outfile.Write(this.hostApp.DisplayMngr.CurrentConfiguration.FileLocation);
@@ -402,7 +403,7 @@ namespace iRduino.Windows
                 FileName = "SLIConfiguration",
                 DefaultExt = ".scft",
                 Filter = "SLI Configuration File (.scft)|*.scft",
-                InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)
+                InitialDirectory = hostApp.DocumentsPath
             };
 
             // Show open file dialog box 
@@ -445,6 +446,7 @@ namespace iRduino.Windows
 
         private void ApplySaveButtonClick(object sender, RoutedEventArgs e)
         {
+            applySaveFlag = true;
             ApplySaveConfiguration();
         }
 
@@ -828,7 +830,12 @@ namespace iRduino.Windows
                 {
                     temp.Page = PageTypes.TMUnits;
                 }
-            } 
+                if (this.applySaveFlag)
+                {
+                    temp.Page = PageTypes.Configuration;
+                    this.applySaveFlag = false;
+                }
+            }
             OptionsTreeView.Items.Clear();
             this.treeBuilderUnitCount = 0;
             this.treeControllerCount = 0;

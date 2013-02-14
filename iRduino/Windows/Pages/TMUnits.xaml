@@ -24,9 +24,9 @@
                FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" />
         <Label Content="Number of Display Units:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,55,0,0" />
         <ComboBox x:Name="NumberDisplayUnitsCBox" HorizontalAlignment="Left" Margin="190,55,0,0"
-                  VerticalAlignment="Top" Width="74" />
+                  VerticalAlignment="Top" Width="74" ToolTip="Number of TM1638/1640 display units to use in this configuration." />
         <TabControl Margin="10,86,10,5">
-            <TabItem Header="General">
+            <TabItem Header="General" ToolTip="General TM display unit options">
                 <Grid Background="White">
                     <Label Content="Starting Display Intensity:" HorizontalAlignment="Left" VerticalAlignment="Top"
                 		Margin="10,10,0,0" />
@@ -34,35 +34,35 @@
                     <Label Content="Quick Info Display Time:" HorizontalAlignment="Left" Margin="10,72,0,0"
                 		VerticalAlignment="Top" />
                     <CheckBox x:Name="ShowHeaderCheck" Content="Show Headers?" HorizontalAlignment="Left" Margin="15,103,0,0"
-                		VerticalAlignment="Top" Checked="ShowHeaderCheckChecked" Unchecked="ShowHeaderCheckUnchecked" />
+                		VerticalAlignment="Top" Checked="ShowHeaderCheckChecked" Unchecked="ShowHeaderCheckUnchecked" ToolTip="Display screen header which shows which variables are located where in the current screen. A legend of the screen." />
                     <Label x:Name="HeaderDisplayTimeLabel" Content="Header Display Time:" HorizontalAlignment="Left" Margin="35,124,0,0" VerticalAlignment="Top" />
                     <ComboBox x:Name="IntensityCBox" HorizontalAlignment="Left" Margin="185,10,0,0" VerticalAlignment="Top"
-                		Width="74" />
+                		Width="74" ToolTip="Default starting display intensity (brightness) to use." />
                     <ComboBox x:Name="LapDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,41,0,0" VerticalAlignment="Top"
-                		Width="74" />
+                		Width="74" ToolTip="Length of time in seconds to display the lap time after crossing the finish line." />
                     <ComboBox x:Name="QuickInfoDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,72,0,0"
-                		VerticalAlignment="Top" Width="74" />
+                		VerticalAlignment="Top" Width="74" ToolTip="Length of time in seconds to display the Quick Info text." />
                     <ComboBox x:Name="HeaderDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,124,0,0"
-                		VerticalAlignment="Top" Width="74" IsEnabled="False" />
+                		VerticalAlignment="Top" Width="74" IsEnabled="False" ToolTip="Length of time in seconds to display the screen header." />
                     <CheckBox x:Name="ShiftIntensityCheck" Content="Increase Intensity at Shift Point?" HorizontalAlignment="Left"
                 		Margin="15,157,0,0" VerticalAlignment="Top" Checked="ShiftIntensityCheckChecked"
-                		Unchecked="ShiftIntensityCheckUnchecked" />
+                		Unchecked="ShiftIntensityCheckUnchecked" ToolTip="Increase display intensity (brightness) at gear shift point." />
                     <CheckBox x:Name="ShiftIntensityTypeCheck" Content="Relative Amount?" HorizontalAlignment="Left"
                 		Margin="35,178,0,0" VerticalAlignment="Top" IsEnabled="False"
-                		Unchecked="ShiftIntensityTypeCheckUnchecked" Checked="ShiftIntensityTypeCheckChecked" />
+                		Unchecked="ShiftIntensityTypeCheckUnchecked" Checked="ShiftIntensityTypeCheckChecked" ToolTip="Increase display intensity (brightness) relative to current display intensity or use a fixed value." />
                     <Label x:Name="ShiftIntensityAmountLabel" Content="Amount: " HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top" />
                     <ComboBox x:Name="ShiftIntensityAmountCBox" HorizontalAlignment="Left" Margin="99,200,0,0"
-                		VerticalAlignment="Top" Width="74" IsEnabled="False" />
+                		VerticalAlignment="Top" Width="74" IsEnabled="False" ToolTip="Amount to increase display intensity (brightness) to/by." />
                 </Grid>
             </TabItem>
-            <TabItem Header="Delta Timing">
+            <TabItem Header="Delta Timing" ToolTip="TM display unit options relating to lap delta timing.">
                 <Grid Background="White">
-                    <CheckBox x:Name="deltaDefaultOnCheck" Content="Display Lap Delta LED Lights as Default?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="deltaColourCheck" Content="Delta LED Colour Style by Time Slip Rate?" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="deltaDefaultOnCheck" Content="Display Lap Delta LED Lights as Default?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Whether to display the lap delta LEDs by default on startup."/>
+                    <CheckBox x:Name="deltaColourCheck" Content="Delta LED Colour Style by Time Slip Rate?" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" ToolTip="Method by which to colour the LEDs of the lap delta lights. Enable this option to colour the LEDs according to time slip rate."/>
                     <Label x:Name="DeltaMessageLabel" Content="Display Lap Delta Status Messages on Screen: " HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="DeltaRangeLabel" Content="Delta Range: " HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="deltaMessageScreenCBox" HorizontalAlignment="Left" Margin="269,85,0,0" VerticalAlignment="Top" Width="75"/>
-                    <ComboBox x:Name="deltaRangeCBox" HorizontalAlignment="Left" Margin="95,54,0,0" VerticalAlignment="Top" Width="101"/>
+                    <ComboBox x:Name="deltaMessageScreenCBox" HorizontalAlignment="Left" Margin="269,85,0,0" VerticalAlignment="Top" Width="75" ToolTip="The display unit to show the lap delta status messages on."/>
+                    <ComboBox x:Name="deltaRangeCBox" HorizontalAlignment="Left" Margin="95,54,0,0" VerticalAlignment="Top" Width="101" ToolTip="Delta range to use for delta LED lights. The minimum and maximum values that will scale the LEDs to the display unit."/>
                 </Grid>
             </TabItem>
         </TabControl>

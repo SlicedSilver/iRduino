@@ -23,43 +23,43 @@
         <Label Content="LEDs Configuration" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
                FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Foreground="#FF057DAA" />
         <TabControl Margin="10,60,10,5">
-            <TabItem Header="Shift Lights">
+            <TabItem Header="Shift Lights" ToolTip="LED options relating to shift lights">
                 <Grid Background="White">
                     <CheckBox x:Name="ShowShiftLightsCheck" Content="Show Shift Lights" HorizontalAlignment="Left"
         				Margin="10,14,0,0" VerticalAlignment="Top" Unchecked="ShowShiftLightsCheckUnchecked"
-        				Checked="ShowShiftLightsCheckChecked" />
+        				Checked="ShowShiftLightsCheckChecked" ToolTip="Whether to show shift lights on this unit." />
                     <Label x:Name="ShiftLightStyleLabel" Content="Shift Light Style: " HorizontalAlignment="Left" Margin="30,35,0,0" VerticalAlignment="Top" />
-                    <ComboBox x:Name="ShiftLightStyleCBox" Margin="165,35,10,0" VerticalAlignment="Top" IsEnabled="False" />
+                    <ComboBox x:Name="ShiftLightStyleCBox" Margin="165,35,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Shift lights style to use." />
                     <CheckBox x:Name="ShiftClumpsCheck" Content="3-Segment Shift Lights" HorizontalAlignment="Left"
-        				Margin="36,62,0,0" VerticalAlignment="Top" IsEnabled="False" />
-                    <CheckBox x:Name="MatchShiftLightsCheck" Content="Try Match Car Shift Lights Style?" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Checked="MatchShiftLightsCheckChecked" Unchecked="MatchShiftLightsCheckUnchecked" IsEnabled="False"/>
+        				Margin="36,62,0,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Group shift lights into 3 groups (like the FW31 F1 car)." />
+                    <CheckBox x:Name="MatchShiftLightsCheck" Content="Try Match Car Shift Lights Style?" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Checked="MatchShiftLightsCheckChecked" Unchecked="MatchShiftLightsCheckUnchecked" IsEnabled="False" ToolTip="Adjust shift lights style to match current car in iRacing. Reverts to &quot;Shift Light Style&quot; above if no match is found."/>
                     <Label x:Name="MatchStyleOptionLabel" Content="Match Style Option: " HorizontalAlignment="Left" Margin="36,109,0,0" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="MatchShiftLightsOptionCBox" Margin="165,109,10,0" VerticalAlignment="Top" IsEnabled="False"/>
-                    <CheckBox x:Name="UseRedShiftCheck" Content="Change LED Colour to Red at Shift Point" HorizontalAlignment="Left" Margin="45,136,0,0" VerticalAlignment="Top" IsEnabled="False"/>
+                    <ComboBox x:Name="MatchShiftLightsOptionCBox" Margin="165,109,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Select the matched shift lights display option for this unit."/>
+                    <CheckBox x:Name="UseRedShiftCheck" Content="Change LED Colour to Red at Shift Point" HorizontalAlignment="Left" Margin="45,136,0,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Change all LEDs to Red at shift point."/>
                     <Button x:Name="PreviewShiftLightsButton" Content="Preview shift lights" HorizontalAlignment="Right"
-        				Margin="0,181,205,0" VerticalAlignment="Top" Width="150" />
+        				Margin="0,181,205,0" VerticalAlignment="Top" Width="150" ToolTip="Preview the current shift lights options on the display units. Need to be connected to the Arduino with iRacing not running." />
                 </Grid>
             </TabItem>
-            <TabItem Header="Other Lights">
+            <TabItem Header="Other Lights" ToolTip="Other LED options.">
                 <Grid Background="White">
                     <CheckBox x:Name="ShowRevLightsCheck" Content="Show Rev Limiter Lights" HorizontalAlignment="Left"
         				Margin="10,89,0,0" VerticalAlignment="Top" Unchecked="ShowRevLightsCheckUnchecked"
-        				Checked="ShowRevLightsCheckChecked" />
+        				Checked="ShowRevLightsCheckChecked" ToolTip="Show Rev Limiter lights on this unit." />
                     <CheckBox x:Name="ShowFFBCheck" Content="Show FFB Clipping Lights" HorizontalAlignment="Left"
         				Margin="10,141,0,0" VerticalAlignment="Top" Unchecked="ShowFFBCheckUnchecked"
-        				Checked="ShowFFBCheckChecked" />
+        				Checked="ShowFFBCheckChecked" ToolTip="Show FFB clipping lights. Will overwrite other light options for the screen specified below." />
                     <CheckBox x:Name="ShowPitLightsCheck" Content="Show Pit Limiter Lights" HorizontalAlignment="Left"
         				Margin="10,11,0,0" VerticalAlignment="Top" Unchecked="ShowPitLightsCheckUnchecked"
-        				Checked="ShowPitLightsCheckChecked" />
+        				Checked="ShowPitLightsCheckChecked" ToolTip="Show pit limiter lights on this unit." />
                     <Label x:Name="PitLimiterStyleLabel" Content="Pit Limter Style: " HorizontalAlignment="Left" Margin="30,32,0,0" VerticalAlignment="Top" />
                     <Label x:Name="PitLimiterFlashSpeedLabel" Content="Pit Limiter Flash Speed:" HorizontalAlignment="Left" Margin="30,58,0,0"
         				VerticalAlignment="Top" />
                     <Label x:Name="FFBWhichScreenLabel" Content="Which Screen:" HorizontalAlignment="Left" Margin="30,162,0,0" VerticalAlignment="Top" />
                     <Label x:Name="RevLimiterStyleLabel" Content="Rev Limiter Style:" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top" />
-                    <ComboBox x:Name="PitLightStyleCBox" Margin="165,32,10,0" VerticalAlignment="Top" IsEnabled="False" />
-                    <ComboBox x:Name="PitLightSpeedCBox" Margin="165,58,10,0" VerticalAlignment="Top" IsEnabled="False" />
-                    <ComboBox x:Name="RevLightStyleCBox" Margin="165,110,10,0" VerticalAlignment="Top" IsEnabled="False" />
-                    <ComboBox x:Name="FFBClipScreenCBox" Margin="165,162,10,0" VerticalAlignment="Top" IsEnabled="False" />
+                    <ComboBox x:Name="PitLightStyleCBox" Margin="165,32,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Style of pit limiter lights to use on this unit." />
+                    <ComboBox x:Name="PitLightSpeedCBox" Margin="165,58,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Flashing speed (rate) of the pit limiter lights." />
+                    <ComboBox x:Name="RevLightStyleCBox" Margin="165,110,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="Style of rev limiter lights to use on this unit." />
+                    <ComboBox x:Name="FFBClipScreenCBox" Margin="165,162,10,0" VerticalAlignment="Top" IsEnabled="False" ToolTip="The screen number on which to display the FFB clipping lights." />
                 </Grid>
             </TabItem>
 
