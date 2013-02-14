@@ -361,7 +361,7 @@ namespace iRduino.Classes
                 RequestedSLIDisplayVariables.Add(new SLIDisplayVariables());
                 CurrentScreen.Add(0);
             }
-            displayRefreshRateFactor = 30 / CurrentConfiguration.DisplayRefreshRate;
+            displayRefreshRateFactor = this.telemetryRefreshRate / CurrentConfiguration.DisplayRefreshRate;
             useFuelCalcs = false;
             useDeltaTiming = true; // Add Checks for whether to log delta variables
             useLapTiming = false;
@@ -558,10 +558,9 @@ namespace iRduino.Classes
             TrackSurfaces mySurface = surfaces[Wrapper.DriverId]; // Your car data is at your id index;
             if (refreshCount % 15 == 0)
             {
-                this._2NdLastTrackSurface = this.lastTrackSurface;
+                this._2NdLastTrackSurface = this.lastTrackSurface; //used for DC Vars
             }
             this.lastTrackSurface = mySurface;
-
             if (useLapTiming)
             {
                 updateTime = this.TelemetryLapTimer(e, mySurface, updateTime);

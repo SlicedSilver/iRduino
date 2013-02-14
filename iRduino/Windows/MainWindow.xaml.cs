@@ -269,7 +269,7 @@ namespace iRduino.Windows
             this.wrapper = new SdkWrapper
                 {
                     EventRaiseType = SdkWrapper.EventRaiseTypes.CurrentThread,
-                    TelemetryUpdateFrequency = 60//60  //NEWBUILD
+                    TelemetryUpdateFrequency = 30//60  //NEWBUILD
                 };
             // Tell it to raise events on the current thread (don't worry if you don't know what a thread is)
             // Only update telemetry 60 times per second
