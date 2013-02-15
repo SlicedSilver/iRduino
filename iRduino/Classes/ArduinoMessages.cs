@@ -50,7 +50,7 @@ namespace iRduino.Classes
             messageData[++serialCount] = Convert.ToByte(IntValueCheck(tmStringMessage.Intensity, 0, Constants.MaxIntensityTM));
             for (int i = 0; i < tmStringMessage.Display.Count; i++)
             {
-                messageData[++serialCount] = Convert.ToByte(i+1); //unit number
+                //messageData[++serialCount] = Convert.ToByte(i+1); //unit number
                 int textLength;
                 BitArray dotsArray;
                 var display = TMDisplayStringConverter(tmStringMessage, i, out textLength, out dotsArray);
