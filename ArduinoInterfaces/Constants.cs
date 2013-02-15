@@ -21,7 +21,7 @@ namespace ArduinoInterfaces
 
         public const byte MessageStartByte1 = 255;
 
-        public const byte MessageStartByte2 = 37;
+        //public const byte MessageStartByte2 = 37;
 
         public const byte MessageEndByte = 180;
 
@@ -42,5 +42,14 @@ namespace ArduinoInterfaces
         public const int TM1638MessageLength = 11;
 
         public const int TM1640MessageLength = TM1638MessageLength + ExtraMessageLengthTM1640;
+
+// ReSharper disable InconsistentNaming
+        public const byte MessageID_TMString = 37;
+
+        public const byte MessageID_TMLED = 42;
+
+        public const byte MessageID_Clear = 170;
+
+        // ReSharper restore InconsistentNaming
     }
 }

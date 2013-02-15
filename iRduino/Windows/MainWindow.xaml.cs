@@ -27,9 +27,10 @@ namespace iRduino.Windows
     /// </summary>
     public partial class MainWindow
     {
-        public DisplayManager DisplayMngr = new DisplayManager();
+        public DisplayManager DisplayMngr;
         public bool OptionsWindowOpen = false;
         public ArduinoLink ArduinoConnection;
+        public ArduinoMessages ArduinoMessagesObject;
         private OptionsWindow optionsWindow;
         private SdkWrapper wrapper;
         private readonly BitmapImage startImage;
@@ -221,10 +222,9 @@ namespace iRduino.Windows
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count;
                 var tm1640Units =
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(item => item.IsTM1640).ToList();
-                bool useDx = this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count > 0;
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
                           DisplayMngr.CurrentConfiguration.SerialPortSpeed,
-                          DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, useDx, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
+                          DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
                 DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency);
                 DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
@@ -247,11 +247,25 @@ namespace iRduino.Windows
         private void StatusLightMouseDown(object sender, MouseButtonEventArgs e)
         {
             DisplayMngr.Test = true;
-            this.ArduinoConnection.Test();
+            this.TMDisplayTest();
+
+        }
+
+        public void TMDisplayTest()
+        {
+            if (!this.ArduinoConnection.Running)
+            {
+                return;
+            }
+            var unitTypes =
+                    this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(disp => disp.IsTM1640)
+                        .ToList();
+            this.ArduinoMessagesObject.TMDisplayTest(unitTypes, this.ArduinoConnection);
         }
 
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            DisplayMngr = new DisplayManager(this);
             String[] ports = ArduinoLink.CheckComPorts();
             foreach (var item in ports)
             {
@@ -261,9 +275,10 @@ namespace iRduino.Windows
             StartButtonLabel.Content = "Start";
             StartButtonImage.Source = this.startImage;
             this.ArduinoConnection = new ArduinoLink();
+            ArduinoMessagesObject = new ArduinoMessages();
 
             this.ArduinoConnection.ButtonPress += this.ArduinoSLIButtonPress;
-            this.ArduinoConnection.TestFinished += this.ArduinoSLITestFinished;
+            this.ArduinoMessagesObject.TestFinished += this.ArduinoSLITestFinished;
 
             // Create a new instance of the SdkWrapper object
             this.wrapper = new SdkWrapper

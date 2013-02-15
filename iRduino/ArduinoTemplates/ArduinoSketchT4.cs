@@ -294,30 +294,23 @@ namespace iRduino.ArduinoTemplates
             
             #line default
             #line hidden
-            this.Write("\r\n#define startByte2 ");
-            
-            #line 147 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Constants.MessageStartByte2));
-            
-            #line default
-            #line hidden
             this.Write("\r\n#define endByte ");
             
-            #line 148 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 147 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Constants.MessageEndByte));
             
             #line default
             #line hidden
             this.Write("\r\n#define messageLength ");
             
-            #line 149 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 148 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(messageLength));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 151 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 150 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
 {
@@ -329,28 +322,28 @@ for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
             #line hidden
             this.Write("TM1640 module");
             
-            #line 157 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 156 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write("(TM1640dataPin");
             
-            #line 157 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 156 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(",TM1640clockPin");
             
-            #line 157 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 156 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(",false,0);\r\n");
             
-            #line 158 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 157 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
     }
     else
@@ -363,21 +356,21 @@ for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
             #line hidden
             this.Write("TM1638 module");
             
-            #line 165 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 164 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write("(dataPin,clockPin,strobePin");
             
-            #line 165 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 164 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(",false,0);\r\n");
             
-            #line 166 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 165 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
         }
         else
@@ -388,21 +381,21 @@ for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
             #line hidden
             this.Write("InvertedTM1638 module");
             
-            #line 171 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 170 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write("(dataPin,clockPin,strobePin");
             
-            #line 171 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 170 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(",false,0);\r\n");
             
-            #line 172 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 171 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
         }
     }
@@ -423,7 +416,7 @@ byte messageHolder[messageLength], message[messageLength-4], messagePosition = -
 void setup() {
 	Serial.begin(");
             
-            #line 187 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 186 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serialSpeed));
             
             #line default
@@ -477,7 +470,7 @@ void messageRead(byte _message[]){
 		unit = _message[i++];
 		if(");
             
-            #line 234 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 233 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(messageReadUnitCheck));
             
             #line default
@@ -506,7 +499,7 @@ void buttonsCheck(){
 	lastCheck = millis();
 ");
             
-            #line 256 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 255 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 	int buttonCount = 0;
 	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
@@ -519,21 +512,21 @@ void buttonsCheck(){
             #line hidden
             this.Write("\tbuttons[");
             
-            #line 263 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 262 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(buttonCount));
             
             #line default
             #line hidden
             this.Write("] = module");
             
-            #line 263 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 262 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".getButtons();\r\n");
             
-            #line 264 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 263 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 			buttonCount++;
 		}
@@ -564,7 +557,7 @@ void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
 	switch(unit){
 ");
             
-            #line 289 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 288 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
 	{
@@ -576,28 +569,28 @@ void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
             #line hidden
             this.Write("\t\tcase ");
             
-            #line 295 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 294 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(":\r\n\t\tmodule");
             
-            #line 296 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 295 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".setupDisplay(true,_intensity);\r\n\t\tmodule");
             
-            #line 297 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 296 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".setDisplay(_segments,16);\r\n\t\tbreak;\r\n");
             
-            #line 299 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 298 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 		}
 		else
@@ -608,35 +601,35 @@ void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
             #line hidden
             this.Write("\t\tcase ");
             
-            #line 304 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 303 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(":\r\n\t\tmodule");
             
-            #line 305 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 304 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".setupDisplay(true,_intensity);\r\n\t\tmodule");
             
-            #line 306 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 305 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".setLEDs(_leds);\r\n\t\tmodule");
             
-            #line 307 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 306 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p + 1));
             
             #line default
             #line hidden
             this.Write(".setDisplay(_segments);\r\n\t\tbreak;\r\n");
             
-            #line 309 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
+            #line 308 "C:\Users\a0017753\Documents\GitHub\iRduino\iRduino\ArduinoTemplates\ArduinoSketchT4.tt"
 
 		}
 	}

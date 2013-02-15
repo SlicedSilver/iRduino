@@ -144,7 +144,6 @@ iRduino - Arduino Sketch
 //////Setup Finished
 
 #define startByte1 <#= Constants.MessageStartByte1#>
-#define startByte2 <#= Constants.MessageStartByte2#>
 #define endByte <#= Constants.MessageEndByte#>
 #define messageLength <#= messageLength#>
 

@@ -16,10 +16,13 @@ namespace iRduino.Classes
     using System.Windows.Forms;
     using System.Windows.Threading;
 
+    using iRduino.Windows;
+
     public class DisplayManager
     {
         #region Public Fields Properties
 
+        public MainWindow hostApp;
         public ArduinoLink ArduinoConnection;
         public List<Configuration> Configurations = new List<Configuration>();
         public bool ConfSet = false;
@@ -87,8 +90,9 @@ namespace iRduino.Classes
         /// <summary>
         ///     Construcutor for Display Manager
         /// </summary>
-        public DisplayManager()
+        public DisplayManager(MainWindow host)
         {
+            this.hostApp = host;
             Intensity = 3;
             this.refreshCount = 0;
             Test = false;
@@ -324,15 +328,18 @@ namespace iRduino.Classes
                         newInt += CurrentConfiguration.ShiftIntensityAmount;
                     }
                 }
-                var dxMessage = new DxMessage
-                {
-                    DisplayList = displayList,
-                    Intensity = newInt,
-                    GreenLEDSList = greenLEDSList,
-                    RedLEDSList = redLEDSList,
-                    DotsList = dotsList
+                var tmLEDs = new TMLEDSMessage { 
+                    Green = greenLEDSList,
+                    Red = redLEDSList,
+                    Intensity = newInt
                 };
-                ArduinoConnection.SendStringMulti(dxMessage);
+                var tmDisplay = new TMStringMessage { 
+                    Display = displayList,
+                    Dots = dotsList,
+                    Intensity = newInt
+                };
+                ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessages.SendTMLEDS(tmLEDs));
+                ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessages.SendTMStrings(tmDisplay));
             }
         }
 

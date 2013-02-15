@@ -361,7 +361,7 @@ namespace iRduino.Classes
                 case ButtonFunctionsEnum.TestSerialLink:
                     disp.Test = true;
                     disp.WaitTime[0] = DateTime.Now.AddSeconds(1.7);
-                    disp.ArduinoConnection.Test();
+                    disp.hostApp.TMDisplayTest();
                     break;
                 case ButtonFunctionsEnum.LEDsOnOff:
                     if (disp.LEDSOn)
