@@ -180,6 +180,7 @@ namespace ArduinoInterfaces
 
         private void StartMessageConsumer()
         {
+            messageConsumerActive = true;
             Task.Factory.StartNew(() =>
             {
                 while (messageConsumerActive)
@@ -195,7 +196,10 @@ namespace ArduinoInterfaces
                             }
                         }
                     }
-                    //sleep?? 5ms?
+                    if (messageQueue.Count == 0)
+                    {
+                        Thread.Sleep(10);
+                    }
                 }
             });
         }

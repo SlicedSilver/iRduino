@@ -225,7 +225,7 @@ namespace iRduino.Windows
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
                           DisplayMngr.CurrentConfiguration.SerialPortSpeed,
                           DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
-                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency);
+                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
                 DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";

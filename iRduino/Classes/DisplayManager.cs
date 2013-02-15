@@ -50,6 +50,7 @@ namespace iRduino.Classes
         public List<bool> UseTripleSegmentStyle;
         public List<DateTime> WaitTime;
         public SdkWrapper Wrapper;
+        public List<bool> TM1640Units;
         #endregion Public Fields Properties
 
         #region Private Fields Properties
@@ -336,7 +337,8 @@ namespace iRduino.Classes
                 var tmDisplay = new TMStringMessage { 
                     Display = displayList,
                     Dots = dotsList,
-                    Intensity = newInt
+                    Intensity = newInt,
+                    UnitType =TM1640Units 
                 };
                 ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessages.SendTMLEDS(tmLEDs));
                 ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessages.SendTMStrings(tmDisplay));
@@ -346,9 +348,10 @@ namespace iRduino.Classes
         /// <summary>
         /// Setup Display Manager Instance before using the Start Method
         /// </summary>
-        public void SetupDisplayMngr(int telemetryRefreshRateParameter)
+        public void SetupDisplayMngr(int telemetryRefreshRateParameter, List<bool> tm1640Units)
         {
             this.telemetryRefreshRate = telemetryRefreshRateParameter;
+            this.TM1640Units = tm1640Units;
             CurrentConfiguration.NumDisplayUnits = CurrentConfiguration.DisplayConfigurations.Count;
             CurrentConfiguration.NumberControllers = CurrentConfiguration.ControllerConfigurations.Count;
             int units = CurrentConfiguration.NumDisplayUnits;

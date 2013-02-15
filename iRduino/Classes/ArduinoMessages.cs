@@ -43,7 +43,18 @@ namespace iRduino.Classes
 
         public static byte[] SendTMStrings(TMStringMessage tmStringMessage)
         {
-            int expectedLength = tmStringMessage.Display.Count + 1;
+            int expectedLength = 1;
+            foreach (var ut in tmStringMessage.UnitType)
+            {           
+                if (ut)
+                {
+                    expectedLength += 16;
+                }
+                else
+                {
+                    expectedLength += 8;
+                }
+            }
             if (expectedLength < 2) return null;
             byte[] messageData = new byte[expectedLength];
             int serialCount = -1;
@@ -64,7 +75,7 @@ namespace iRduino.Classes
                     {
                         messageData[++serialCount] = display[k];
                     }
-                    if (dotsArray[i])
+                    if (dotsArray[k])
                     {
                         messageData[serialCount] += 128; //doesn't increment serialCount because it alters last byte
                     }
@@ -177,7 +188,8 @@ namespace iRduino.Classes
                 return;
             }
             this.unitTypes = tmUnitTypes;
-            this.ArduinoConnection = currentArduinoConnection;   
+            this.ArduinoConnection = currentArduinoConnection;
+            this.testCounter = 0;
             this.testTimer.Start();
         }
 
@@ -215,7 +227,8 @@ namespace iRduino.Classes
             {
                 Display = displays,
                 Dots = dotsList,
-                Intensity = 3
+                Intensity = 3,
+                UnitType = this.unitTypes
             };
             ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, SendTMLEDS(tmLEDs));
             ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, SendTMStrings(tmDisplay));

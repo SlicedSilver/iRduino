@@ -586,7 +586,8 @@ namespace iRduino.Windows
                 {
                     Display = displays,
                     Dots = dots,
-                    Intensity = newInt
+                    Intensity = newInt,
+                    UnitType = this.hostApp.DisplayMngr.TM1640Units
                 };
                 this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessages.SendTMLEDS(tmLEDs));
                 this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessages.SendTMStrings(tmDisplay));
