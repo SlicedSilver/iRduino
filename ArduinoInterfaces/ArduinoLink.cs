@@ -159,6 +159,11 @@ namespace ArduinoInterfaces
         private int numberTM1640Units;
         private StringBuilder sb;
 
+        //Serial Reading Thread variables
+        private int[] serialReadHolder;
+        private int messagePosition;
+        private int checkerPosition;
+
         public bool Running { get; private set; }
 
 
@@ -287,9 +292,93 @@ namespace ArduinoInterfaces
         {
             //this.ReadSerialFromArduino();
             //newEdit
-            var t = new Thread(ReadSerialFromArduino);
+            var t = new Thread(ReadSerialMessages);
             t.Start();
         }
+
+
+        private void ReadSerialMessages()
+        {
+            if (serialReadHolder == null)
+            {
+                serialReadHolder = new int[128];
+                messagePosition = new Int32();
+                messagePosition = -1;
+            }
+            if (sp.BytesToRead > 0)
+            {
+                messagePosition++;
+                if (messagePosition == 128) messagePosition = 0;
+                serialReadHolder[messagePosition] = sp.ReadByte();
+
+                if (serialReadHolder[messagePosition] != Constants.MessageEndByte) return; //end byte
+                checkerPosition = (messagePosition == 0) ? 128 - 1 : messagePosition - 1;
+                int messageLength = serialReadHolder[checkerPosition]; //messageLength
+                if (checkerPosition >= messageLength + 3)
+                {
+                    checkerPosition = checkerPosition - messageLength - 3;
+                }
+                else
+                {
+                    checkerPosition = checkerPosition + 128 - messageLength - 3;
+                }
+                if (serialReadHolder[checkerPosition] != Constants.MessageStartByte1) return; //start byte1
+                checkerPosition++;
+
+                byte sum = 0;
+                int readCount = 0;
+                int[] md = new int[messageLength+1];
+                while (readCount <= messageLength)
+                {
+                    if (checkerPosition == 128) checkerPosition = 0;
+                    md[readCount] = serialReadHolder[checkerPosition];
+                    unchecked
+                    {
+                        sum += Convert.ToByte(serialReadHolder[checkerPosition]);
+                    }
+                    readCount++;
+                    checkerPosition++;
+                }
+                if (checkerPosition == 128) checkerPosition = 0;
+                if (sum == serialReadHolder[checkerPosition])
+                {
+                    switch (md[0])
+                    {
+                        case 55: TM1638ButtonsMessageReader(md);
+                            break;
+                    }
+                }
+
+            }
+
+        }
+
+
+        private void TM1638ButtonsMessageReader(int[] messageData)
+        {
+            int readPos = 1;
+            for (int u = 1; u <= this.numberUnits; u++)
+            {
+                if (this.tm1640Units[u - 1])
+                {
+                    continue;
+                }
+                this.buttonsRead = messageData[readPos++];
+                if (this.buttonsRead != -1)
+                {
+                    this.butByte[0] = Convert.ToByte(this.buttonsRead);
+                    this.buttons = new BitArray(this.butByte);
+                    for (var i = 0; i < Constants.NumberButtonsOnTm1638; i++)
+                    {
+                        if (this.buttons[i])
+                        {
+                            Invoke(ref this.ButtonPress, u, i + 1);
+                        }
+                    }
+                }
+            }
+        }
+
 
         private void ReadSerialFromArduino()
         {

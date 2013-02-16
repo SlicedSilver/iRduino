@@ -138,7 +138,7 @@ iRduino - Arduino Sketch
         }
     }
 #>
-#define NumberUnit <#= configurationOptions.DisplayUnitConfigurations.Count #>
+#define NumberUnits <#= configurationOptions.DisplayUnitConfigurations.Count #>
 #define NumberTM1638Units <#= configurationOptions.DisplayUnitConfigurations.Count - numberTm1640S #>
 //////Setup Finished
 
@@ -195,7 +195,7 @@ void loop() {
 	buttonsCheck();
 	if (Serial.available() > 0){
 		messagePosition++;
-		if(messagePosition == messageLength) messagePosition = 0;
+		if(messagePosition == messageBufferSize) messagePosition = 0;
 		messageHolder[messagePosition] = Serial.read();
 		messageChecker();
 	}
@@ -203,10 +203,17 @@ void loop() {
 
 void messageChecker()
 {
-	if(messageHolder[checkerPosition] != endByte) return; //end byte
+	if(messageHolder[messagePosition] != endByte) return; //end byte
 	checkerPosition = (messagePosition == 0) ? messageBufferSize-1 : messagePosition - 1;
 	messageLength = messageHolder[checkerPosition]; //messageLength
-	checkerPosition = (checkerPosition >= messageLength + 3) ? checkerPosition - messageLength - 3 : checkerPosition + messageBufferSize - messageLength - 3;
+	if(checkerPosition >= messageLength + 3)
+	{
+		checkerPosition = checkerPosition - messageLength - 3;
+	}
+	else
+	{
+		checkerPosition = checkerPosition + messageBufferSize - messageLength - 3;
+	}
 	if(messageHolder[checkerPosition]!= startByte1) return; //start byte1
 	checkerPosition++;
 	messageExtract(messageLength);
@@ -216,7 +223,7 @@ void messageExtract(byte _length)
 {
 	sum = 0;
 	readCount = 0;
-	while (readCount < _length)
+	while (readCount <= _length)
 	{
 		if(checkerPosition == messageBufferSize) checkerPosition = 0;
 		md[readCount] = messageHolder[checkerPosition];
@@ -224,6 +231,7 @@ void messageExtract(byte _length)
 		readCount++;
 		checkerPosition++;
 	}
+	if(checkerPosition == messageBufferSize) checkerPosition = 0;
 	if(sum == messageHolder[checkerPosition])
 	{
 		switch(md[0])
@@ -288,21 +296,17 @@ void ClearEverything(){
 		if (configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
 		{
 #>
-		case <#= p + 1#>:
 		module<#= p + 1#>.setupDisplay(true,0);
 		module<#= p + 1#>.setDisplayToString("                ");
 		module<#= p + 1#>.setLEDs(0);
-		break;
 <#
 		}
 		else
 		{
 #>
-		case <#= p + 1#>:
 		module<#= p + 1#>.setupDisplay(true,0);
 		module<#= p + 1#>.setDisplayToString("        ");
 		module<#= p + 1#>.setLEDs(0);
-		break;
 <#
 		}
 	}
@@ -336,11 +340,17 @@ void buttonsCheck(){
 	}
 	if(sendButtons){
 		Serial.write(startByte1);
+        Serial.write(55); //Message ID
+        sum = 55;
 		for(int u = 0; u < NumberTM1638Units; u++)
 		{
 			lastButtonSend[u] = buttons[u];
 			Serial.write(lastButtonSend[u]);
+            sum += lastButtonSend[u];
 		}
+        Serial.write(sum); //checksum
+        Serial.write(NumberTM1638Units);
+        Serial.write(endByte);
 	}
 }
 

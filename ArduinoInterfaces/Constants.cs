@@ -50,6 +50,8 @@ namespace ArduinoInterfaces
 
         public const byte MessageID_Clear = 170;
 
+        public const byte MessageID_TM1638Buttons = 55;
+
         // ReSharper restore InconsistentNaming
     }
 }

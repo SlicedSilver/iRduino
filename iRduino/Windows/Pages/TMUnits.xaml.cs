@@ -74,7 +74,7 @@ namespace iRduino.Windows.Pages
             //Setup Data Binding
             var displayRateBinding = new Binding("DisplayRefreshRate") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.DisplayRefreshCBox, Selector.SelectedValueProperty, displayRateBinding);
-            var ledRateBinding = new Binding("DisplayRefreshRate") { Mode = BindingMode.TwoWay };
+            var ledRateBinding = new Binding("LEDRefreshRate") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.LEDRefreshCBox, Selector.SelectedValueProperty, ledRateBinding);
             var numberDisplayBinding = new Binding("NumberDisplays") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.NumberDisplayUnitsCBox, Selector.SelectedIndexProperty, numberDisplayBinding);
