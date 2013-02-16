@@ -57,12 +57,23 @@
             </TabItem>
             <TabItem Header="Delta Timing" ToolTip="TM display unit options relating to lap delta timing.">
                 <Grid Background="White">
-                    <CheckBox x:Name="deltaDefaultOnCheck" Content="Display Lap Delta LED Lights as Default?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Whether to display the lap delta LEDs by default on startup."/>
-                    <CheckBox x:Name="deltaColourCheck" Content="Delta LED Colour Style by Time Slip Rate?" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" ToolTip="Method by which to colour the LEDs of the lap delta lights. Enable this option to colour the LEDs according to time slip rate."/>
+                    <CheckBox x:Name="DeltaDefaultOnCheck" Content="Display Lap Delta LED Lights as Default?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Whether to display the lap delta LEDs by default on startup."/>
+                    <CheckBox x:Name="DeltaColourCheck" Content="Delta LED Colour Style by Time Slip Rate?" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" ToolTip="Method by which to colour the LEDs of the lap delta lights. Enable this option to colour the LEDs according to time slip rate."/>
                     <Label x:Name="DeltaMessageLabel" Content="Display Lap Delta Status Messages on Screen: " HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="DeltaRangeLabel" Content="Delta Range: " HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="deltaMessageScreenCBox" HorizontalAlignment="Left" Margin="269,85,0,0" VerticalAlignment="Top" Width="75" ToolTip="The display unit to show the lap delta status messages on."/>
-                    <ComboBox x:Name="deltaRangeCBox" HorizontalAlignment="Left" Margin="95,54,0,0" VerticalAlignment="Top" Width="101" ToolTip="Delta range to use for delta LED lights. The minimum and maximum values that will scale the LEDs to the display unit."/>
+                    <ComboBox x:Name="DeltaMessageScreenCBox" HorizontalAlignment="Left" Margin="269,85,0,0" VerticalAlignment="Top" Width="75" ToolTip="The display unit to show the lap delta status messages on."/>
+                    <ComboBox x:Name="DeltaRangeCBox" HorizontalAlignment="Left" Margin="95,54,0,0" VerticalAlignment="Top" Width="101" ToolTip="Delta range to use for delta LED lights. The minimum and maximum values that will scale the LEDs to the display unit."/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Refresh Rates" ToolTip="Refresh (update) rates for all the TM units">
+                <Grid Background="White">
+                    <Label Content="LEDs Refresh Rate:" HorizontalAlignment="Left" VerticalAlignment="Top"
+                		Margin="10,10,0,0" />
+                    <Label Content="Display Refresh Rate:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
+                    <ComboBox x:Name="LEDRefreshCBox" HorizontalAlignment="Left" Margin="185,10,0,0" VerticalAlignment="Top"
+                		Width="74" ToolTip="Refresh Rate of the LEDs on all the TM units" />
+                    <ComboBox x:Name="DisplayRefreshCBox" HorizontalAlignment="Left" Margin="185,41,0,0" VerticalAlignment="Top"
+                		Width="74" ToolTip="Refresh Rate of the display on all the TM units" />
                 </Grid>
             </TabItem>
         </TabControl>

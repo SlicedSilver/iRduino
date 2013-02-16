@@ -7,8 +7,6 @@ namespace ArduinoInterfaces
 
     public class Constants
     {
-        public const int ExtraMessageLengthTM1640 = 6;
-
         public const int MaxNumberTM1638Units = 6;
 
         public const int NumberButtonsOnTm1638 = 8;
@@ -37,11 +35,13 @@ namespace ArduinoInterfaces
 
         public const int MessageHeaderLength = 3; //start bytes and intensity
 
-        public const int MessageFooterLength = 2; //checksum & end byte
+        public const int MessageFooterLength = 3; //checksum & end byte
 
-        public const int TM1638MessageLength = 11;
+        public const int TM1638MessageLength = 8;
 
-        public const int TM1640MessageLength = TM1638MessageLength + ExtraMessageLengthTM1640;
+        public const int TM1638LEDMessageLength = 2;
+
+        public const int TM1640MessageLength = TM1638MessageLength + 8;
 
 // ReSharper disable InconsistentNaming
         public const byte MessageID_TMString = 37;
