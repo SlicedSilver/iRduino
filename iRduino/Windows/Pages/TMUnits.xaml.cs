@@ -59,13 +59,23 @@ namespace iRduino.Windows.Pages
             var temp = (ConfigurationOptions)this.DataContext;
             for (int i = 0; i < temp.DisplayUnitConfigurations.Count; i++)
             {
-                this.deltaMessageScreenCBox.Items.Add((i + 1).ToString(CultureInfo.InvariantCulture));
+                this.DeltaMessageScreenCBox.Items.Add((i + 1).ToString(CultureInfo.InvariantCulture));
             }
-            this.deltaRangeCBox.Items.Add("-0.5 / +0.5 seconds");
-            this.deltaRangeCBox.Items.Add("-1.0 / +1.0 seconds");
-            this.deltaRangeCBox.Items.Add("-1.5 / +1.5 seconds");
-            this.deltaRangeCBox.Items.Add("-2.0 / +2.0 seconds");
+
+            foreach (var item in Classes.AdvancedOptions.RefreshRates)
+            {
+                this.DisplayRefreshCBox.Items.Add(item.ToString(CultureInfo.InvariantCulture));
+                this.LEDRefreshCBox.Items.Add(item.ToString(CultureInfo.InvariantCulture));
+            }
+            this.DeltaRangeCBox.Items.Add("-0.5 / +0.5 seconds");
+            this.DeltaRangeCBox.Items.Add("-1.0 / +1.0 seconds");
+            this.DeltaRangeCBox.Items.Add("-1.5 / +1.5 seconds");
+            this.DeltaRangeCBox.Items.Add("-2.0 / +2.0 seconds");
             //Setup Data Binding
+            var displayRateBinding = new Binding("DisplayRefreshRate") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.DisplayRefreshCBox, Selector.SelectedValueProperty, displayRateBinding);
+            var ledRateBinding = new Binding("LEDRefreshRate") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.LEDRefreshCBox, Selector.SelectedValueProperty, ledRateBinding);
             var numberDisplayBinding = new Binding("NumberDisplays") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.NumberDisplayUnitsCBox, Selector.SelectedIndexProperty, numberDisplayBinding);
             var lapDisplayTimeBinding = new Binding("LapTimeDisplayTime") { Mode = BindingMode.TwoWay };
@@ -89,13 +99,13 @@ namespace iRduino.Windows.Pages
                                          shiftIntensityAmountBinding);
 
             var deltaDefaultBinding = new Binding("DeltaLightsOnDefault") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(this.deltaDefaultOnCheck, ToggleButton.IsCheckedProperty, deltaDefaultBinding);
+            BindingOperations.SetBinding(this.DeltaDefaultOnCheck, ToggleButton.IsCheckedProperty, deltaDefaultBinding);
             var deltaColourBinding = new Binding("ColourDeltaByDD") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(this.deltaColourCheck, ToggleButton.IsCheckedProperty, deltaColourBinding);
+            BindingOperations.SetBinding(this.DeltaColourCheck, ToggleButton.IsCheckedProperty, deltaColourBinding);
             var deltaRangeBinding = new Binding("DeltaRange") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(this.deltaRangeCBox, Selector.SelectedIndexProperty, deltaRangeBinding);
+            BindingOperations.SetBinding(this.DeltaRangeCBox, Selector.SelectedIndexProperty, deltaRangeBinding);
             var deltaMessageScreenBinding = new Binding("DeltaMessageScreen") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(this.deltaMessageScreenCBox, Selector.SelectedIndexProperty, deltaMessageScreenBinding);
+            BindingOperations.SetBinding(this.DeltaMessageScreenCBox, Selector.SelectedIndexProperty, deltaMessageScreenBinding);
         }
 
         private void ShiftIntensityCheckChecked(object sender, RoutedEventArgs e)

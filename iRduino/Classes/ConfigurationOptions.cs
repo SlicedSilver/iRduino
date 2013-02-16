@@ -48,6 +48,8 @@ namespace iRduino.Classes
 
         public string DisplayRefreshRate { get; set; }
 
+        public string LEDRefreshRate { get; set; }
+
         public string SerialPortSpeed { get; set; }
 
         public bool LogArduinoMessages { get; set; }
@@ -86,6 +88,7 @@ namespace iRduino.Classes
             LogArduinoMessages = configuration.LogArduinoMessages;
             SerialPortSpeed = configuration.SerialPortSpeed.ToString(CultureInfo.InvariantCulture);
             DisplayRefreshRate = configuration.DisplayRefreshRate.ToString(CultureInfo.InvariantCulture);
+            LEDRefreshRate = configuration.LEDRefreshRate.ToString(CultureInfo.InvariantCulture);
             UseCustomSerialSpeed = configuration.UseCustomSerialSpeed;
             ColourDeltaByDD = configuration.ColourDeltaByDD;
             DeltaLightsOnDefault = configuration.DeltaLightsOnDefault;
@@ -229,8 +232,11 @@ namespace iRduino.Classes
                                      SerialPortSpeed =
                                          AdvancedOptions.ParseSerialSpeedString(this.SerialPortSpeed),
                                      DisplayRefreshRate =
-                                         AdvancedOptions.ParseDisplayRefreshRatesString(
+                                         AdvancedOptions.ParseRefreshRatesString(
                                              this.DisplayRefreshRate),
+                                     LEDRefreshRate =
+                                 AdvancedOptions.ParseRefreshRatesString(
+                                     this.LEDRefreshRate),
                                      UseCustomFuelCalculationOptions = UseCustomFuelCalculationOptions,
                                      UseWeightedFuelCalculations = UseWeightedFuelCalculations,
                                      FuelCalculationLaps = FuelCalculationLaps + 2
@@ -257,7 +263,7 @@ namespace iRduino.Classes
 
                 }
                 returnConf.SerialPortSpeed = AdvancedOptions.CalculateRecommendSerialSpeed(
-                returnConf.DisplayRefreshRate, numberTM1638, numberTM1640);
+                returnConf.DisplayRefreshRate,returnConf.LEDRefreshRate, numberTM1638, numberTM1640);
             }
             //int controllerCount = 0;
             foreach (ControllerButtonConfiguration item in ControllerConfigurations)
