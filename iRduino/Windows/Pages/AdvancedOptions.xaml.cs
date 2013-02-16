@@ -19,7 +19,6 @@ namespace iRduino.Windows.Pages
         private ConfigurationOptions temp;
 
         private int numberTM1638;
-        private string refreshString;
         private int numberTM1640;
         
         public AdvancedOptions()
@@ -49,10 +48,6 @@ namespace iRduino.Windows.Pages
             {
                 this.FuelLapsCBox.Items.Add(x.ToString(CultureInfo.InvariantCulture));
             }
-            foreach (var item in Classes.AdvancedOptions.DisplayRefreshRates)
-            {
-                this.TMRefreshRateCBox.Items.Add(item.ToString(CultureInfo.InvariantCulture));
-            }
             foreach (var item in Classes.AdvancedOptions.SerialSpeeds)
             {
                 this.SerialSpeedCBox.Items.Add(item.ToString(CultureInfo.InvariantCulture));
@@ -68,12 +63,9 @@ namespace iRduino.Windows.Pages
                     this.numberTM1638++;
                 }
             }
-            this.refreshString = this.TMRefreshRateCBox.SelectedValue == null ? "" : this.TMRefreshRateCBox.SelectedValue.ToString();
-            this.RecommendSpeed.Content = Classes.AdvancedOptions.CalculateRecommendSerialSpeed(Classes.AdvancedOptions.ParseDisplayRefreshRatesString(this.refreshString),
+            this.RecommendSpeed.Content = Classes.AdvancedOptions.CalculateRecommendSerialSpeed(Classes.AdvancedOptions.ParseRefreshRatesString(temp.DisplayRefreshRate), Classes.AdvancedOptions.ParseRefreshRatesString(temp.LEDRefreshRate),
                 this.numberTM1638, this.numberTM1640);
             //databinding
-            var displayRateBinding = new Binding("DisplayRefreshRate") { Mode = BindingMode.TwoWay };
-            BindingOperations.SetBinding(this.TMRefreshRateCBox, Selector.SelectedValueProperty, displayRateBinding);
             var useCustomSpeedBinding = new Binding("UseCustomSerialSpeed") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.UseCustomSpeedCheck, ToggleButton.IsCheckedProperty, useCustomSpeedBinding);
             var serialSpeedBinding = new Binding("SerialPortSpeed") { Mode = BindingMode.TwoWay };
@@ -86,14 +78,6 @@ namespace iRduino.Windows.Pages
             BindingOperations.SetBinding(this.WeightedFuelCheck, ToggleButton.IsCheckedProperty, useWeightedFuelBinding);
             var fuelLapsBinding = new Binding("FuelCalculationLaps") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.FuelLapsCBox, Selector.SelectedIndexProperty, fuelLapsBinding);
-        }
-
-        private void TMRefreshRateCBoxSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            this.refreshString = this.TMRefreshRateCBox.SelectedValue == null ? "" : this.TMRefreshRateCBox.SelectedValue.ToString();
-            this.RecommendSpeed.Content = Classes.AdvancedOptions.CalculateRecommendSerialSpeed(Classes.AdvancedOptions.ParseDisplayRefreshRatesString(this.refreshString),
-                this.numberTM1638, this.numberTM1640);
-            
         }
 
         private void UseCustomFuelOptionsCheckChecked(object sender, RoutedEventArgs e)

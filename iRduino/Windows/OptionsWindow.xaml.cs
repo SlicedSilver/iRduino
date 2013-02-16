@@ -576,15 +576,21 @@ namespace iRduino.Windows
                         newInt += this.configurationOptions.ShiftIntensityAmount;
                     }
                 }
-                var dxMessage = new DxMessage
+                var tmLEDs = new TMLEDSMessage
                 {
-                    DisplayList = displays,
-                    Intensity = newInt,
-                    GreenLEDSList = greens,
-                    RedLEDSList = reds,
-                    DotsList = dots
+                    Green = greens,
+                    Red = reds,
+                    Intensity = newInt
                 };
-                this.hostApp.ArduinoConnection.SendStringMulti(dxMessage);
+                var tmDisplay = new TMStringMessage
+                {
+                    Display = displays,
+                    Dots = dots,
+                    Intensity = newInt,
+                    UnitType = this.hostApp.DisplayMngr.TM1640Units
+                };
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessages.SendTMLEDS(tmLEDs));
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessages.SendTMStrings(tmDisplay));
                 this.shiftPreviewRpm += 50;
             }
             else

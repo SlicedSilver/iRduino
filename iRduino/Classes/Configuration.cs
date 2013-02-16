@@ -28,7 +28,8 @@ namespace iRduino.Classes
         public int SerialPortSpeed;
         public bool UseCustomSerialSpeed;
         public bool LogArduinoMessages;
-        public int DisplayRefreshRate;
+        public int DisplayRefreshRate = 15;
+        public int LEDRefreshRate = 30;
         public int QuickInfoDisplayTime;
         public bool ShiftIntensity;
         public int ShiftIntensityAmount;
@@ -105,6 +106,9 @@ namespace iRduino.Classes
                                 break;
                             case "DisplayRefreshRate":
                                 int.TryParse(value, out newConf.DisplayRefreshRate);
+                                break;
+                            case "LEDRefreshRate":
+                                int.TryParse(value, out newConf.LEDRefreshRate);
                                 break;
                             case "UseCustomFuelCalculations":
                                 Boolean.TryParse(value, out newConf.UseCustomFuelCalculationOptions);
@@ -458,6 +462,7 @@ namespace iRduino.Classes
             sb.AppendLine(String.Format("{0},{1}", "UseCustomSerialSpeed", conf.UseCustomSerialSpeed));
             sb.AppendLine(String.Format("{0},{1}", "LogArduinoMessages", conf.LogArduinoMessages));
             sb.AppendLine(String.Format("{0},{1}", "DisplayRefreshRate", conf.DisplayRefreshRate));
+            sb.AppendLine(String.Format("{0},{1}", "LEDRefreshRate", conf.LEDRefreshRate));
             sb.AppendLine(String.Format("{0},{1}", "UseCustomFuelCalculations", conf.UseCustomFuelCalculationOptions));
             sb.AppendLine(String.Format("{0},{1}", "UseWeightedFuelCalculation", conf.UseWeightedFuelCalculations));
             sb.AppendLine(String.Format("{0},{1}", "CustomFuelLaps", conf.FuelCalculationLaps));
