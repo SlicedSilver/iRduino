@@ -105,7 +105,7 @@ namespace iRduino.Classes
             }
             List<byte> ledScaleLeftToRight = new List<byte> { 1, 3, 7, 15, 31, 63, 127, 255 };
             double pos = (value / (max - min)) * 8;
-            int posInt = Convert.ToInt32(Math.Round(pos));
+            int posInt = Convert.ToInt32(Math.Round(pos)) - 1;
             if (posInt == 0)
             {
                 return new byte[] { 0, 1 };
