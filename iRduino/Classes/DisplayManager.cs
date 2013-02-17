@@ -16,10 +16,13 @@ namespace iRduino.Classes
     using System.Windows.Forms;
     using System.Windows.Threading;
 
+    using iRduino.Windows;
+
     public class DisplayManager
     {
         #region Public Fields Properties
 
+        public MainWindow HostApp;
         public ArduinoLink ArduinoConnection;
         public List<Configuration> Configurations = new List<Configuration>();
         public bool ConfSet = false;
@@ -32,21 +35,24 @@ namespace iRduino.Classes
         public bool DeltaLightsOn = false;
         public Dictionarys Dictionarys = new Dictionarys();
 
-        public int DisplayRefreshRate = 2; //every 2 ticks
-        public List<SLIDisplayVariables> FinalSLIDisplayVariables = new List<SLIDisplayVariables>();
-        public int LEDRefreshRate = 1; //every tick
+        public int DisplayRefreshRate;
+        public int LEDRefreshRate;
         public bool LEDSOn = true;
         public List<ShiftStyleEnum> MatchedShiftStyles;
         public bool Previewing;
-        public List<SLIDisplayVariables> RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
+
+        public List<TMDisplayVariables> RequestedTMDisplayVariables = new List<TMDisplayVariables>();
+        public List<TMLEDVariables> RequestedTMLEDVariables = new List<TMLEDVariables>();
 
         public SavedTelemetryValues SavedTelemetry;// = new SavedTelemetryValues();
         public ShiftData ShiftLightData;
         public bool Test;
         public bool UseCustomShiftLights;
         public List<bool> UseTripleSegmentStyle;
-        public List<DateTime> WaitTime;
+        public List<DateTime> WaitTimeTMDisplay;
+        public List<DateTime> WaitTimeTMLEDS;
         public SdkWrapper Wrapper;
+        public List<bool> TM1640Units;
         #endregion Public Fields Properties
 
         #region Private Fields Properties
@@ -63,6 +69,9 @@ namespace iRduino.Classes
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         private List<int> engWarnCounter = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
+        private bool useEngineWarnings; //used for warning display messages only
+
+        private DateTime engineWarningsTimeOut = DateTime.Now;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
         private bool firstTelemetryUpdate = true;
 
@@ -87,12 +96,14 @@ namespace iRduino.Classes
         /// <summary>
         ///     Construcutor for Display Manager
         /// </summary>
-        public DisplayManager()
+        public DisplayManager(MainWindow host)
         {
+            this.HostApp = host;
             Intensity = 3;
             this.refreshCount = 0;
             Test = false;
-            this.WaitTime = new List<DateTime>();
+            this.WaitTimeTMDisplay = new List<DateTime>();
+            this.WaitTimeTMLEDS = new List<DateTime>();
             this.cleanUpTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
             this.cleanUpTimer.Tick += this.CleanUpTimerTick;
             this.cleanUpTimer.Start();
@@ -103,6 +114,7 @@ namespace iRduino.Classes
         public Configuration CurrentConfiguration { get; set; }
 
         public int Intensity { get; set; }
+
         /// <summary>
         ///     Static function for correctly removing dots from strings and setting the revelant bit in the dots byte
         /// </summary>
@@ -194,56 +206,122 @@ namespace iRduino.Classes
         public void ResetSavedTelemetryValues()
         {
 
-            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps, CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
+            this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.OtherSettings.FuelCalculationLaps, CurrentConfiguration.OtherSettings.UseWeightedFuelCalculations, this.telemetryRefreshRate);
         }
 
-        //method for sending sdv stuff to actual unit. checks for _ledsOn
-        /// <summary>
-        ///     Using Requested display and various boolean flags (leds_on, showing timed string?, showing test)
-        ///     sends what to display to the SLI unit
-        /// </summary>
-        public void SetFinalDisplay()
+        public void SendTMLEDS()
         {
             if (CurrentConfiguration == null) return;
-            for (int i = 0; i < CurrentConfiguration.NumDisplayUnits; i++)
+            List<TMLEDVariables> final = new List<TMLEDVariables>();
+            for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
-                int result = DateTime.Now.CompareTo(this.WaitTime[i]);
+                final.Add(new TMLEDVariables());
+                if (this.LEDSOn && !(Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing))
+                {
+                    final[i].GreenLEDS = RequestedTMLEDVariables[i].GreenLEDS;
+                    final[i].RedLEDS = RequestedTMLEDVariables[i].RedLEDS;
+                    int result = DateTime.Now.CompareTo(this.WaitTimeTMLEDS[i]);
+                    if (result < 0) //use wait Leds
+                    {
+                        if (RequestedTMLEDVariables[i].WaitPassThrough)
+                        {
+                            //bit function like && for bytes
+                            var greenTemp = final[i].GreenLEDS | RequestedTMLEDVariables[i].WaitGreen;
+                            var redTemp = final[i].RedLEDS | RequestedTMLEDVariables[i].WaitRed;
+                            final[i].GreenLEDS = Convert.ToByte(greenTemp);
+                            final[i].RedLEDS = Convert.ToByte(redTemp);
+                        }
+                        else
+                        {
+                            final[i].GreenLEDS = RequestedTMLEDVariables[i].WaitGreen;
+                            final[i].RedLEDS = RequestedTMLEDVariables[i].WaitRed;
+                        }
+                    }
+                }
+                else
+                {
+                    //no LEDS
+                    final[i].GreenLEDS = 0;
+                    final[i].RedLEDS = 0;
+                }
+            }       
+            //send to display
+            if (ArduinoConnection.Running && !Test)
+            {
+                //Merge
+                var greenLEDSList = new List<byte>();
+                var redLEDSList = new List<byte>();
+                for (int i = 0; i < final.Count; i++)
+                {
+                    if (CurrentConfiguration.DisplayConfigurations[i].SwitchLEDs)
+                    {
+                        greenLEDSList.Add(final[i].RedLEDS);
+                        redLEDSList.Add(final[i].GreenLEDS);
+                    }
+                    else
+                    {
+                        greenLEDSList.Add(final[i].GreenLEDS);
+                        redLEDSList.Add(final[i].RedLEDS);
+                    }
+                }
+
+                int newInt = Intensity;
+                if (this.pastShiftPoint && CurrentConfiguration.TMDisplaySettings.ShiftIntensity)
+                {
+                    if (CurrentConfiguration.TMDisplaySettings.ShiftIntensityType)
+                    {
+                        //relative
+                        newInt += CurrentConfiguration.TMDisplaySettings.ShiftIntensityAmount + 1;
+                    }
+                    else
+                    {
+                        newInt += CurrentConfiguration.TMDisplaySettings.ShiftIntensityAmount;
+                    }
+                }
+                var tmLEDs = new TMLEDSMessage
+                {
+                    Green = greenLEDSList,
+                    Red = redLEDSList,
+                    Intensity = newInt
+                };
+                ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessagesSending.SendTMLEDS(tmLEDs));
+            }
+
+        }
+
+        public void SendTMDisplay()
+        {
+            if (CurrentConfiguration == null) return;
+
+            List<TMDisplayVariables> final = new List<TMDisplayVariables>();
+
+            for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
+            {
+                final.Add(new TMDisplayVariables());
+                int result = DateTime.Now.CompareTo(this.WaitTimeTMDisplay[i]);
                 if (result > 0) //dont wait
                 {
                     //normal situation
                     if (this.SavedTelemetry.OnTrack && Wrapper.IsConnected)
                     {
                         //send normal message
-                        ParseDisplayString(RequestedSLIDisplayVariables[i].Display,
-                                               out FinalSLIDisplayVariables[i].Display,
-                                               out FinalSLIDisplayVariables[i].Dots,
+                        ParseDisplayString(RequestedTMDisplayVariables[i].Display,
+                                               out final[i].Display,
+                                               out final[i].Dots,
                                                CurrentConfiguration.DisplayConfigurations[i].IsTM1640);
-                        if (this.LEDSOn)
-                        {
-                            FinalSLIDisplayVariables[i].GreenLEDS = RequestedSLIDisplayVariables[i].GreenLEDS;
-                            FinalSLIDisplayVariables[i].RedLEDS = RequestedSLIDisplayVariables[i].RedLEDS;
-                        }
-                        else
-                        {
-                            //no LEDS
-                            FinalSLIDisplayVariables[i].GreenLEDS = 0;
-                            FinalSLIDisplayVariables[i].RedLEDS = 0;
-                        }
                     }
                     else
                     {
                         //send blank message please
-                        FinalSLIDisplayVariables[i].Display = "        ";
+                        final[i].Display = "        ";
                         if (CurrentConfiguration.DisplayConfigurations[i].IsTM1640)
                         {
-                            FinalSLIDisplayVariables[i].Display += "                ";
+                            final[i].Display += "                ";
                         }
-                        for (int x = 0; x < FinalSLIDisplayVariables[i].Dots.Count(); x++)
+                        for (int x = 0; x < final[i].Dots.Count(); x++)
                         {
-                            FinalSLIDisplayVariables[i].Dots[x] = 0;
+                            final[i].Dots[x] = 0;
                         }
-                        FinalSLIDisplayVariables[i].GreenLEDS = 0;
-                        FinalSLIDisplayVariables[i].RedLEDS = 0;
                     }
                 }
                 else //do wait!!
@@ -254,21 +332,10 @@ namespace iRduino.Classes
                         ////
                         //send wait message and new lights
                         ////
-                        ParseDisplayString(RequestedSLIDisplayVariables[i].WaitString,
-                                               out FinalSLIDisplayVariables[i].Display,
-                                               out FinalSLIDisplayVariables[i].Dots,
+                        ParseDisplayString(RequestedTMDisplayVariables[i].WaitString,
+                                               out final[i].Display,
+                                               out final[i].Dots,
                                                CurrentConfiguration.DisplayConfigurations[i].IsTM1640);
-                        if (this.LEDSOn)
-                        {
-                            FinalSLIDisplayVariables[i].GreenLEDS = RequestedSLIDisplayVariables[i].GreenLEDS;
-                            FinalSLIDisplayVariables[i].RedLEDS = RequestedSLIDisplayVariables[i].RedLEDS;
-                        }
-                        else
-                        {
-                            //NO LEDS
-                            FinalSLIDisplayVariables[i].GreenLEDS = 0;
-                            FinalSLIDisplayVariables[i].RedLEDS = 0;
-                        }
                     } //if testing then leave alone
                 }
             }
@@ -278,100 +345,97 @@ namespace iRduino.Classes
             {
                 //Merge
                 var displayList = new List<string>();
-                var greenLEDSList = new List<byte>();
-                var redLEDSList = new List<byte>();
                 var dotsList = new List<byte[]>();
-                for (int i = 0; i < FinalSLIDisplayVariables.Count; i++)
+                for (int i = 0; i < final.Count; i++)
                 {
-                    displayList.Add(FinalSLIDisplayVariables[i].Display);
+                    displayList.Add(final[i].Display);
 
                     if (CurrentConfiguration.DisplayConfigurations[i].Inverted)
                     {
                         //Shift dots one place to the left
-                        for (int y = 0; y < FinalSLIDisplayVariables[i].Dots.Count(); y++)
+                        for (int y = 0; y < final[i].Dots.Count(); y++)
                         {
-                            var temp = (byte)(FinalSLIDisplayVariables[i].Dots[y] << 1);
-                            FinalSLIDisplayVariables[i].Dots[y] = temp;
+                            var temp = (byte)(final[i].Dots[y] << 1);
+                            final[i].Dots[y] = temp;
                         }
-                        dotsList.Add(FinalSLIDisplayVariables[i].Dots);
+                        dotsList.Add(final[i].Dots);
                     }
                     else
                     {
-                        dotsList.Add(FinalSLIDisplayVariables[i].Dots);
-                    }
-                    if (CurrentConfiguration.DisplayConfigurations[i].SwitchLEDs)
-                    {
-                        greenLEDSList.Add(FinalSLIDisplayVariables[i].RedLEDS);
-                        redLEDSList.Add(FinalSLIDisplayVariables[i].GreenLEDS);
-                    }
-                    else
-                    {
-                        greenLEDSList.Add(FinalSLIDisplayVariables[i].GreenLEDS);
-                        redLEDSList.Add(FinalSLIDisplayVariables[i].RedLEDS);
+                        dotsList.Add(final[i].Dots);
                     }
                 }
 
                 int newInt = Intensity;
-                if (this.pastShiftPoint && CurrentConfiguration.ShiftIntensity)
+                if (this.pastShiftPoint && CurrentConfiguration.TMDisplaySettings.ShiftIntensity)
                 {
-                    if (CurrentConfiguration.ShiftIntensityType)
+                    if (CurrentConfiguration.TMDisplaySettings.ShiftIntensityType)
                     {
                         //relative
-                        newInt += CurrentConfiguration.ShiftIntensityAmount + 1;
+                        newInt += CurrentConfiguration.TMDisplaySettings.ShiftIntensityAmount + 1;
                     }
                     else
                     {
-                        newInt += CurrentConfiguration.ShiftIntensityAmount;
+                        newInt += CurrentConfiguration.TMDisplaySettings.ShiftIntensityAmount;
                     }
                 }
-                var dxMessage = new DxMessage
+                var tmDisplay = new TMStringMessage
                 {
-                    DisplayList = displayList,
+                    Display = displayList,
+                    Dots = dotsList,
                     Intensity = newInt,
-                    GreenLEDSList = greenLEDSList,
-                    RedLEDSList = redLEDSList,
-                    DotsList = dotsList
+                    UnitType = TM1640Units
                 };
-                ArduinoConnection.SendStringMulti(dxMessage);
+                ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessagesSending.SendTMStrings(tmDisplay));
             }
         }
 
         /// <summary>
         /// Setup Display Manager Instance before using the Start Method
         /// </summary>
-        public void SetupDisplayMngr(int telemetryRefreshRateParameter)
+        public void SetupDisplayMngr(int telemetryRefreshRateParameter, List<bool> tm1640Units)
         {
             this.telemetryRefreshRate = telemetryRefreshRateParameter;
-            CurrentConfiguration.NumDisplayUnits = CurrentConfiguration.DisplayConfigurations.Count;
+            this.TM1640Units = tm1640Units;
+            CurrentConfiguration.TMDisplaySettings.NumDisplayUnits = CurrentConfiguration.DisplayConfigurations.Count;
             CurrentConfiguration.NumberControllers = CurrentConfiguration.ControllerConfigurations.Count;
-            int units = CurrentConfiguration.NumDisplayUnits;
-            this.WaitTime.Clear();
-            if (!CurrentConfiguration.UseCustomFuelCalculationOptions)
+            this.DisplayRefreshRate = telemetryRefreshRateParameter / CurrentConfiguration.RefreshRates.DisplayRefreshRate;
+            this.LEDRefreshRate = telemetryRefreshRateParameter / CurrentConfiguration.RefreshRates.LEDRefreshRate;
+            int units = CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
+            this.WaitTimeTMDisplay.Clear();
+            this.WaitTimeTMLEDS.Clear();
+            if (!CurrentConfiguration.OtherSettings.UseCustomFuelCalculationOptions)
             {
-                CurrentConfiguration.FuelCalculationLaps = 3;
-                CurrentConfiguration.UseWeightedFuelCalculations = true;
+                CurrentConfiguration.OtherSettings.FuelCalculationLaps = 3;
+                CurrentConfiguration.OtherSettings.UseWeightedFuelCalculations = true;
             }
-            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.FuelCalculationLaps,CurrentConfiguration.UseWeightedFuelCalculations, this.telemetryRefreshRate);
-            FinalSLIDisplayVariables = new List<SLIDisplayVariables>();
-            RequestedSLIDisplayVariables = new List<SLIDisplayVariables>();
+            SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.OtherSettings.FuelCalculationLaps,CurrentConfiguration.OtherSettings.UseWeightedFuelCalculations, this.telemetryRefreshRate);
+            RequestedTMDisplayVariables = new List<TMDisplayVariables>();
+            RequestedTMLEDVariables = new List<TMLEDVariables>();
             for (int k = 1; k <= units; k++)
             {
-                this.WaitTime.Add(DateTime.Now);
-                FinalSLIDisplayVariables.Add(new SLIDisplayVariables());
-                RequestedSLIDisplayVariables.Add(new SLIDisplayVariables());
+                this.WaitTimeTMDisplay.Add(DateTime.Now);
+                this.WaitTimeTMLEDS.Add(DateTime.Now);
+                RequestedTMLEDVariables.Add(new TMLEDVariables());
+                RequestedTMDisplayVariables.Add(new TMDisplayVariables());
                 CurrentScreen.Add(0);
             }
-            displayRefreshRateFactor = this.telemetryRefreshRate / CurrentConfiguration.DisplayRefreshRate;
+            displayRefreshRateFactor = this.telemetryRefreshRate / CurrentConfiguration.RefreshRates.DisplayRefreshRate;
             useFuelCalcs = false;
             useDeltaTiming = true; // Add Checks for whether to log delta variables
             useLapTiming = false;
-            if (CurrentConfiguration.NumDisplayUnits > 0)
+            useEngineWarnings = false;
+            if (CurrentConfiguration.TMDisplaySettings.NumDisplayUnits > 0)
             {
                 foreach (var unit in CurrentConfiguration.DisplayConfigurations)
                 {
                     if (unit.ShowLap)
                     {
                         useLapTiming = true;
+                    }
+                    if (unit.ShowEngineWarnings)
+                    {
+                        useEngineWarnings = true;
                     }
                     foreach (var screen in unit.Screens)
                     {
@@ -425,9 +489,7 @@ namespace iRduino.Classes
                     }
                 }
             }
-
-            //Lap Delta Stuff
-            DeltaLightsOn = CurrentConfiguration.DeltaLightsOnDefault;
+            DeltaLightsOn = CurrentConfiguration.TMDisplaySettings.DeltaLightsOnDefault;
         }
 
         /// <summary>
@@ -438,11 +500,23 @@ namespace iRduino.Classes
         /// <param name="unit"></param>
         public void ShowStringTimed(string display, int delaytime, int unit)
         {
-            RequestedSLIDisplayVariables[unit].WaitString = display;
-            this.WaitTime[unit] = DateTime.Now.AddSeconds(delaytime);
+            RequestedTMDisplayVariables[unit].WaitString = display;
+            this.WaitTimeTMDisplay[unit] = DateTime.Now.AddSeconds(delaytime);
             if (!Wrapper.IsConnected)
             {
-                SetFinalDisplay();
+                SendTMDisplay();
+            }
+        }
+
+        public void ShowLEDTimed(byte green, byte red, bool passThrough, int delaytime, int unit)
+        {
+            RequestedTMLEDVariables[unit].WaitGreen = green;
+            RequestedTMLEDVariables[unit].WaitRed = red;
+            RequestedTMLEDVariables[unit].WaitPassThrough = passThrough;
+            this.WaitTimeTMLEDS[unit] = DateTime.Now.AddSeconds(delaytime);
+            if (!Wrapper.IsConnected)
+            {
+                SendTMLEDS();
             }
         }
 
@@ -483,7 +557,8 @@ namespace iRduino.Classes
         {
             if (Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing)
             {
-                SetFinalDisplay();
+                SendTMDisplay();
+                SendTMLEDS();
             }
         }
 
@@ -519,19 +594,20 @@ namespace iRduino.Classes
                 this.lastPress[d] = currentPress;
             }
         }
+
         /// <summary>
         ///     Determines and shows measured lap time and delta on the screen using a ShowStringTimed method call
         /// </summary>
         private void ShowLapTimeDisplay()
         {
-            for (int i = 0; i < CurrentConfiguration.NumDisplayUnits; i++)
+            for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 if (!CurrentConfiguration.DisplayConfigurations[i].ShowLap) return;
                 if (this.SavedTelemetry.LastLapTimeMeasured < 5) return;
                 ShowStringTimed(
                     LapDisplays.BuildLapDisplayString(
                         CurrentConfiguration.DisplayConfigurations[i].LapStyle, this.SavedTelemetry),
-                    CurrentConfiguration.LapDisplayTime,
+                    CurrentConfiguration.TMDisplaySettings.LapDisplayTime,
                     i);
             }
         }
@@ -553,7 +629,6 @@ namespace iRduino.Classes
                 this.NewTelemetrySession(e);
             }
             double updateTime = e.UpdateTime;
-            float lapDistPct = e.TelemetryInfo.LapDistPct.Value;
             TrackSurfaces[] surfaces = e.TelemetryInfo.CarIdxTrackSurface.Value;
             TrackSurfaces mySurface = surfaces[Wrapper.DriverId]; // Your car data is at your id index;
             if (refreshCount % 15 == 0)
@@ -601,26 +676,89 @@ namespace iRduino.Classes
             }
 
             this.SavedTelemetry.LastTelemetryUpdate = updateTime;
-            this.SavedTelemetry.LastLapPosition = lapDistPct;
             this.SavedTelemetry.CurrentLap = e.TelemetryInfo.Lap.Value;
             this.SavedTelemetry.CurrentFuelPCT = e.TelemetryInfo.FuelLevelPct.Value;
             this.SavedTelemetry.OnTrack = e.TelemetryInfo.IsOnTrack.Value;
 
+            if (useEngineWarnings && (mySurface == TrackSurfaces.OnTrack || mySurface == TrackSurfaces.OffTrack))
+            {
+                this.EngineWarningsDisplayUpdate(e);
+            }
             if (this.CurrentConfiguration.DisplayConfigurations.Count > 0)
             {
                 if (this.refreshCount % LEDRefreshRate == 0)
                 {
                     UpdateLEDs(e);
+                    SendTMLEDS();
                 }
                 if (this.refreshCount % displayRefreshRateFactor == 0)
                 {
-                    SetFinalDisplay(); //update (send) to Arduino
+                    SendTMDisplay();
                 }
             }
             this.refreshCount++;
             if (this.refreshCount >= 2000000000) //well before overflow
             {
                 this.refreshCount = 0;
+            }
+        }
+
+        private void EngineWarningsDisplayUpdate(SdkWrapper.TelemetryUpdatedEventArgs e)
+        {
+            EngineWarning engine = e.TelemetryInfo.EngineWarnings.Value;
+            bool warningActive = false;
+            string warningText = "";
+            if (engine.Contains(EngineWarnings.WaterTemperatureWarning))
+            {
+                warningActive = true;
+                warningText = "ET HigH";
+            }
+            else if (engine.Contains(EngineWarnings.OilPressureWarning))
+            {
+                warningActive = true;
+                warningText = "OP Lo";
+            }
+            else if (engine.Contains(EngineWarnings.FuelPressureWarning))
+            {
+                warningActive = true;
+                warningText = "FP Lo";
+            }
+            if (warningActive)
+            {
+                int result = DateTime.Now.CompareTo(this.engineWarningsTimeOut);
+                for (var d = 0; d < this.CurrentConfiguration.DisplayConfigurations.Count; d++)
+                {
+                    if (this.CurrentConfiguration.DisplayConfigurations[d].ShowEngineWarnings)
+                    {
+                        switch (this.CurrentConfiguration.DisplayConfigurations[d].WarningType)
+                        {
+                            case WarningTypesEnum.Both:
+                                this.ShowLEDTimed(0, 170, true, 1, d);
+                                if (result > 0)
+                                {
+                                    this.ShowStringTimed(
+                                            warningText, this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime, d);
+                                    this.engineWarningsTimeOut =
+                                            DateTime.Now.AddSeconds(
+                                                    this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime * 4);
+                                }
+                                break;
+                            case WarningTypesEnum.Lights:
+                                this.ShowLEDTimed(0, 170, true, 1, d);
+                                break;
+                            case WarningTypesEnum.Text:
+                                if (result > 0)
+                                {
+                                    this.ShowStringTimed(
+                                            warningText, this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime, d);
+                                    this.engineWarningsTimeOut =
+                                            DateTime.Now.AddSeconds(
+                                                    this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime * 4);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
         }
 
@@ -634,6 +772,7 @@ namespace iRduino.Classes
 
         private void FuelTelemetry(SdkWrapper.TelemetryUpdatedEventArgs e, TrackSurfaces mySurface)
         {
+            System.Diagnostics.Debug.WriteLine("Checking Fuel");
             bool update = false;
             float currentLapDistPct = e.TelemetryInfo.LapDistPct.Value;
             if (currentLapDistPct <= 0.15 && this.SavedTelemetry.Fuel.LastLapDistPct > 0.85)
@@ -663,14 +802,17 @@ namespace iRduino.Classes
             this.SavedTelemetry.Fuel.LastLapDistPct = currentLapDistPct;
             if (update)
             {
+                System.Diagnostics.Debug.WriteLine("Pusing Fuel");
                 this.SavedTelemetry.Fuel.FuelHistory.Push(e.TelemetryInfo.FuelLevel.Value);
             }
-            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.05f)
+            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.1f)
             {
+                System.Diagnostics.Debug.WriteLine("Resetting Fuel");
                 this.SavedTelemetry.Fuel.ResetFuel();
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine("Updating Fuel");
                 this.SavedTelemetry.Fuel.CurrentFuelLevel = e.TelemetryInfo.FuelLevel.Value;
                 this.SavedTelemetry.Fuel.UpdateCalculatedFuelValues();
             }
@@ -919,12 +1061,12 @@ namespace iRduino.Classes
         /// <param name="e">Telemetry Argument from SDKWrapper</param>
         private void UpdateDisplayString(SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            for (int i = 0; i < CurrentConfiguration.NumDisplayUnits; i++)
+            for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 //build the display string
                 var displayString = DisplayVariablesClass.BuildDisplayString(
                     e, CurrentConfiguration.DisplayConfigurations[i].Screens[CurrentScreen[i]].Variables, Dictionarys, SavedTelemetry, CurrentDeltaType);
-                RequestedSLIDisplayVariables[i].Display = displayString;
+                RequestedTMDisplayVariables[i].Display = displayString;
             }
         }
 
@@ -965,7 +1107,7 @@ namespace iRduino.Classes
             }
             currentDelta = -currentDelta;
             currentDeltaDD = -currentDeltaDD;
-            for (int i = 0; i < CurrentConfiguration.NumDisplayUnits; i++)
+            for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 bool ledsSet = false;
                 byte red = 0;
@@ -988,13 +1130,13 @@ namespace iRduino.Classes
                             case DeltaLightsOptions.DualLeft: //left
                                 if (currentDelta < 0)
                                 {
-                                    float place = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.DeltaRange) / -2f) * 8f;
+                                    float place = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.TMDisplaySettings.DeltaRange) / -2f) * 8f;
                                     int placeInt = Convert.ToInt32(Math.Round(place));
                                     if (placeInt > 8)
                                     {
                                         placeInt = 8;
                                     }
-                                    if (CurrentConfiguration.ColourDeltaByDD)
+                                    if (CurrentConfiguration.TMDisplaySettings.ColourDeltaByDD)
                                     {
                                         if (currentDeltaDD >= 0)
                                         {
@@ -1018,13 +1160,13 @@ namespace iRduino.Classes
                             case DeltaLightsOptions.DualRight: //right
                                 if (currentDelta > 0)
                                 {
-                                    float place = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.DeltaRange) / 2f) * 8f;
+                                    float place = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.TMDisplaySettings.DeltaRange) / 2f) * 8f;
                                     int placeInt = Convert.ToInt32(Math.Round(place));
                                     if (placeInt > 8)
                                     {
                                         placeInt = 8;
                                     }
-                                    if (CurrentConfiguration.ColourDeltaByDD)
+                                    if (CurrentConfiguration.TMDisplaySettings.ColourDeltaByDD)
                                     {
                                         if (currentDeltaDD >= 0)
                                         {
@@ -1046,7 +1188,7 @@ namespace iRduino.Classes
                                 break;
 
                             case DeltaLightsOptions.Single: //single
-                                float placeS = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.DeltaRange) / 2f) * 4f;
+                                float placeS = (currentDelta) / (Convert.ToSingle(CurrentConfiguration.TMDisplaySettings.DeltaRange) / 2f) * 4f;
                                 int placeSInt = Convert.ToInt32(Math.Round(placeS));
                                 if (placeSInt > 4)
                                 {
@@ -1056,7 +1198,7 @@ namespace iRduino.Classes
                                 {
                                     placeSInt = -4;
                                 }
-                                if (CurrentConfiguration.ColourDeltaByDD)
+                                if (CurrentConfiguration.TMDisplaySettings.ColourDeltaByDD)
                                 {
                                     if (currentDeltaDD >= 0)
                                     {
@@ -1145,8 +1287,8 @@ namespace iRduino.Classes
                     EngineWarning engine = e.TelemetryInfo.EngineWarnings.Value;
                     SetEngineWarningsLEDS(engine, ref red, ref green, i);
                 }
-                RequestedSLIDisplayVariables[i].GreenLEDS = green;
-                RequestedSLIDisplayVariables[i].RedLEDS = red;
+                RequestedTMLEDVariables[i].GreenLEDS = green;
+                RequestedTMLEDVariables[i].RedLEDS = red;
             }
         }
         #endregion Telemetry Update Functions
@@ -1528,7 +1670,7 @@ namespace iRduino.Classes
     {
         public float CurrentFuelLevel = 0f;
 
-        public Stack<float> FuelHistory; //= new Stack<float>(14); //Store last 3 laps + 1 sector
+        public Stack<float> FuelHistory;
 
         private readonly int maxLapsInHistory;
         public float LastLapDistPct = 0f;
@@ -1643,7 +1785,6 @@ namespace iRduino.Classes
         public bool DeltaSesOptOK = false;
         public List<Driver> Drivers = new List<Driver>();
         public FuelValues Fuel;
-        public float LastLapPosition;
         public double LastLapTimeMeasured; // measured using SDK now
         public float LastMeasuredCurrentLapTime = 0f;
         public double LastTelemetryUpdate;
@@ -1675,12 +1816,20 @@ namespace iRduino.Classes
     /// <summary>
     ///     Storage of variables used to send to display unit
     /// </summary>
-    public class SLIDisplayVariables
+
+    public class TMDisplayVariables
     {
         public string Display = "";
         public byte[] Dots = { 0, 0 };
+        public string WaitString = ""; //Not used in FinalDisplayVariables
+    }
+
+    public class TMLEDVariables
+    {
         public byte GreenLEDS = 0;
         public byte RedLEDS = 0;
-        public string WaitString = ""; //Not used in FinalSLIDisplayVariables
+        public byte WaitGreen = 0;
+        public byte WaitRed = 0;
+        public bool WaitPassThrough = true;
     }
 }

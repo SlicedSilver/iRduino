@@ -27,9 +27,11 @@ namespace iRduino.Windows
     /// </summary>
     public partial class MainWindow
     {
-        public DisplayManager DisplayMngr = new DisplayManager();
+        public DisplayManager DisplayMngr;      
         public bool OptionsWindowOpen = false;
         public ArduinoLink ArduinoConnection;
+        public ArduinoMessagesSending ArduinoMessagesSendingMngr;
+        public ArduinoMessagesReceiving ArduinoMessagesReceivingMngr;
         private OptionsWindow optionsWindow;
         private SdkWrapper wrapper;
         private readonly BitmapImage startImage;
@@ -217,16 +219,18 @@ namespace iRduino.Windows
             else
             {
                 this.wrapper.Start();
-                DisplayMngr.CurrentConfiguration.NumDisplayUnits =
+                DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits =
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count;
                 var tm1640Units =
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(item => item.IsTM1640).ToList();
-                bool useDx = this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count > 0;
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
-                          DisplayMngr.CurrentConfiguration.SerialPortSpeed,
-                          DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, useDx, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
-                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency);
-                DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
+                          DisplayMngr.CurrentConfiguration.SerialPortSettings.SerialPortSpeed,
+                          DisplayMngr.CurrentConfiguration.AdvancedSettings.LogArduinoMessages);
+                ArduinoMessagesReceivingMngr.NumberUnits =
+                        DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
+                ArduinoMessagesReceivingMngr.TM1640Units = tm1640Units;
+                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
+                DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";
                 StartButtonImage.Source = this.stopImage;
@@ -247,11 +251,25 @@ namespace iRduino.Windows
         private void StatusLightMouseDown(object sender, MouseButtonEventArgs e)
         {
             DisplayMngr.Test = true;
-            this.ArduinoConnection.Test();
+            this.TMDisplayTest();
+
+        }
+
+        public void TMDisplayTest()
+        {
+            if (!this.ArduinoConnection.Running)
+            {
+                return;
+            }
+            var unitTypes =
+                    this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(disp => disp.IsTM1640)
+                        .ToList();
+            this.ArduinoMessagesSendingMngr.TMDisplayTest(unitTypes, this.ArduinoConnection);
         }
 
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
         {
+            DisplayMngr = new DisplayManager(this);
             String[] ports = ArduinoLink.CheckComPorts();
             foreach (var item in ports)
             {
@@ -260,10 +278,13 @@ namespace iRduino.Windows
             ComPortBox.SelectedIndex = 0;
             StartButtonLabel.Content = "Start";
             StartButtonImage.Source = this.startImage;
+            
             this.ArduinoConnection = new ArduinoLink();
-
-            this.ArduinoConnection.ButtonPress += this.ArduinoSLIButtonPress;
-            this.ArduinoConnection.TestFinished += this.ArduinoSLITestFinished;
+            this.ArduinoMessagesReceivingMngr = new ArduinoMessagesReceiving();
+            this.ArduinoMessagesSendingMngr = new ArduinoMessagesSending();
+            this.ArduinoConnection.SerialMessageReceived += ArduinoMessagesReceivingMngr.SerialMessageReceiver;
+            this.ArduinoMessagesReceivingMngr.ButtonPress += this.ArduinoSLIButtonPress;
+            this.ArduinoMessagesSendingMngr.TestFinished += this.ArduinoSLITestFinished;
 
             // Create a new instance of the SdkWrapper object
             this.wrapper = new SdkWrapper
@@ -368,7 +389,7 @@ namespace iRduino.Windows
                 {
                     DisplayMngr.CurrentConfiguration = conf;
                     CurrentConfigurationLabel.Content = conf.Name;
-                    TrySetComPort(conf.PreferredComPort);
+                    TrySetComPort(conf.SerialPortSettings.PreferredComPort);
                 }
             }
             CheckCurrentConf();

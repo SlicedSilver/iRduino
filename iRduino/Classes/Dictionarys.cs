@@ -49,6 +49,13 @@ namespace iRduino.Classes
                 {31, "COM32"}
             };
 
+        public Dictionary<string, WarningTypesEnum> WarningTypes = new Dictionary<string, WarningTypesEnum> 
+            { 
+                {"Text Only",WarningTypesEnum.Text},
+                {"Lights Only",WarningTypesEnum.Lights},
+                {"Both Lights and Text",WarningTypesEnum.Both}
+            };
+
         public Dictionary<DisplayVarsEnum, DisplayVariable> DisplayVariables;
         public Dictionary<string, LapDisplayStylesEnum> LapDisplayStyles;
         public Dictionary<string, PitFlashSpeedsEnum> PitFlashSpeeds;
