@@ -586,7 +586,7 @@ namespace iRduino.Classes
                     {
                         disp.ShowStringTimed(String.Format("FPct{0}", (disp.SavedTelemetry.CurrentFuelPCT * 100).ToString("0.0")),
                                         disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
-                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.CurrentFuelPCT * 100, 0, 100);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.CurrentFuelPCT * 100, 0, 100, disp.CurrentConfiguration.TMDisplaySettings.QuickInfoLightsColour);
                         disp.ShowLEDTimed(
                                 lights[0],
                                 lights[1],
@@ -629,7 +629,7 @@ namespace iRduino.Classes
                         disp.ShowStringTimed(
                             String.Format("{0} LaPS", (disp.SavedTelemetry.SessionLapsRemaining).ToString("000")),  //why was I multiplying this value by 100?
                             disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
-                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.SessionLapsRemaining, 0, 8);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.SessionLapsRemaining, 0, 8, disp.CurrentConfiguration.TMDisplaySettings.QuickInfoLightsColour);
                         disp.ShowLEDTimed(
                                 lights[0],
                                 lights[1],
@@ -666,7 +666,7 @@ namespace iRduino.Classes
                             String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0")),
                             disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
-                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8, disp.CurrentConfiguration.TMDisplaySettings.QuickInfoLightsColour);
                         disp.ShowLEDTimed(
                                 lights[0],
                                 lights[1],
@@ -680,7 +680,7 @@ namespace iRduino.Classes
                             String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0.0")),
                             disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
-                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8, disp.CurrentConfiguration.TMDisplaySettings.QuickInfoLightsColour);
                         disp.ShowLEDTimed(
                                 lights[0],
                                 lights[1],

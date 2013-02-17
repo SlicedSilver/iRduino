@@ -91,8 +91,9 @@ namespace iRduino.Classes
         /// <param name="value">Value</param>
         /// <param name="min">Mininum</param>
         /// <param name="max">Maximum</param>
+        /// <param name="switchColours">Use Red as base?</param>
         /// <returns>byte[0] = green, byte[1] = red</returns>
-        public static byte[] QuickInfoLEDs(double value, double min, double max)
+        public static byte[] QuickInfoLEDs(double value, double min, double max, bool switchColours)
         {
             if (value < min)
             {
@@ -100,12 +101,17 @@ namespace iRduino.Classes
             }
             if (value > max)
             {
-                return new byte[] { 255, 0 };
+                return switchColours ? new byte[] { 0, 255 }  : new byte[] { 255, 0 };
             }
             List<byte> ledScaleLeftToRight = new List<byte> { 1, 3, 7, 15, 31, 63, 127, 255 };
             double pos = (value / (max - min)) * 8;
             int posInt = Convert.ToInt32(Math.Round(pos));
-            return posInt == 0 ? new byte[] { 0 , 1 } : new byte[] {ledScaleLeftToRight[posInt] , 0 };
+            if (posInt == 0)
+            {
+                return new byte[] { 0, 1 };
+            }
+            return switchColours ? new byte[] {0, ledScaleLeftToRight[posInt]}:
+                           new byte[] { ledScaleLeftToRight[posInt], 0 };
         }
 
         /// <summary>
@@ -893,25 +899,25 @@ namespace iRduino.Classes
         {
         }
 
-        private void RpmstyleExtracted(List<byte> Greens, List<byte> Reds, int longerCount, List<Lights> normalOrShifted)
+        private void RpmstyleExtracted(List<byte> greens, List<byte> reds, int longerCount, List<Lights> normalOrShifted)
         {
             for (int j = 0; j < longerCount; j++)
             {
-                if (j < Reds.Count && j < Greens.Count)
+                if (j < reds.Count && j < greens.Count)
                 {
-                    normalOrShifted.Add(new Lights(Reds[j], Greens[j]));
+                    normalOrShifted.Add(new Lights(reds[j], greens[j]));
                 }
                 else
-                    if (j < Reds.Count)
+                    if (j < reds.Count)
                     {
                         //reds left
-                        normalOrShifted.Add(new Lights(Reds[j], 0));
+                        normalOrShifted.Add(new Lights(reds[j], 0));
                     }
                     else
-                        if (j < Greens.Count)
+                        if (j < greens.Count)
                         {
                             //greens left
-                            normalOrShifted.Add(new Lights(0, Greens[j]));
+                            normalOrShifted.Add(new Lights(0, greens[j]));
                         }
             }
         }
