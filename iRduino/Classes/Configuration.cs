@@ -23,6 +23,8 @@ namespace iRduino.Classes
         public int LapDisplayTime;
         public int HeaderDisplayTime;
         public int QuickInfoDisplayTime;
+        public bool QuickInfoLightsColour = false; //red=true
+        public int WarningTextDisplayTime;
         public bool ShiftIntensity;
         public int ShiftIntensityAmount;
         public bool ShiftIntensityType;
@@ -82,6 +84,7 @@ namespace iRduino.Classes
             TMDisplaySettings.HeaderDisplayTime = 1;
             TMDisplaySettings.LapDisplayTime = 2;
             TMDisplaySettings.QuickInfoDisplayTime = 3;
+            TMDisplaySettings.WarningTextDisplayTime = 5;
             TMDisplaySettings.ShowHeaders = false;
             TMDisplaySettings.Intensity = 3;
             DisplayConfigurations.Add(new DisplayConfiguration(true));
@@ -279,6 +282,12 @@ namespace iRduino.Classes
                             case "LapDisplayTime":
                                 Int32.TryParse(value, out newConf.TMDisplaySettings.LapDisplayTime);
                                 break;
+                            case "ShowEngineWarnings":
+                                Boolean.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].ShowEngineWarnings);
+                                break;
+                            case "WarningType":
+                                Enum.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].WarningType);
+                                break;
                             case "LapStyle":
                                 Enum.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].LapStyle);
                                 break;
@@ -384,6 +393,12 @@ namespace iRduino.Classes
                                 break;
                             case "ShiftIntensityType":
                                 Boolean.TryParse(value, out newConf.TMDisplaySettings.ShiftIntensityType);
+                                break;
+                            case "WarningTextDisplayTime":
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.WarningTextDisplayTime);
+                                break;
+                            case "QuickInfoLightsColour":
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.QuickInfoLightsColour);
                                 break;
                             case "ShiftIntensityAmount":
                                 Int32.TryParse(value, out newConf.TMDisplaySettings.ShiftIntensityAmount);
@@ -528,6 +543,12 @@ namespace iRduino.Classes
             sb.AppendLine(String.Format("{0},{1}", "DeltaRange",
                                         conf.TMDisplaySettings.DeltaRange.ToString(
                                             CultureInfo.InvariantCulture)));
+            sb.AppendLine(String.Format("{0},{1}", "QuickInfoLightsColour",
+                                        conf.TMDisplaySettings.QuickInfoLightsColour.ToString(
+                                            CultureInfo.InvariantCulture)));
+            sb.AppendLine(String.Format("{0},{1}", "WarningTextDisplayTime",
+                                        conf.TMDisplaySettings.WarningTextDisplayTime.ToString(
+                                            CultureInfo.InvariantCulture)));
             sb.AppendLine("[ TM Display Units ]");
             //Start looping display units
             for (int unit = 0; unit < conf.DisplayConfigurations.Count; unit++)
@@ -629,6 +650,10 @@ namespace iRduino.Classes
                                             conf.DisplayConfigurations[unit].DeltaLightsShow));
                 sb.AppendLine(String.Format("{0},{1}", "DeltaLightsPosition",
                                             conf.DisplayConfigurations[unit].DeltaLightsPosition));
+                sb.AppendLine(String.Format("{0},{1}", "WarningType",
+                                            conf.DisplayConfigurations[unit].WarningType));
+                sb.AppendLine(String.Format("{0},{1}", "ShowEngineWarnings",
+                                            conf.DisplayConfigurations[unit].ShowEngineWarnings));
                 sb.AppendLine("     [ Display Unit Screens ]");
                 sb.AppendLine(String.Format("{0},{1}", "NumScreens",
                                             conf.DisplayConfigurations[unit].NumScreens.ToString(
@@ -701,6 +726,8 @@ namespace iRduino.Classes
         public bool IsTM1640 = false;
         public DeltaLightsOptions DeltaLightsPosition;
         public bool DeltaLightsShow = false;
+        public bool ShowEngineWarnings = true;
+        public WarningTypesEnum WarningType = WarningTypesEnum.Both;
 
 
         public DisplayConfiguration()

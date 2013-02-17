@@ -49,7 +49,8 @@ namespace iRduino.Classes
         public bool Test;
         public bool UseCustomShiftLights;
         public List<bool> UseTripleSegmentStyle;
-        public List<DateTime> WaitTime;
+        public List<DateTime> WaitTimeTMDisplay;
+        public List<DateTime> WaitTimeTMLEDS;
         public SdkWrapper Wrapper;
         public List<bool> TM1640Units;
         #endregion Public Fields Properties
@@ -68,6 +69,9 @@ namespace iRduino.Classes
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         private List<int> engWarnCounter = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
 
+        private bool useEngineWarnings; //used for warning display messages only
+
+        private DateTime engineWarningsTimeOut = DateTime.Now;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
         private bool firstTelemetryUpdate = true;
 
@@ -98,7 +102,8 @@ namespace iRduino.Classes
             Intensity = 3;
             this.refreshCount = 0;
             Test = false;
-            this.WaitTime = new List<DateTime>();
+            this.WaitTimeTMDisplay = new List<DateTime>();
+            this.WaitTimeTMLEDS = new List<DateTime>();
             this.cleanUpTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
             this.cleanUpTimer.Tick += this.CleanUpTimerTick;
             this.cleanUpTimer.Start();
@@ -215,6 +220,23 @@ namespace iRduino.Classes
                 {
                     final[i].GreenLEDS = RequestedTMLEDVariables[i].GreenLEDS;
                     final[i].RedLEDS = RequestedTMLEDVariables[i].RedLEDS;
+                    int result = DateTime.Now.CompareTo(this.WaitTimeTMLEDS[i]);
+                    if (result < 0) //use wait Leds
+                    {
+                        if (RequestedTMLEDVariables[i].WaitPassThrough)
+                        {
+                            //bit function like && for bytes
+                            var greenTemp = final[i].GreenLEDS | RequestedTMLEDVariables[i].WaitGreen;
+                            var redTemp = final[i].RedLEDS | RequestedTMLEDVariables[i].WaitRed;
+                            final[i].GreenLEDS = Convert.ToByte(greenTemp);
+                            final[i].RedLEDS = Convert.ToByte(redTemp);
+                        }
+                        else
+                        {
+                            final[i].GreenLEDS = RequestedTMLEDVariables[i].WaitGreen;
+                            final[i].RedLEDS = RequestedTMLEDVariables[i].WaitRed;
+                        }
+                    }
                 }
                 else
                 {
@@ -222,8 +244,7 @@ namespace iRduino.Classes
                     final[i].GreenLEDS = 0;
                     final[i].RedLEDS = 0;
                 }
-            }
-
+            }       
             //send to display
             if (ArduinoConnection.Running && !Test)
             {
@@ -277,7 +298,7 @@ namespace iRduino.Classes
             for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 final.Add(new TMDisplayVariables());
-                int result = DateTime.Now.CompareTo(this.WaitTime[i]);
+                int result = DateTime.Now.CompareTo(this.WaitTimeTMDisplay[i]);
                 if (result > 0) //dont wait
                 {
                     //normal situation
@@ -381,7 +402,8 @@ namespace iRduino.Classes
             this.DisplayRefreshRate = telemetryRefreshRateParameter / CurrentConfiguration.RefreshRates.DisplayRefreshRate;
             this.LEDRefreshRate = telemetryRefreshRateParameter / CurrentConfiguration.RefreshRates.LEDRefreshRate;
             int units = CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
-            this.WaitTime.Clear();
+            this.WaitTimeTMDisplay.Clear();
+            this.WaitTimeTMLEDS.Clear();
             if (!CurrentConfiguration.OtherSettings.UseCustomFuelCalculationOptions)
             {
                 CurrentConfiguration.OtherSettings.FuelCalculationLaps = 3;
@@ -392,7 +414,8 @@ namespace iRduino.Classes
             RequestedTMLEDVariables = new List<TMLEDVariables>();
             for (int k = 1; k <= units; k++)
             {
-                this.WaitTime.Add(DateTime.Now);
+                this.WaitTimeTMDisplay.Add(DateTime.Now);
+                this.WaitTimeTMLEDS.Add(DateTime.Now);
                 RequestedTMLEDVariables.Add(new TMLEDVariables());
                 RequestedTMDisplayVariables.Add(new TMDisplayVariables());
                 CurrentScreen.Add(0);
@@ -401,6 +424,7 @@ namespace iRduino.Classes
             useFuelCalcs = false;
             useDeltaTiming = true; // Add Checks for whether to log delta variables
             useLapTiming = false;
+            useEngineWarnings = false;
             if (CurrentConfiguration.TMDisplaySettings.NumDisplayUnits > 0)
             {
                 foreach (var unit in CurrentConfiguration.DisplayConfigurations)
@@ -408,6 +432,10 @@ namespace iRduino.Classes
                     if (unit.ShowLap)
                     {
                         useLapTiming = true;
+                    }
+                    if (unit.ShowEngineWarnings)
+                    {
+                        useEngineWarnings = true;
                     }
                     foreach (var screen in unit.Screens)
                     {
@@ -473,10 +501,22 @@ namespace iRduino.Classes
         public void ShowStringTimed(string display, int delaytime, int unit)
         {
             RequestedTMDisplayVariables[unit].WaitString = display;
-            this.WaitTime[unit] = DateTime.Now.AddSeconds(delaytime);
+            this.WaitTimeTMDisplay[unit] = DateTime.Now.AddSeconds(delaytime);
             if (!Wrapper.IsConnected)
             {
                 SendTMDisplay();
+            }
+        }
+
+        public void ShowLEDTimed(byte green, byte red, bool passThrough, int delaytime, int unit)
+        {
+            RequestedTMLEDVariables[unit].WaitGreen = green;
+            RequestedTMLEDVariables[unit].WaitRed = red;
+            RequestedTMLEDVariables[unit].WaitPassThrough = passThrough;
+            this.WaitTimeTMLEDS[unit] = DateTime.Now.AddSeconds(delaytime);
+            if (!Wrapper.IsConnected)
+            {
+                SendTMLEDS();
             }
         }
 
@@ -640,6 +680,10 @@ namespace iRduino.Classes
             this.SavedTelemetry.CurrentFuelPCT = e.TelemetryInfo.FuelLevelPct.Value;
             this.SavedTelemetry.OnTrack = e.TelemetryInfo.IsOnTrack.Value;
 
+            if (useEngineWarnings)
+            {
+                this.EngineWarningsDisplayUpdate(e);
+            }
             if (this.CurrentConfiguration.DisplayConfigurations.Count > 0)
             {
                 if (this.refreshCount % LEDRefreshRate == 0)
@@ -656,6 +700,65 @@ namespace iRduino.Classes
             if (this.refreshCount >= 2000000000) //well before overflow
             {
                 this.refreshCount = 0;
+            }
+        }
+
+        private void EngineWarningsDisplayUpdate(SdkWrapper.TelemetryUpdatedEventArgs e)
+        {
+            EngineWarning engine = e.TelemetryInfo.EngineWarnings.Value;
+            bool warningActive = false;
+            string warningText = "";
+            if (engine.Contains(EngineWarnings.WaterTemperatureWarning))
+            {
+                warningActive = true;
+                warningText = "ET HigH";
+            }
+            else if (engine.Contains(EngineWarnings.OilPressureWarning))
+            {
+                warningActive = true;
+                warningText = "OP louu";
+            }
+            else if (engine.Contains(EngineWarnings.FuelPressureWarning))
+            {
+                warningActive = true;
+                warningText = "FP Louu";
+            }
+            if (warningActive)
+            {
+                int result = DateTime.Now.CompareTo(this.engineWarningsTimeOut);
+                for (var d = 0; d < this.CurrentConfiguration.DisplayConfigurations.Count; d++)
+                {
+                    if (this.CurrentConfiguration.DisplayConfigurations[d].ShowEngineWarnings)
+                    {
+                        switch (this.CurrentConfiguration.DisplayConfigurations[d].WarningType)
+                        {
+                            case WarningTypesEnum.Both:
+                                this.ShowLEDTimed(0, 170, true, 1, d);
+                                if (result > 0)
+                                {
+                                    this.ShowStringTimed(
+                                            warningText, this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime, d);
+                                    this.engineWarningsTimeOut =
+                                            DateTime.Now.AddSeconds(
+                                                    this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime * 4);
+                                }
+                                break;
+                            case WarningTypesEnum.Lights:
+                                this.ShowLEDTimed(0, 170, true, 1, d);
+                                break;
+                            case WarningTypesEnum.Text:
+                                if (result > 0)
+                                {
+                                    this.ShowStringTimed(
+                                            warningText, this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime, d);
+                                    this.engineWarningsTimeOut =
+                                            DateTime.Now.AddSeconds(
+                                                    this.CurrentConfiguration.TMDisplaySettings.WarningTextDisplayTime * 4);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
         }
 
@@ -1721,5 +1824,8 @@ namespace iRduino.Classes
     {
         public byte GreenLEDS = 0;
         public byte RedLEDS = 0;
+        public byte WaitGreen = 0;
+        public byte WaitRed = 0;
+        public bool WaitPassThrough = true;
     }
 }

@@ -70,6 +70,10 @@ namespace iRduino.Classes
 
         public bool UseWeightedFuelCalculations { get; set; }
 
+        public bool QuickInfoLightsColour { get; set; }
+
+        public int WarningTextDisplayTime { get; set; }
+
         public Dictionarys Dictionarys { get; set; }
 
         public void LoadConfiguration(Configuration configuration, Dictionarys dicts)
@@ -97,6 +101,8 @@ namespace iRduino.Classes
             UseCustomFuelCalculationOptions = configuration.OtherSettings.UseCustomFuelCalculationOptions;
             FuelCalculationLaps = configuration.OtherSettings.FuelCalculationLaps - 2;
             UseWeightedFuelCalculations = configuration.OtherSettings.UseWeightedFuelCalculations;
+            WarningTextDisplayTime = configuration.TMDisplaySettings.WarningTextDisplayTime - 1;
+            QuickInfoLightsColour = configuration.TMDisplaySettings.QuickInfoLightsColour;
 
             ControllerConfigurations = new List<ControllerButtonConfiguration>();
             foreach (ControllerConfiguration item in configuration.ControllerConfigurations)
@@ -131,13 +137,18 @@ namespace iRduino.Classes
                         DCDisplayTime = displayConf.DCDisplayTime,
                         ShowLap = displayConf.ShowLap,
                         ButtonConfigurations = new ButtonConfiguration(),
-                        UnitNumber = unitCount
+                        UnitNumber = unitCount,
+                        ShowEngineWarnings = displayConf.ShowEngineWarnings
                     };
                 DisplayConfiguration conf = displayConf;
                 foreach (var lstyle in dicts.LapDisplayStyles.Where(lstyle => conf.LapStyle == lstyle.Value))
                 {
                     temp.LapStyle = lstyle.Key;
+                } foreach (var wtype in dicts.WarningTypes.Where(wtype => conf.WarningType == wtype.Value))
+                {
+                    temp.WarningType = wtype.Key;
                 }
+
                 for (int n = 0; n < Constants.NumberButtonsOnTm1638; n++)
                 {
                     temp.ButtonConfigurations.ButtonFunctions[n] =
@@ -235,7 +246,9 @@ namespace iRduino.Classes
                                                              DeltaMessageScreen =
                                                                      this.DeltaMessageScreen,
                                                              DeltaLightsOnDefault =
-                                                                     this.DeltaLightsOnDefault
+                                                                     this.DeltaLightsOnDefault,
+                                                             WarningTextDisplayTime = this.WarningTextDisplayTime + 1,
+                                                             QuickInfoLightsColour = this.QuickInfoLightsColour
                                                      },
                                          SerialPortSettings =
                                                  new SerialPortConfiguration
@@ -352,7 +365,8 @@ namespace iRduino.Classes
                         ShiftClumps = displayConf.LEDsConfigurations.ShiftClumps,
                         RevLimiterLights = displayConf.LEDsConfigurations.RevLimiterLights,
                         ShowShiftLights = displayConf.LEDsConfigurations.ShowShiftLights,
-                        DeltaLightsShow = displayConf.LEDsConfigurations.DeltaLightsShow
+                        DeltaLightsShow = displayConf.LEDsConfigurations.DeltaLightsShow,
+                        ShowEngineWarnings = displayConf.ShowEngineWarnings
                     };
                 List<Screen> screenTemp = displayConf.Screens;
                 foreach (Screen screen in screenTemp)
@@ -375,6 +389,14 @@ namespace iRduino.Classes
                     }
                 }
                 temp.Screens = displayConf.Screens;
+                try
+                {
+                    temp.WarningType = dicts.WarningTypes[displayConf.WarningType];
+                }
+                catch
+                {
+                    Enum.TryParse(displayConf.WarningType, out temp.WarningType);
+                }
                 try
                 {
                     temp.LapStyle = dicts.LapDisplayStyles[displayConf.LapStyle];
@@ -543,6 +565,10 @@ namespace iRduino.Classes
         public int UnitNumber { get; set; }
 
         public LEDsConfiguration LEDsConfigurations { get; set; }
+
+        public bool ShowEngineWarnings { get; set; }
+
+        public string WarningType { get; set; }
     }
 
     public class ButtonConfiguration

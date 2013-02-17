@@ -49,6 +49,7 @@ namespace iRduino.Windows.Pages
                 this.LapDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
                 this.QuickInfoDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
                 this.HeaderDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
+                this.EngineWarningDisplayTimeCBox.Items.Add(i.ToString(CultureInfo.InvariantCulture));
             }
             for (int i = 0; i <= Constants.MaxIntensityTM; i++)
             {
@@ -82,13 +83,16 @@ namespace iRduino.Windows.Pages
             BindingOperations.SetBinding(this.LapDisplayTimeCBox, Selector.SelectedIndexProperty, lapDisplayTimeBinding);
             var quickInfoTimeBinding = new Binding("QuickInfoDisplayTime") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.QuickInfoDisplayTimeCBox, Selector.SelectedIndexProperty, quickInfoTimeBinding);
+            var warningTimeBinding = new Binding("WarningTextDisplayTime") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.EngineWarningDisplayTimeCBox, Selector.SelectedIndexProperty, warningTimeBinding);
             var intensityBinding = new Binding("Intensity") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.IntensityCBox, Selector.SelectedIndexProperty, intensityBinding);
             var headerDisplayTimeBinding = new Binding("HeaderDisplayTime") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.HeaderDisplayTimeCBox, Selector.SelectedIndexProperty, headerDisplayTimeBinding);
             var showHeaderBinding = new Binding("ShowHeader") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.ShowHeaderCheck, ToggleButton.IsCheckedProperty, showHeaderBinding);
-
+            var quickInfoColourBinding = new Binding("QuickInfoLightsColour") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.QuickInfoColourCheck, ToggleButton.IsCheckedProperty, quickInfoColourBinding);
             var shiftIntensityBinding = new Binding("ShiftIntensity") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.ShiftIntensityCheck, ToggleButton.IsCheckedProperty, shiftIntensityBinding);
             var shiftIntensityTypeBinding = new Binding("ShiftIntensityType") { Mode = BindingMode.TwoWay };

@@ -86,6 +86,29 @@ namespace iRduino.Classes
     class LEDs
     {
         /// <summary>
+        /// Gets the LED bytes for a Quick Info Light
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="min">Mininum</param>
+        /// <param name="max">Maximum</param>
+        /// <returns>byte[0] = green, byte[1] = red</returns>
+        public static byte[] QuickInfoLEDs(double value, double min, double max)
+        {
+            if (value < min)
+            {
+                return new byte[] { 0, 1 };
+            }
+            if (value > max)
+            {
+                return new byte[] { 255, 0 };
+            }
+            List<byte> ledScaleLeftToRight = new List<byte> { 1, 3, 7, 15, 31, 63, 127, 255 };
+            double pos = (value / (max - min)) * 8;
+            int posInt = Convert.ToInt32(Math.Round(pos));
+            return posInt == 0 ? new byte[] { 0 , 1 } : new byte[] {ledScaleLeftToRight[posInt] , 0 };
+        }
+
+        /// <summary>
         /// Shift Light Styles
         /// </summary>
         /// <returns>A Dictionary used in the Dictionarys class</returns>

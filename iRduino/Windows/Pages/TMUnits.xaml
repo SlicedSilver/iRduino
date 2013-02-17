@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
-      d:DesignHeight="400" d:DesignWidth="395"
+      d:DesignHeight="420" d:DesignWidth="395"
       Title="TMUnits" Loaded="PageLoaded1">
     <Page.Resources>
         <ResourceDictionary>
@@ -33,26 +33,31 @@
                     <Label Content="Lap Display Time:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" />
                     <Label Content="Quick Info Display Time:" HorizontalAlignment="Left" Margin="10,72,0,0"
                 		VerticalAlignment="Top" />
-                    <CheckBox x:Name="ShowHeaderCheck" Content="Show Headers?" HorizontalAlignment="Left" Margin="15,103,0,0"
+                    <CheckBox x:Name="ShowHeaderCheck" Content="Show Headers?" HorizontalAlignment="Left" Margin="15,133,0,0"
                 		VerticalAlignment="Top" Checked="ShowHeaderCheckChecked" Unchecked="ShowHeaderCheckUnchecked" ToolTip="Display screen header which shows which variables are located where in the current screen. A legend of the screen." />
-                    <Label x:Name="HeaderDisplayTimeLabel" Content="Header Display Time:" HorizontalAlignment="Left" Margin="35,124,0,0" VerticalAlignment="Top" />
+                    <Label x:Name="HeaderDisplayTimeLabel" Content="Header Display Time:" HorizontalAlignment="Left" Margin="35,154,0,0" VerticalAlignment="Top" />
                     <ComboBox x:Name="IntensityCBox" HorizontalAlignment="Left" Margin="185,10,0,0" VerticalAlignment="Top"
                 		Width="74" ToolTip="Default starting display intensity (brightness) to use." />
                     <ComboBox x:Name="LapDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,41,0,0" VerticalAlignment="Top"
                 		Width="74" ToolTip="Length of time in seconds to display the lap time after crossing the finish line." />
                     <ComboBox x:Name="QuickInfoDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,72,0,0"
                 		VerticalAlignment="Top" Width="74" ToolTip="Length of time in seconds to display the Quick Info text." />
-                    <ComboBox x:Name="HeaderDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,124,0,0"
+                    <ComboBox x:Name="HeaderDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,154,0,0"
                 		VerticalAlignment="Top" Width="74" IsEnabled="False" ToolTip="Length of time in seconds to display the screen header." />
                     <CheckBox x:Name="ShiftIntensityCheck" Content="Increase Intensity at Shift Point?" HorizontalAlignment="Left"
-                		Margin="15,157,0,0" VerticalAlignment="Top" Checked="ShiftIntensityCheckChecked"
+                		Margin="15,187,0,0" VerticalAlignment="Top" Checked="ShiftIntensityCheckChecked"
                 		Unchecked="ShiftIntensityCheckUnchecked" ToolTip="Increase display intensity (brightness) at gear shift point." />
                     <CheckBox x:Name="ShiftIntensityTypeCheck" Content="Relative Amount?" HorizontalAlignment="Left"
-                		Margin="35,178,0,0" VerticalAlignment="Top" IsEnabled="False"
+                		Margin="35,208,0,0" VerticalAlignment="Top" IsEnabled="False"
                 		Unchecked="ShiftIntensityTypeCheckUnchecked" Checked="ShiftIntensityTypeCheckChecked" ToolTip="Increase display intensity (brightness) relative to current display intensity or use a fixed value." />
-                    <Label x:Name="ShiftIntensityAmountLabel" Content="Amount: " HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top" />
-                    <ComboBox x:Name="ShiftIntensityAmountCBox" HorizontalAlignment="Left" Margin="99,200,0,0"
+                    <Label x:Name="ShiftIntensityAmountLabel" Content="Amount: " HorizontalAlignment="Left" Margin="35,230,0,0" VerticalAlignment="Top" />
+                    <ComboBox x:Name="ShiftIntensityAmountCBox" HorizontalAlignment="Left" Margin="99,230,0,0"
                 		VerticalAlignment="Top" Width="74" IsEnabled="False" ToolTip="Amount to increase display intensity (brightness) to/by." />
+                    <Label Content="Engine Warning Display Time:" HorizontalAlignment="Left" Margin="10,103,0,0"
+                    	VerticalAlignment="Top" />
+                    <ComboBox x:Name="EngineWarningDisplayTimeCBox" HorizontalAlignment="Left" Margin="185,103,0,0"
+                    	VerticalAlignment="Top" Width="74" ToolTip="Length of time in seconds to display the Engine Warnings text." />
+                    <CheckBox x:Name="QuickInfoColourCheck" Content="Use Red LEDS for Quick Info Lights" HorizontalAlignment="Left" Margin="15,260,0,-11" VerticalAlignment="Top" ToolTip="Use the RED LEDs for the Quick Info Lights instead of GREEN"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Delta Timing" ToolTip="TM display unit options relating to lap delta timing.">

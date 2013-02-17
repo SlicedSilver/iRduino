@@ -25,6 +25,13 @@ namespace iRduino.Classes
         KeyboardButtonPress
     }
 
+    public enum WarningTypesEnum
+    {
+        Text,
+        Lights,
+        Both
+    }
+
     public class ButtonFunction
     {
         public string Name;
@@ -65,10 +72,13 @@ namespace iRduino.Classes
             quick.Options.Add("Change in delta for last 5 seconds (for Selectable Lap Delta Variable)");
             quick.Options.Add("Class Sessions Fastest Lap");
             quick.Options.Add("Fuel Percentage");
+            quick.Options.Add("Fuel Percentage with Quick Info Lights");
             quick.Options.Add("Session Time");
             quick.Options.Add("Session Time Remaining");
             quick.Options.Add("Session Laps Remaining");
+            quick.Options.Add("Session Laps Remaining with Quick Info Lights");
             quick.Options.Add("Laps of Fuel Remaining");
+            quick.Options.Add("Laps of Fuel Remaining with Quick Info Lights");
             quick.Options.Add("Fuel Burn Rate (Litres/Lap)");
             quick.Options.Add("Fuel Burn Rate (Gallons/Lap)");
             buttonFunctions.Add(ButtonFunctionsEnum.DisplayQuickInfo, quick);
@@ -360,7 +370,7 @@ namespace iRduino.Classes
                     break;
                 case ButtonFunctionsEnum.TestSerialLink:
                     disp.Test = true;
-                    disp.WaitTime[0] = DateTime.Now.AddSeconds(1.7);
+                    disp.WaitTimeTMDisplay[0] = DateTime.Now.AddSeconds(1.7);
                     disp.HostApp.TMDisplayTest();
                     break;
                 case ButtonFunctionsEnum.LEDsOnOff:
@@ -571,6 +581,20 @@ namespace iRduino.Classes
                                         disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
+                case "Fuel Percentage with Quick Info Lights":
+                    if (disp.Wrapper.IsConnected)
+                    {
+                        disp.ShowStringTimed(String.Format("FPct{0}", (disp.SavedTelemetry.CurrentFuelPCT * 100).ToString("0.0")),
+                                        disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.CurrentFuelPCT * 100, 0, 100);
+                        disp.ShowLEDTimed(
+                                lights[0],
+                                lights[1],
+                                false,
+                                disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                                unit);
+                    }
+                    break;
                 case "Session Time":
                     if (disp.Wrapper.IsConnected)
                     {
@@ -599,7 +623,23 @@ namespace iRduino.Classes
                             disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
-                    case "Laps of Fuel Remaining":
+                case "Session Laps Remaining with Quick Info Lights":
+                    if (disp.Wrapper.IsConnected && disp.SavedTelemetry.SessionLapsRemaining > 0)
+                    {
+                        disp.ShowStringTimed(
+                            String.Format("{0} LaPS", (disp.SavedTelemetry.SessionLapsRemaining).ToString("000")),  //why was I multiplying this value by 100?
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.SessionLapsRemaining, 0, 8);
+                        disp.ShowLEDTimed(
+                                lights[0],
+                                lights[1],
+                                false,
+                                disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                                unit);
+                    }
+                    
+                    break;
+                case "Laps of Fuel Remaining":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.LapsLeft > 100)
                     {
                         disp.ShowStringTimed(
@@ -619,7 +659,41 @@ namespace iRduino.Classes
                         disp.ShowStringTimed("__._ LaPS", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
-                    case "Fuel Burn Rate (Litres/Lap)":
+                case "Laps of Fuel Remaining with Quick Info Lights":
+                    if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.LapsLeft > 100)
+                    {
+                        disp.ShowStringTimed(
+                            String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0")),
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                            unit);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8);
+                        disp.ShowLEDTimed(
+                                lights[0],
+                                lights[1],
+                                false,
+                                disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                                unit);
+                    }
+                    else if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.LapsLeft > 0.09f)
+                    {
+                        disp.ShowStringTimed(
+                            String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0.0")),
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                            unit);
+                        byte[] lights = LEDs.QuickInfoLEDs(disp.SavedTelemetry.Fuel.LapsLeft, 0, 8);
+                        disp.ShowLEDTimed(
+                                lights[0],
+                                lights[1],
+                                false,
+                                disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
+                                unit);
+                    }
+                    else
+                    {
+                        disp.ShowStringTimed("__._ LaPS", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
+                    }
+                    break;
+                case "Fuel Burn Rate (Litres/Lap)":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.BurnRate > 0.09f)
                     {
                         disp.ShowStringTimed(
@@ -632,7 +706,7 @@ namespace iRduino.Classes
                         disp.ShowStringTimed("_.__ burn", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
-                    case "Fuel Burn Rate (Gallons/Lap)":
+                 case "Fuel Burn Rate (Gallons/Lap)":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.BurnRate > 0.09f)
                     {
                         disp.ShowStringTimed(
