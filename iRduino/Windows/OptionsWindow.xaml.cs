@@ -260,14 +260,14 @@ namespace iRduino.Windows
                 if (temp != null)
                 {
                     this.hostApp.CurrentConfigurationLabel.Content = temp.Name;
-                    this.hostApp.TrySetComPort(temp.PreferredComPort);
+                    this.hostApp.TrySetComPort(temp.SerialPortSettings.PreferredComPort);
                 }
                 else
                 {
                     this.hostApp.CurrentConfigurationLabel.Content = "None Loaded!";
                 }
                 if (this.hostApp.DisplayMngr.CurrentConfiguration != null)
-                    this.hostApp.DisplayMngr.Intensity = this.hostApp.DisplayMngr.CurrentConfiguration.Intensity;
+                    this.hostApp.DisplayMngr.Intensity = this.hostApp.DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
                 this.hostApp.CheckCurrentConf();
                 if (this.hostApp.DisplayMngr.CurrentConfiguration != null)
                 {
@@ -307,7 +307,7 @@ namespace iRduino.Windows
             this.hostApp.DisplayMngr.Configurations.Add(temp2);
             this.hostApp.DisplayMngr.CurrentConfiguration = temp2;
             this.hostApp.CurrentConfigurationLabel.Content = temp2.Name;
-            this.hostApp.TrySetComPort(temp2.PreferredComPort);
+            this.hostApp.TrySetComPort(temp2.SerialPortSettings.PreferredComPort);
             ReloadConfList();
         }
 
@@ -576,15 +576,21 @@ namespace iRduino.Windows
                         newInt += this.configurationOptions.ShiftIntensityAmount;
                     }
                 }
-                var dxMessage = new DxMessage
+                var tmLEDs = new TMLEDSMessage
                 {
-                    DisplayList = displays,
-                    Intensity = newInt,
-                    GreenLEDSList = greens,
-                    RedLEDSList = reds,
-                    DotsList = dots
+                    Green = greens,
+                    Red = reds,
+                    Intensity = newInt
                 };
-                this.hostApp.ArduinoConnection.SendStringMulti(dxMessage);
+                var tmDisplay = new TMStringMessage
+                {
+                    Display = displays,
+                    Dots = dots,
+                    Intensity = newInt,
+                    UnitType = this.hostApp.DisplayMngr.TM1640Units
+                };
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessagesSending.SendTMLEDS(tmLEDs));
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessagesSending.SendTMStrings(tmDisplay));
                 this.shiftPreviewRpm += 50;
             }
             else

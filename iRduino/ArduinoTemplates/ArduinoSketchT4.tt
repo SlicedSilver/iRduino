@@ -44,7 +44,6 @@
 			messageLengthInt = 71;
 			break;
 	}
-	string messageLength = (messageLengthInt + Constants.ExtraMessageLengthTM1640 * numberTm1640S).ToString(CultureInfo.InvariantCulture);
     string messageReadUnitCheck = "";
 	var count = 0;
         for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
@@ -139,14 +138,13 @@ iRduino - Arduino Sketch
         }
     }
 #>
-#define NumberUnit <#= configurationOptions.DisplayUnitConfigurations.Count #>
+#define NumberUnits <#= configurationOptions.DisplayUnitConfigurations.Count #>
 #define NumberTM1638Units <#= configurationOptions.DisplayUnitConfigurations.Count - numberTm1640S #>
 //////Setup Finished
 
 #define startByte1 <#= Constants.MessageStartByte1#>
-#define startByte2 <#= Constants.MessageStartByte2#>
 #define endByte <#= Constants.MessageEndByte#>
-#define messageLength <#= messageLength#>
+#define messageBufferSize 32
 
 <#
 for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
@@ -181,7 +179,7 @@ byte segments[8], TM1640segments[16], redLeds, greenLeds, intensity, unit, sum, 
 byte buttons[NumberTM1638Units], oldbuttons[NumberTM1638Units], lastButtonSend[NumberTM1638Units];
 long lastCheck, debounceDelay = 100;
 boolean sendButtons = false;
-byte messageHolder[messageLength], message[messageLength-4], messagePosition = -1;
+byte messageHolder[messageBufferSize], md[messageBufferSize], messageLength, messageID, messagePosition = -1;
 
 void setup() {
 	Serial.begin(<#= serialSpeed #>);
@@ -197,7 +195,7 @@ void loop() {
 	buttonsCheck();
 	if (Serial.available() > 0){
 		messagePosition++;
-		if(messagePosition == messageLength) messagePosition = 0;
+		if(messagePosition == messageBufferSize) messagePosition = 0;
 		messageHolder[messagePosition] = Serial.read();
 		messageChecker();
 	}
@@ -205,50 +203,116 @@ void loop() {
 
 void messageChecker()
 {
-	checkerPosition = (messagePosition == 0) ? messageLength-1 : messagePosition - 1;
-	if(messageHolder[checkerPosition] != endByte) return; //end byte
-	checkerPosition = (messagePosition == messageLength -1) ? 0 : messagePosition + 1;
-	if(messageHolder[checkerPosition]!= startByte1) return; //start byte1
-	checkerPosition = (checkerPosition == messageLength - 1) ? 0 : checkerPosition+1;
-	if(messageHolder[checkerPosition]!= startByte2) return; // start byte 2
-	checkerPosition++;
-	readCount = 0;
-	sum = 0;
-	while (readCount < messageLength-4)
+	if(messageHolder[messagePosition] != endByte) return; //end byte
+	checkerPosition = (messagePosition == 0) ? messageBufferSize-1 : messagePosition - 1;
+	messageLength = messageHolder[checkerPosition]; //messageLength
+	if(checkerPosition >= messageLength + 3)
 	{
-		if(checkerPosition == messageLength) checkerPosition = 0;
-		message[readCount] = messageHolder[checkerPosition];
+		checkerPosition = checkerPosition - messageLength - 3;
+	}
+	else
+	{
+		checkerPosition = checkerPosition + messageBufferSize - messageLength - 3;
+	}
+	if(messageHolder[checkerPosition]!= startByte1) return; //start byte1
+	checkerPosition++;
+	messageExtract(messageLength);
+}
+
+void messageExtract(byte _length)
+{
+	sum = 0;
+	readCount = 0;
+	while (readCount <= _length)
+	{
+		if(checkerPosition == messageBufferSize) checkerPosition = 0;
+		md[readCount] = messageHolder[checkerPosition];
 		sum += messageHolder[checkerPosition];
 		readCount++;
 		checkerPosition++;
 	}
-	if(sum == messageHolder[messagePosition]) messageRead(message);
-}
-
-void messageRead(byte _message[]){
-	i = 0;
-	intensity = _message[i++];
-	for(int u = 1; u <= NumberUnits; u++)
+	if(checkerPosition == messageBufferSize) checkerPosition = 0;
+	if(sum == messageHolder[checkerPosition])
 	{
-		unit = _message[i++];
-		if(<#= messageReadUnitCheck #>)
+		switch(md[0])
 		{
-			for(int x = 0;x<16;x++){
-				TM1640segments[x] = _message[i++];
-			}
-			updateDisplay(unit,word(0,0),TM1640segments,intensity);
-		}
-		else
-		{
-			greenLeds = _message[i++];
-			redLeds = _message[i++];
-			for(int x = 0;x<8;x++){
-				segments[x] = _message[i++];
-			}
-			updateDisplay(unit,word(greenLeds,redLeds),segments,intensity);
+			case 37: TMString(md);
+				break;
+			case 42: TMLED(md);
+				break;
+			case 170: Clear(md);
+				break;
 		}
 	}
 }
+
+void TMString(byte _md[])
+{
+	i = 1;
+	intensity = _md[i++];
+	for(byte u = 1; u <= NumberUnits; u++)
+	{
+		if(<#= messageReadUnitCheck #>) //checks for TM1640
+		{
+			for(byte x = 0; x < 16; x++){
+				TM1640segments[x] = _md[i++];
+			}
+			updateTMDisplay(u,TM1640segments,intensity);
+		}
+		else
+		{
+			for(byte x = 0; x < 8; x++){
+				segments[x] = _md[i++];
+			}
+			updateTMDisplay(u,segments,intensity);
+		}
+	}
+}
+
+void TMLED(byte _md[])
+{
+	i = 1;
+	intensity = _md[i++];
+	for(byte u = 1; u <= NumberTM1638Units; u++){
+		greenLeds = _md[i++];
+		redLeds = _md[i++];
+		updateTMLEDs(u,word(greenLeds,redLeds),intensity);
+	}
+}
+
+void Clear(byte _md[])
+{
+	if(_md[1] == 170 && _md[2] == 170)
+	{
+		ClearEverything();
+	}
+}
+
+void ClearEverything(){
+
+<#
+	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+	{
+		if (configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+		{
+#>
+		module<#= p + 1#>.setupDisplay(true,0);
+		module<#= p + 1#>.setDisplayToString("                ");
+		module<#= p + 1#>.setLEDs(0);
+<#
+		}
+		else
+		{
+#>
+		module<#= p + 1#>.setupDisplay(true,0);
+		module<#= p + 1#>.setDisplayToString("        ");
+		module<#= p + 1#>.setLEDs(0);
+<#
+		}
+	}
+#>
+}
+
 
 void buttonsCheck(){
 	if ((millis() - lastCheck)<debounceDelay) return;
@@ -276,16 +340,22 @@ void buttonsCheck(){
 	}
 	if(sendButtons){
 		Serial.write(startByte1);
+        Serial.write(55); //Message ID
+        sum = 55;
 		for(int u = 0; u < NumberTM1638Units; u++)
 		{
 			lastButtonSend[u] = buttons[u];
 			Serial.write(lastButtonSend[u]);
+            sum += lastButtonSend[u];
 		}
+        Serial.write(sum); //checksum
+        Serial.write(NumberTM1638Units);
+        Serial.write(endByte);
 	}
 }
 
-void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
-	switch(unit){
+void updateTMDisplay(byte _unit, byte _segments[], byte _intensity){
+	switch(_unit){
 <#
 	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
 	{
@@ -303,8 +373,28 @@ void updateDisplay(byte unit, word _leds, byte _segments[], byte _intensity){
 #>
 		case <#= p + 1#>:
 		module<#= p + 1#>.setupDisplay(true,_intensity);
-		module<#= p + 1#>.setLEDs(_leds);
 		module<#= p + 1#>.setDisplay(_segments);
+		break;
+<#
+		}
+	}
+#>
+  }
+}
+
+void updateTMLEDs(byte _unit, word _leds, byte _intensity){
+	switch(_unit){
+<#
+	int x = 0;
+	for (var p = 0; p < configurationOptions.DisplayUnitConfigurations.Count; p++)
+	{
+		if (!configurationOptions.DisplayUnitConfigurations[p].IsTM1640)
+		{
+		x++;
+#>
+		case <#= x #>:
+		module<#= x #>.setupDisplay(true,_intensity);
+		module<#= x #>.setLEDs(_leds);
 		break;
 <#
 		}

@@ -3,7 +3,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="iRduino.Windows.OptionsWindow"
-        Title="iRduino Configuration Options" Height="490" Width="600" MinWidth="600" MinHeight="250"
+        Title="iRduino Configuration Options" Height="510" Width="600" MinWidth="600" MinHeight="250"
         Loaded="OptionsWindowLoaded" Closing="OptionsWindowClosing" BorderThickness="2" BorderBrush="#FF17ABF0" ShowMaxRestoreButton="False" TitleCaps="False">
     <Controls:MetroWindow.Resources>
         <ResourceDictionary>

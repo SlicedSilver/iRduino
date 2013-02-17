@@ -48,6 +48,8 @@ namespace iRduino.Classes
 
         public string DisplayRefreshRate { get; set; }
 
+        public string LEDRefreshRate { get; set; }
+
         public string SerialPortSpeed { get; set; }
 
         public bool LogArduinoMessages { get; set; }
@@ -68,32 +70,39 @@ namespace iRduino.Classes
 
         public bool UseWeightedFuelCalculations { get; set; }
 
+        public bool QuickInfoLightsColour { get; set; }
+
+        public int WarningTextDisplayTime { get; set; }
+
         public Dictionarys Dictionarys { get; set; }
 
         public void LoadConfiguration(Configuration configuration, Dictionarys dicts)
         {
             Name = configuration.Name;
             FileLocation = configuration.FileLocation;
-            Intensity = configuration.Intensity;
-            ShiftIntensity = configuration.ShiftIntensity;
-            ShiftIntensityType = configuration.ShiftIntensityType;
-            ShiftIntensityAmount = configuration.ShiftIntensityAmount;
-            ShowHeader = configuration.ShowHeaders;
-            HeaderDisplayTime = configuration.HeaderDisplayTime - 1;
-            QuickInfoDisplayTime = configuration.QuickInfoDisplayTime - 1;
-            LapTimeDisplayTime = configuration.LapDisplayTime - 1;
-            PreferredComPort = configuration.PreferredComPort;
-            LogArduinoMessages = configuration.LogArduinoMessages;
-            SerialPortSpeed = configuration.SerialPortSpeed.ToString(CultureInfo.InvariantCulture);
-            DisplayRefreshRate = configuration.DisplayRefreshRate.ToString(CultureInfo.InvariantCulture);
-            UseCustomSerialSpeed = configuration.UseCustomSerialSpeed;
-            ColourDeltaByDD = configuration.ColourDeltaByDD;
-            DeltaLightsOnDefault = configuration.DeltaLightsOnDefault;
-            DeltaMessageScreen = configuration.DeltaMessageScreen;
-            DeltaRange = configuration.DeltaRange - 1;
-            UseCustomFuelCalculationOptions = configuration.UseCustomFuelCalculationOptions;
-            FuelCalculationLaps = configuration.FuelCalculationLaps - 2;
-            UseWeightedFuelCalculations = configuration.UseWeightedFuelCalculations;
+            Intensity = configuration.TMDisplaySettings.Intensity;
+            ShiftIntensity = configuration.TMDisplaySettings.ShiftIntensity;
+            ShiftIntensityType = configuration.TMDisplaySettings.ShiftIntensityType;
+            ShiftIntensityAmount = configuration.TMDisplaySettings.ShiftIntensityAmount;
+            ShowHeader = configuration.TMDisplaySettings.ShowHeaders;
+            HeaderDisplayTime = configuration.TMDisplaySettings.HeaderDisplayTime - 1;
+            QuickInfoDisplayTime = configuration.TMDisplaySettings.QuickInfoDisplayTime - 1;
+            LapTimeDisplayTime = configuration.TMDisplaySettings.LapDisplayTime - 1;
+            PreferredComPort = configuration.SerialPortSettings.PreferredComPort;
+            LogArduinoMessages = configuration.AdvancedSettings.LogArduinoMessages;
+            SerialPortSpeed = configuration.SerialPortSettings.SerialPortSpeed.ToString(CultureInfo.InvariantCulture);
+            DisplayRefreshRate = configuration.RefreshRates.DisplayRefreshRate.ToString(CultureInfo.InvariantCulture);
+            LEDRefreshRate = configuration.RefreshRates.LEDRefreshRate.ToString(CultureInfo.InvariantCulture);
+            UseCustomSerialSpeed = configuration.SerialPortSettings.UseCustomSerialSpeed;
+            ColourDeltaByDD = configuration.TMDisplaySettings.ColourDeltaByDD;
+            DeltaLightsOnDefault = configuration.TMDisplaySettings.DeltaLightsOnDefault;
+            DeltaMessageScreen = configuration.TMDisplaySettings.DeltaMessageScreen;
+            DeltaRange = configuration.TMDisplaySettings.DeltaRange - 1;
+            UseCustomFuelCalculationOptions = configuration.OtherSettings.UseCustomFuelCalculationOptions;
+            FuelCalculationLaps = configuration.OtherSettings.FuelCalculationLaps - 2;
+            UseWeightedFuelCalculations = configuration.OtherSettings.UseWeightedFuelCalculations;
+            WarningTextDisplayTime = configuration.TMDisplaySettings.WarningTextDisplayTime - 1;
+            QuickInfoLightsColour = configuration.TMDisplaySettings.QuickInfoLightsColour;
 
             ControllerConfigurations = new List<ControllerButtonConfiguration>();
             foreach (ControllerConfiguration item in configuration.ControllerConfigurations)
@@ -128,13 +137,18 @@ namespace iRduino.Classes
                         DCDisplayTime = displayConf.DCDisplayTime,
                         ShowLap = displayConf.ShowLap,
                         ButtonConfigurations = new ButtonConfiguration(),
-                        UnitNumber = unitCount
+                        UnitNumber = unitCount,
+                        ShowEngineWarnings = displayConf.ShowEngineWarnings
                     };
                 DisplayConfiguration conf = displayConf;
                 foreach (var lstyle in dicts.LapDisplayStyles.Where(lstyle => conf.LapStyle == lstyle.Value))
                 {
                     temp.LapStyle = lstyle.Key;
+                } foreach (var wtype in dicts.WarningTypes.Where(wtype => conf.WarningType == wtype.Value))
+                {
+                    temp.WarningType = wtype.Key;
                 }
+
                 for (int n = 0; n < Constants.NumberButtonsOnTm1638; n++)
                 {
                     temp.ButtonConfigurations.ButtonFunctions[n] =
@@ -207,37 +221,86 @@ namespace iRduino.Classes
         {
             var returnConf = new Configuration
                                  {
-                                     Name = Name,
-                                     FileLocation = FileLocation,
-                                     Intensity = Intensity,
-                                     ShiftIntensity = ShiftIntensity,
-                                     ShiftIntensityType = ShiftIntensityType,
-                                     ShiftIntensityAmount = ShiftIntensityAmount,
-                                     ShowHeaders = ShowHeader,
-                                     HeaderDisplayTime = HeaderDisplayTime + 1,
-                                     QuickInfoDisplayTime = QuickInfoDisplayTime + 1,
-                                     LapDisplayTime = LapTimeDisplayTime + 1,
-                                     LogArduinoMessages = LogArduinoMessages,
-                                     ColourDeltaByDD = ColourDeltaByDD,
-                                     DeltaRange = DeltaRange + 1,
-                                     DeltaMessageScreen = DeltaMessageScreen,
-                                     DeltaLightsOnDefault = DeltaLightsOnDefault,
-                                     PreferredComPort = PreferredComPort,
-                                     UseCustomSerialSpeed = UseCustomSerialSpeed,
-                                     DisplayConfigurations = new List<DisplayConfiguration>(),
-                                     ControllerConfigurations = new List<ControllerConfiguration>(),
-                                     SerialPortSpeed =
-                                         AdvancedOptions.ParseSerialSpeedString(this.SerialPortSpeed),
-                                     DisplayRefreshRate =
-                                         AdvancedOptions.ParseDisplayRefreshRatesString(
-                                             this.DisplayRefreshRate),
-                                     UseCustomFuelCalculationOptions = UseCustomFuelCalculationOptions,
-                                     UseWeightedFuelCalculations = UseWeightedFuelCalculations,
-                                     FuelCalculationLaps = FuelCalculationLaps + 2
+                                         Name = Name,
+                                         FileLocation = FileLocation,
+                                         DisplayConfigurations = new List<DisplayConfiguration>(),
+                                         ControllerConfigurations = new List<ControllerConfiguration>(),
+                                         TMDisplaySettings =
+                                                 new TMDisplaySettings
+                                                     {
+                                                             ColourDeltaByDD = this.ColourDeltaByDD,
+                                                             ShiftIntensity = this.ShiftIntensity,
+                                                             Intensity = this.Intensity,
+                                                             ShiftIntensityType =
+                                                                     this.ShiftIntensityType,
+                                                             ShiftIntensityAmount =
+                                                                     this.ShiftIntensityAmount,
+                                                             ShowHeaders = this.ShowHeader,
+                                                             HeaderDisplayTime =
+                                                                     this.HeaderDisplayTime + 1,
+                                                             QuickInfoDisplayTime =
+                                                                     this.QuickInfoDisplayTime + 1,
+                                                             LapDisplayTime =
+                                                                     this.LapTimeDisplayTime + 1,
+                                                             DeltaRange = this.DeltaRange + 1,
+                                                             DeltaMessageScreen =
+                                                                     this.DeltaMessageScreen,
+                                                             DeltaLightsOnDefault =
+                                                                     this.DeltaLightsOnDefault,
+                                                             WarningTextDisplayTime = this.WarningTextDisplayTime + 1,
+                                                             QuickInfoLightsColour = this.QuickInfoLightsColour
+                                                     },
+                                         SerialPortSettings =
+                                                 new SerialPortConfiguration
+                                                     {
+                                                             PreferredComPort =
+                                                                     this
+                                                                     .PreferredComPort,
+                                                             SerialPortSpeed =
+                                                                     AdvancedOptions
+                                                                     .ParseSerialSpeedString
+                                                                     (
+                                                                             this
+                                                                     .SerialPortSpeed),
+                                                             UseCustomSerialSpeed =
+                                                                     this
+                                                                     .UseCustomSerialSpeed
+                                                     },
+                                         OtherSettings =
+                                                 new OtherSettings
+                                                     {
+                                                             FuelCalculationLaps =
+                                                                     this.FuelCalculationLaps + 2,
+                                                             UseCustomFuelCalculationOptions =
+                                                                     this
+                                                                     .UseCustomFuelCalculationOptions,
+                                                             UseWeightedFuelCalculations =
+                                                                     this
+                                                                     .UseWeightedFuelCalculations
+                                                     },
+                                         RefreshRates =
+                                                 new RefreshRates
+                                                     {
+                                                             DisplayRefreshRate =
+                                                                     AdvancedOptions
+                                                                     .ParseRefreshRatesString(
+                                                                             this
+                                                                     .DisplayRefreshRate),
+                                                             LEDRefreshRate =
+                                                                     AdvancedOptions
+                                                                     .ParseRefreshRatesString(
+                                                                             this.LEDRefreshRate)
+                                                     },
+                                         AdvancedSettings =
+                                                 new AdvancedSettings
+                                                     {
+                                                             LogArduinoMessages =
+                                                                     this.LogArduinoMessages
+                                                     }
                                  };
-            if(returnConf.DeltaRange <= 0)
+            if(returnConf.TMDisplaySettings.DeltaRange <= 0)
             {
-                returnConf.DeltaRange = 1;
+                returnConf.TMDisplaySettings.DeltaRange = 1;
             }
             if (!UseCustomSerialSpeed) //Calculate and Auto Set Serial Speed
             {
@@ -256,8 +319,8 @@ namespace iRduino.Classes
                     }
 
                 }
-                returnConf.SerialPortSpeed = AdvancedOptions.CalculateRecommendSerialSpeed(
-                returnConf.DisplayRefreshRate, numberTM1638, numberTM1640);
+                returnConf.SerialPortSettings.SerialPortSpeed = AdvancedOptions.CalculateRecommendSerialSpeed(
+                returnConf.RefreshRates.DisplayRefreshRate,returnConf.RefreshRates.LEDRefreshRate, numberTM1638, numberTM1640);
             }
             //int controllerCount = 0;
             foreach (ControllerButtonConfiguration item in ControllerConfigurations)
@@ -302,7 +365,8 @@ namespace iRduino.Classes
                         ShiftClumps = displayConf.LEDsConfigurations.ShiftClumps,
                         RevLimiterLights = displayConf.LEDsConfigurations.RevLimiterLights,
                         ShowShiftLights = displayConf.LEDsConfigurations.ShowShiftLights,
-                        DeltaLightsShow = displayConf.LEDsConfigurations.DeltaLightsShow
+                        DeltaLightsShow = displayConf.LEDsConfigurations.DeltaLightsShow,
+                        ShowEngineWarnings = displayConf.ShowEngineWarnings
                     };
                 List<Screen> screenTemp = displayConf.Screens;
                 foreach (Screen screen in screenTemp)
@@ -325,6 +389,14 @@ namespace iRduino.Classes
                     }
                 }
                 temp.Screens = displayConf.Screens;
+                try
+                {
+                    temp.WarningType = dicts.WarningTypes[displayConf.WarningType];
+                }
+                catch
+                {
+                    Enum.TryParse(displayConf.WarningType, out temp.WarningType);
+                }
                 try
                 {
                     temp.LapStyle = dicts.LapDisplayStyles[displayConf.LapStyle];
@@ -493,6 +565,10 @@ namespace iRduino.Classes
         public int UnitNumber { get; set; }
 
         public LEDsConfiguration LEDsConfigurations { get; set; }
+
+        public bool ShowEngineWarnings { get; set; }
+
+        public string WarningType { get; set; }
     }
 
     public class ButtonConfiguration

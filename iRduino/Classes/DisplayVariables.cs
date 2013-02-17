@@ -94,11 +94,11 @@ namespace iRduino.Classes
                     {DisplayVarsEnum.Laps2, new DisplayVariable("Lap 2 Digits", 2, "Lp", "43")},
 
                     {DisplayVarsEnum.CurrentLapTime, new DisplayVariable("Current Lap Time", 6, "crt lt", "1-12.43")},
-                    {DisplayVarsEnum.SelectableLapDelta, new DisplayVariable("Selectable Lap Delta Time", 4, "SLdt", "-0.43")},
-                    {DisplayVarsEnum.LapDeltaBest, new DisplayVariable("Lap Delta (Best)", 4, "ldtb", "-0.43")},
-                    {DisplayVarsEnum.LapDeltaOptimal, new DisplayVariable("Lap Delta (Optimal)", 4, "ldto", "-0.43")},
-                    {DisplayVarsEnum.LapDeltaSessionBest, new DisplayVariable("Lap Delta (Session Best)", 4, "ldsb", "-0.43")},
-                    {DisplayVarsEnum.LapDeltaSessionOptimal, new DisplayVariable("Lap Delta (Session Optimal)", 4, "ldso", "-0.43")},
+                    {DisplayVarsEnum.SelectableLapDelta, new DisplayVariable("Selectable Lap Delta Time", 3, "SLdt", "-.43")},
+                    {DisplayVarsEnum.LapDeltaBest, new DisplayVariable("Lap Delta (Best)", 3, "ldtb", "-.43")},
+                    {DisplayVarsEnum.LapDeltaOptimal, new DisplayVariable("Lap Delta (Optimal)", 3, "ldto", "-.43")},
+                    {DisplayVarsEnum.LapDeltaSessionBest, new DisplayVariable("Lap Delta (Session Best)", 3, "ldsb", "-.43")},
+                    {DisplayVarsEnum.LapDeltaSessionOptimal, new DisplayVariable("Lap Delta (Session Optimal)", 3, "ldso", "-.43")},
 
                     {DisplayVarsEnum.ForceFeedBackPCT, new DisplayVariable("Force Feedback %", 3, "FFb", "100")},
                     {DisplayVarsEnum.FuelLitres, new DisplayVariable("Fuel Level Litres", 3, "Flv", "12.5")},
@@ -274,88 +274,88 @@ namespace iRduino.Classes
                             case 0:
                                 if (e.TelemetryInfo.LapDeltaToBestLap_OK.Value)
                                 {
-                                    displayString += (e.TelemetryInfo.LapDeltaToBestLap.Value).ToString(" 0.00;-0.00; 0.00");
+                                    displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToBestLap.Value);
                                 }
                                 else
                                 {
-                                    displayString += " _.__";
+                                    displayString += " _._";
                                 }
                                 break;
                             case 1:
                                 if (e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value)
                                 {
-                                    displayString += (e.TelemetryInfo.LapDeltaToOptimalLap.Value).ToString(" 0.00;-0.00; 0.00");
+                                    displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToOptimalLap.Value);
                                 }
                                 else
                                 {
-                                    displayString += " _.__";
+                                    displayString += " _._";
                                 }
 
                                 break;
                             case 2:
                                 if (e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value)
                                 {
-                                    displayString += (e.TelemetryInfo.LapDeltaToSessionBestLap.Value).ToString(" 0.00;-0.00; 0.00");
+                                    displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToSessionBestLap.Value);
                                 }
                                 else
                                 {
-                                    displayString += " _.__";
+                                    displayString += " _._";
                                 }
 
                                 break;
                             case 3:
                                 if (e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value)
                                 {
-                                    displayString += (e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value).ToString(" 0.00;-0.00; 0.00");
+                                    displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value);
                                 }
                                 else
                                 {
-                                    displayString += " _.__";
+                                    displayString += " _._";
                                 }
                                 break;
                             default:
-                                displayString += " _.__";
+                                displayString += " _._";
                                 break;
                         }
                         break;
                     case DisplayVarsEnum.LapDeltaBest:
                         if (e.TelemetryInfo.LapDeltaToBestLap_OK.Value)
                         {
-                            displayString += (e.TelemetryInfo.LapDeltaToBestLap.Value).ToString(" 0.00;-0.00; 0.00");
+                            displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToBestLap.Value);
                         }
                         else
                         {
-                            displayString += " _.__";
+                            displayString += " _._";
                         }
                         break;
                     case DisplayVarsEnum.LapDeltaOptimal:
                         if (e.TelemetryInfo.LapDeltaToOptimalLap_OK.Value)
                         {
-                            displayString += (e.TelemetryInfo.LapDeltaToOptimalLap.Value).ToString(" 0.00;-0.00; 0.00");
+                            displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToOptimalLap.Value);
                         }
                         else
                         {
-                            displayString += " _.__";
+                            displayString += " _._";
                         }
                         break;
                     case DisplayVarsEnum.LapDeltaSessionBest:
                         if (e.TelemetryInfo.LapDeltaToSessionBestLap_OK.Value)
                         {
-                            displayString += (e.TelemetryInfo.LapDeltaToSessionBestLap.Value).ToString(" 0.00;-0.00; 0.00");
+                            displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToSessionBestLap.Value);
                         }
                         else
                         {
-                            displayString += " _.__";
+                            displayString += " _._";
                         }
                         break;
                     case DisplayVarsEnum.LapDeltaSessionOptimal:
                         if (e.TelemetryInfo.LapDeltaToSessionOptimalLap_OK.Value)
                         {
-                            displayString += (e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value).ToString(" 0.00;-0.00; 0.00");
+                            displayString += DeltaDisplay(e.TelemetryInfo.LapDeltaToSessionOptimalLap.Value);
                         }
                         else
                         {
-                            displayString += " _.__";
+                            displayString += " _._";
                         }
                         break;
 
@@ -611,6 +611,22 @@ namespace iRduino.Classes
                 }
             }
             return displayString;
+        }
+
+        private static string DeltaDisplay(float dtime)
+        {
+            string final;
+            string display = dtime.ToString(" 0.00;-0.00; 0.00");
+            if (dtime <= 0.99f && dtime >= -0.99f)
+            {
+                display = dtime.ToString(" 0.00;-0.00; 0.00");
+                final = display[0] + display.Substring(2, 3);
+            }
+            else
+            {
+                final = display.Substring(0, 4);
+            }
+            return final;
         }
 
         /// <summary>

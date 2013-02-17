@@ -43,6 +43,9 @@
         <Label x:Name="DeltaLightsOptionsLabel" Content="Delta LED Lights Option: " HorizontalAlignment="Left" Margin="40,296,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="UseDeltaLightsCheck" Content="Use Unit for Delta LED Lights?" HorizontalAlignment="Left" Margin="20,275,0,0" VerticalAlignment="Top" Checked="UseDeltaLightsCheckChecked" Unchecked="UseDeltaLightsCheckUnchecked" ToolTip="Use this display unit for display delta LED lights."/>
         <ComboBox x:Name="DeltaLightsOptionCBox" HorizontalAlignment="Left" Margin="187,296,0,0" VerticalAlignment="Top" Width="188" IsEnabled="False" ToolTip="Select the delta LED lights display option for this unit. "/>
+        <Label x:Name="EngineWarningsTypeLabel" Content="Warning Diplay Option:" HorizontalAlignment="Left" Margin="40,355,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="UseEngineWarningsCheck" Content="Use Unit for Displaying Engine Warnings?" HorizontalAlignment="Left" Margin="20,334,0,0" VerticalAlignment="Top" Checked="UseEngineWarningsCheckChecked" Unchecked="UseEngineWarningsCheckUnchecked" ToolTip="Use this unit for displaying Engine Warnings?"/>
+        <ComboBox x:Name="EngineWarningsTypeCBox" HorizontalAlignment="Left" Margin="187,355,0,0" VerticalAlignment="Top" Width="188" IsEnabled="False" ToolTip="Select how the warnings should be displayed."/>
 
     </Grid>
 </Page>

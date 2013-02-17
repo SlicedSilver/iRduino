@@ -61,6 +61,10 @@ namespace iRduino.Windows.Pages
             {
                 this.DeltaLightsOptionCBox.Items.Add(item.Key);
             }
+            foreach (var item in temp.HostApp.DisplayMngr.Dictionarys.WarningTypes)
+            {
+                this.EngineWarningsTypeCBox.Items.Add(item.Key);
+            }
             //Setup Data Binding
             this.NumberScreensBinding = new Binding("NumScreens") {Mode = BindingMode.TwoWay};
             BindingOperations.SetBinding(this.NumberScreensCBox, Selector.SelectedIndexProperty, this.NumberScreensBinding);
@@ -84,7 +88,11 @@ namespace iRduino.Windows.Pages
             BindingOperations.SetBinding(this.UseDeltaLightsCheck, ToggleButton.IsCheckedProperty, deltaLightsUnitBinding);
             var deltaOptionsBinding = new Binding("LEDsConfigurations.DeltaLightsPosition") { Mode = BindingMode.TwoWay };
             BindingOperations.SetBinding(this.DeltaLightsOptionCBox, Selector.SelectedItemProperty, deltaOptionsBinding);
-        }
+            var showEngineWarningsBinding = new Binding("ShowEngineWarnings") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.UseEngineWarningsCheck, ToggleButton.IsCheckedProperty, showEngineWarningsBinding);
+            var engineWarningsOptionBinding = new Binding("WarningType") { Mode = BindingMode.TwoWay };
+            BindingOperations.SetBinding(this.EngineWarningsTypeCBox, Selector.SelectedItemProperty, engineWarningsOptionBinding);
+  }
 
         private void ShowDCCheckChecked(object sender, RoutedEventArgs e)
         {
@@ -122,6 +130,18 @@ namespace iRduino.Windows.Pages
         {
             this.DeltaLightsOptionCBox.IsEnabled = false;
             this.DeltaLightsOptionsLabel.IsEnabled = false;
+        }
+
+        private void UseEngineWarningsCheckChecked(object sender, RoutedEventArgs e)
+        {
+            this.EngineWarningsTypeCBox.IsEnabled = true;
+            this.EngineWarningsTypeLabel.IsEnabled = true;
+        }
+
+        private void UseEngineWarningsCheckUnchecked(object sender, RoutedEventArgs e)
+        {
+            this.EngineWarningsTypeCBox.IsEnabled = false;
+            this.EngineWarningsTypeLabel.IsEnabled = false;
         }
     }
 }
