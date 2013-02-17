@@ -5,7 +5,6 @@
 namespace ArduinoInterfaces
 {
     using System;
-    using System.Collections;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
@@ -142,21 +141,18 @@ namespace ArduinoInterfaces
 
         #region Fields_Properties_Events
 
-        public delegate void ButtonPressEventHandler(int unit, int button);
-
-        public event ButtonPressEventHandler ButtonPress;  
+        
+        public delegate void SerialMessageReceiver(int[] message);
+        public event SerialMessageReceiver SerialMessageReceived;
+        
 
         private static SerialPort sp; //Serial Communication Port
-        private readonly byte[] butByte = new byte[1];
+        
         private readonly DispatcherTimer timer;
-        private BitArray buttons;
-        private int buttonsRead;
-        private int numberUnits = 1;
+        
 
         private bool logArduinoMessagesToFile;
 
-        private List<bool> tm1640Units;
-        private int numberTM1640Units;
         private StringBuilder sb;
 
         //Serial Reading Thread variables
@@ -167,7 +163,7 @@ namespace ArduinoInterfaces
         public bool Running { get; private set; }
 
 
-        private BlockingCollection<Message> messageQueue = new BlockingCollection<Message>(30);
+        private readonly BlockingCollection<Message> messageQueue = new BlockingCollection<Message>(30);
         private bool messageConsumerActive;
 
         
@@ -224,10 +220,8 @@ namespace ArduinoInterfaces
         /// </summary>
         /// <param name="comPort">COM Port to use</param>
         /// <param name="speed">Connection Speed</param>
-        /// <param name="numberUnitsIn">Number of Display Units</param>
-        /// <param name="tm1640UnitsIn">List of bool showing which units are TM1640s</param>
         /// <param name="logArduinoMessages"></param>
-        public void Start(string comPort, int speed, int numberUnitsIn, List<bool> tm1640UnitsIn, bool logArduinoMessages)
+        public void Start(string comPort, int speed, bool logArduinoMessages)
         {
             try
             {
@@ -235,11 +229,7 @@ namespace ArduinoInterfaces
                 sp.Open();
                 StartMessageConsumer(); //Starts serial message task consumer
                 this.timer.Start();
-                this.numberUnits = numberUnitsIn;
-                this.tm1640Units = tm1640UnitsIn;
                 this.logArduinoMessagesToFile = logArduinoMessages;
-                int count = tm1640UnitsIn.Count(item => item);
-                this.numberTM1640Units = count;
                 this.Running = true;
                 if (this.logArduinoMessagesToFile)
                 {
@@ -342,84 +332,16 @@ namespace ArduinoInterfaces
                 if (checkerPosition == 128) checkerPosition = 0;
                 if (sum == serialReadHolder[checkerPosition])
                 {
-                    switch (md[0])
+                    if (this.SerialMessageReceived == null) throw new ArgumentNullException();
+                    SerialMessageReceiver temp = this.SerialMessageReceived;
+                    if (temp != null)
                     {
-                        case 55: TM1638ButtonsMessageReader(md);
-                            break;
+                        temp(md);
                     }
                 }
 
             }
 
-        }
-
-
-        private void TM1638ButtonsMessageReader(int[] messageData)
-        {
-            int readPos = 1;
-            for (int u = 1; u <= this.numberUnits; u++)
-            {
-                if (this.tm1640Units[u - 1])
-                {
-                    continue;
-                }
-                this.buttonsRead = messageData[readPos++];
-                if (this.buttonsRead != -1)
-                {
-                    this.butByte[0] = Convert.ToByte(this.buttonsRead);
-                    this.buttons = new BitArray(this.butByte);
-                    for (var i = 0; i < Constants.NumberButtonsOnTm1638; i++)
-                    {
-                        if (this.buttons[i])
-                        {
-                            Invoke(ref this.ButtonPress, u, i + 1);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        private void ReadSerialFromArduino()
-        {
-            if (sp.BytesToRead < 1 + this.numberUnits - this.numberTM1640Units)
-            {
-                return;
-            }
-            if (sp.ReadByte() != Constants.MessageStartByte1)
-            {
-                return;
-            }
-            for (int u = 1; u <= this.numberUnits; u++)
-            {
-                if (this.tm1640Units[u - 1])
-                {
-                    continue;
-                }
-                this.buttonsRead = sp.ReadByte();
-                if (this.buttonsRead != -1)
-                {
-                    this.butByte[0] = Convert.ToByte(this.buttonsRead);
-                    this.buttons = new BitArray(this.butByte);
-                    for (var i = 0; i < Constants.NumberButtonsOnTm1638; i++)
-                    {
-                        if (this.buttons[i])
-                        {
-                            Invoke(ref this.ButtonPress, u, i + 1);
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void Invoke(ref ButtonPressEventHandler ev, int unit, int button)
-        {
-            if (ev == null) throw new ArgumentNullException("ev");
-            ButtonPressEventHandler temp = ev;
-            if (temp != null)
-            {
-                temp(unit, button);
-            }
         }
 
         #endregion
@@ -466,10 +388,7 @@ namespace ArduinoInterfaces
             byte sum = messageID;
             unchecked // Let overflow occur without exceptions
             {
-                foreach (var b in messageData)
-                {
-                    sum += b;
-                }
+                sum = messageData.Aggregate(sum, (current, b) => (byte)(current + b));
             }
             return sum;
         }

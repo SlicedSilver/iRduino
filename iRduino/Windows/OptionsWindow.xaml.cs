@@ -260,14 +260,14 @@ namespace iRduino.Windows
                 if (temp != null)
                 {
                     this.hostApp.CurrentConfigurationLabel.Content = temp.Name;
-                    this.hostApp.TrySetComPort(temp.PreferredComPort);
+                    this.hostApp.TrySetComPort(temp.SerialPortSettings.PreferredComPort);
                 }
                 else
                 {
                     this.hostApp.CurrentConfigurationLabel.Content = "None Loaded!";
                 }
                 if (this.hostApp.DisplayMngr.CurrentConfiguration != null)
-                    this.hostApp.DisplayMngr.Intensity = this.hostApp.DisplayMngr.CurrentConfiguration.Intensity;
+                    this.hostApp.DisplayMngr.Intensity = this.hostApp.DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
                 this.hostApp.CheckCurrentConf();
                 if (this.hostApp.DisplayMngr.CurrentConfiguration != null)
                 {
@@ -307,7 +307,7 @@ namespace iRduino.Windows
             this.hostApp.DisplayMngr.Configurations.Add(temp2);
             this.hostApp.DisplayMngr.CurrentConfiguration = temp2;
             this.hostApp.CurrentConfigurationLabel.Content = temp2.Name;
-            this.hostApp.TrySetComPort(temp2.PreferredComPort);
+            this.hostApp.TrySetComPort(temp2.SerialPortSettings.PreferredComPort);
             ReloadConfList();
         }
 
@@ -589,8 +589,8 @@ namespace iRduino.Windows
                     Intensity = newInt,
                     UnitType = this.hostApp.DisplayMngr.TM1640Units
                 };
-                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessages.SendTMLEDS(tmLEDs));
-                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessages.SendTMStrings(tmDisplay));
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, ArduinoMessagesSending.SendTMLEDS(tmLEDs));
+                this.hostApp.ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, ArduinoMessagesSending.SendTMStrings(tmDisplay));
                 this.shiftPreviewRpm += 50;
             }
             else

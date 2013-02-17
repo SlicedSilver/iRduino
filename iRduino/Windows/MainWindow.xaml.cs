@@ -27,10 +27,11 @@ namespace iRduino.Windows
     /// </summary>
     public partial class MainWindow
     {
-        public DisplayManager DisplayMngr;
+        public DisplayManager DisplayMngr;      
         public bool OptionsWindowOpen = false;
         public ArduinoLink ArduinoConnection;
-        public ArduinoMessages ArduinoMessagesObject;
+        public ArduinoMessagesSending ArduinoMessagesSendingMngr;
+        public ArduinoMessagesReceiving ArduinoMessagesReceivingMngr;
         private OptionsWindow optionsWindow;
         private SdkWrapper wrapper;
         private readonly BitmapImage startImage;
@@ -218,15 +219,18 @@ namespace iRduino.Windows
             else
             {
                 this.wrapper.Start();
-                DisplayMngr.CurrentConfiguration.NumDisplayUnits =
+                DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits =
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count;
                 var tm1640Units =
                     DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(item => item.IsTM1640).ToList();
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
-                          DisplayMngr.CurrentConfiguration.SerialPortSpeed,
-                          DisplayMngr.CurrentConfiguration.NumDisplayUnits, tm1640Units, DisplayMngr.CurrentConfiguration.LogArduinoMessages);
+                          DisplayMngr.CurrentConfiguration.SerialPortSettings.SerialPortSpeed,
+                          DisplayMngr.CurrentConfiguration.AdvancedSettings.LogArduinoMessages);
+                ArduinoMessagesReceivingMngr.NumberUnits =
+                        DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
+                ArduinoMessagesReceivingMngr.TM1640Units = tm1640Units;
                 DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
-                DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.Intensity;
+                DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
                 StartButtonLabel.Content = "Stop";
                 StartButtonImage.Source = this.stopImage;
@@ -260,7 +264,7 @@ namespace iRduino.Windows
             var unitTypes =
                     this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(disp => disp.IsTM1640)
                         .ToList();
-            this.ArduinoMessagesObject.TMDisplayTest(unitTypes, this.ArduinoConnection);
+            this.ArduinoMessagesSendingMngr.TMDisplayTest(unitTypes, this.ArduinoConnection);
         }
 
         private void MainWindowLoaded(object sender, RoutedEventArgs e)
@@ -274,11 +278,13 @@ namespace iRduino.Windows
             ComPortBox.SelectedIndex = 0;
             StartButtonLabel.Content = "Start";
             StartButtonImage.Source = this.startImage;
+            
             this.ArduinoConnection = new ArduinoLink();
-            ArduinoMessagesObject = new ArduinoMessages();
-
-            this.ArduinoConnection.ButtonPress += this.ArduinoSLIButtonPress;
-            this.ArduinoMessagesObject.TestFinished += this.ArduinoSLITestFinished;
+            this.ArduinoMessagesReceivingMngr = new ArduinoMessagesReceiving();
+            this.ArduinoMessagesSendingMngr = new ArduinoMessagesSending();
+            this.ArduinoConnection.SerialMessageReceived += ArduinoMessagesReceivingMngr.SerialMessageReceiver;
+            this.ArduinoMessagesReceivingMngr.ButtonPress += this.ArduinoSLIButtonPress;
+            this.ArduinoMessagesSendingMngr.TestFinished += this.ArduinoSLITestFinished;
 
             // Create a new instance of the SdkWrapper object
             this.wrapper = new SdkWrapper
@@ -383,7 +389,7 @@ namespace iRduino.Windows
                 {
                     DisplayMngr.CurrentConfiguration = conf;
                     CurrentConfigurationLabel.Content = conf.Name;
-                    TrySetComPort(conf.PreferredComPort);
+                    TrySetComPort(conf.SerialPortSettings.PreferredComPort);
                 }
             }
             CheckCurrentConf();

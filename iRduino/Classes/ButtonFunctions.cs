@@ -194,9 +194,9 @@ namespace iRduino.Classes
                     if (disp.Intensity < Constants.MaxIntensityTM)
                     {
                         disp.Intensity++;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed(String.Format("Int {0}", disp.Intensity), disp.CurrentConfiguration.HeaderDisplayTime,
+                            disp.ShowStringTimed(String.Format("Int {0}", disp.Intensity), disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime,
                                             newUnit);
                         }
                     }
@@ -205,9 +205,9 @@ namespace iRduino.Classes
                     if (disp.Intensity > 0)
                     {
                         disp.Intensity--;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed(String.Format("Int {0}", disp.Intensity), disp.CurrentConfiguration.HeaderDisplayTime,
+                            disp.ShowStringTimed(String.Format("Int {0}", disp.Intensity), disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime,
                                             newUnit);
                         }
                     }
@@ -298,23 +298,23 @@ namespace iRduino.Classes
                     {
                         disp.CurrentDeltaType = 0;
                     }
-                    DisplayQuickInfoNow(disp, "Current Selected Lap Delta Type (for Selectable Lap Delta Variable)", disp.CurrentConfiguration.DeltaMessageScreen);
+                    DisplayQuickInfoNow(disp, "Current Selected Lap Delta Type (for Selectable Lap Delta Variable)", disp.CurrentConfiguration.TMDisplaySettings.DeltaMessageScreen);
                     break;
                 case ButtonFunctionsEnum.LapDeltaLEDsSwitch:
                     if (disp.DeltaLightsOn)
                     {
                         disp.DeltaLightsOn = false;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed("dLt oFF", disp.CurrentConfiguration.HeaderDisplayTime, newUnit);
+                            disp.ShowStringTimed("dLt oFF", disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, newUnit);
                         }
                     }
                     else
                     {
                         disp.DeltaLightsOn = true;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed("dLt on", disp.CurrentConfiguration.HeaderDisplayTime, newUnit);
+                            disp.ShowStringTimed("dLt on", disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, newUnit);
                         }
                     }
                     break;
@@ -367,17 +367,17 @@ namespace iRduino.Classes
                     if (disp.LEDSOn)
                     {
                         disp.LEDSOn = false;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed("LEdS oFF", disp.CurrentConfiguration.HeaderDisplayTime, newUnit);
+                            disp.ShowStringTimed("LEdS oFF", disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, newUnit);
                         }
                     }
                     else
                     {
                         disp.LEDSOn = true;
-                        if (disp.CurrentConfiguration.ShowHeaders)
+                        if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                         {
-                            disp.ShowStringTimed("LEdS on", disp.CurrentConfiguration.HeaderDisplayTime, newUnit);
+                            disp.ShowStringTimed("LEdS on", disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, newUnit);
                         }
                     }
                     break;
@@ -416,11 +416,11 @@ namespace iRduino.Classes
                 if (disp.CurrentScreen[unit] < disp.CurrentConfiguration.DisplayConfigurations[unit].NumScreens - 1)
                 {
                     disp.CurrentScreen[unit]++;
-                    if (disp.CurrentConfiguration.ShowHeaders)
+                    if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                     {
                         string header = disp.GetHeader(unit);
                         disp.ShowStringTimed(header,
-                                        disp.CurrentConfiguration.HeaderDisplayTime, unit);
+                                        disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
                     }
                 }
             }
@@ -429,11 +429,11 @@ namespace iRduino.Classes
                 if (disp.CurrentScreen[unit] > 0)
                 {
                     disp.CurrentScreen[unit]--;
-                    if (disp.CurrentConfiguration.ShowHeaders)
+                    if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                     {
                         string header = disp.GetHeader(unit);
                         disp.ShowStringTimed(header,
-                                        disp.CurrentConfiguration.HeaderDisplayTime, unit);
+                                        disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
                     }
                 }
             }
@@ -464,11 +464,11 @@ namespace iRduino.Classes
                 newScreen = number;
             }
             disp.CurrentScreen[unit] = newScreen;
-            if (disp.CurrentConfiguration.ShowHeaders)
+            if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
             {
                 string header = disp.GetHeader(unit);
                 disp.ShowStringTimed(header,
-                                disp.CurrentConfiguration.HeaderDisplayTime, unit);
+                                disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
             }
         }
 
@@ -485,20 +485,20 @@ namespace iRduino.Classes
                 case "Current Time":
                     disp.ShowStringTimed(
                         String.Format(" {0}-{1}", DateTime.Now.Hour.ToString("00"), DateTime.Now.Minute.ToString("00")),
-                        disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     break;
                 case "Position":
                     if (disp.Wrapper.IsConnected)
                     {
                         disp.ShowStringTimed(String.Format("Pos {0}", disp.SavedTelemetry.Position),
-                                        disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                                        disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Class Position":
                     if (disp.Wrapper.IsConnected)
                     {
                         disp.ShowStringTimed(String.Format("C Pos {0}", disp.SavedTelemetry.ClassPosition),
-                                        disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                                        disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Lap ### of ###":
@@ -508,7 +508,7 @@ namespace iRduino.Classes
                             disp.SavedTelemetry.TotalLaps > 0
                                 ? String.Format("L{0}-{1}", disp.SavedTelemetry.CurrentLap, disp.SavedTelemetry.TotalLaps)
                                 : String.Format("L {0}", disp.SavedTelemetry.CurrentLap),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Sessions Fastest Lap":
@@ -517,11 +517,11 @@ namespace iRduino.Classes
                         if (disp.SavedTelemetry.Overallbestlap > 1)
                         {
                             TimeSpan t = TimeSpan.FromSeconds(Convert.ToDouble(disp.SavedTelemetry.Overallbestlap));
-                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                         else
                         {
-                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                     }
                     break;
@@ -531,11 +531,11 @@ namespace iRduino.Classes
                         if (disp.SavedTelemetry.PersonalBestLap > 1)
                         {
                             TimeSpan t = TimeSpan.FromSeconds(Convert.ToDouble(disp.SavedTelemetry.PersonalBestLap));
-                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                         else
                         {
-                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                     }
                     break;
@@ -546,7 +546,7 @@ namespace iRduino.Classes
                         disp.ShowStringTimed(
                             LapDisplays.BuildLapDisplayString(
                                 LapDisplayStylesEnum.FullLapTime, disp.SavedTelemetry),
-                            disp.CurrentConfiguration.LapDisplayTime,
+                            disp.CurrentConfiguration.TMDisplaySettings.LapDisplayTime,
                             unit);
                     }
                     break;
@@ -556,11 +556,11 @@ namespace iRduino.Classes
                         if (disp.SavedTelemetry.ClassBestLap > 1)
                         {
                             TimeSpan t = TimeSpan.FromSeconds(Convert.ToDouble(disp.SavedTelemetry.ClassBestLap));
-                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed(t.ToString("m\\-ss\\.fff"), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                         else
                         {
-                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("  none  ", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                         }
                     }
                     break;
@@ -568,7 +568,7 @@ namespace iRduino.Classes
                     if (disp.Wrapper.IsConnected)
                     {
                         disp.ShowStringTimed(String.Format("FPct{0}", (disp.SavedTelemetry.CurrentFuelPCT * 100).ToString("0.0")),
-                                        disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                                        disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Session Time":
@@ -578,7 +578,7 @@ namespace iRduino.Classes
                         disp.ShowStringTimed(
                             String.Format("{0}-{1}.{2}", tempSt.Hours.ToString("0"), tempSt.Minutes.ToString("00"),
                                           tempSt.Seconds.ToString("00")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Session Time Remaining":
@@ -588,7 +588,7 @@ namespace iRduino.Classes
                         disp.ShowStringTimed(
                             String.Format("{0}-{1}.{2}", tempStr.Hours.ToString("0"), tempStr.Minutes.ToString("00"),
                                           tempStr.Seconds.ToString("00")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                 case "Session Laps Remaining":
@@ -596,7 +596,7 @@ namespace iRduino.Classes
                     {
                         disp.ShowStringTimed(
                             String.Format("{0} LaPS", (disp.SavedTelemetry.SessionLapsRemaining).ToString("000")),  //why was I multiplying this value by 100?
-                            disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Laps of Fuel Remaining":
@@ -604,19 +604,19 @@ namespace iRduino.Classes
                     {
                         disp.ShowStringTimed(
                             String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime,
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
                     }
                     else if (disp.Wrapper.IsConnected && disp.SavedTelemetry.Fuel.LapsLeft > 0.09f)
                     {
                         disp.ShowStringTimed(
                             String.Format("{0} LaPS", (disp.SavedTelemetry.Fuel.LapsLeft).ToString("0.0")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime,
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("__._ LaPS", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("__._ LaPS", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Fuel Burn Rate (Litres/Lap)":
@@ -624,12 +624,12 @@ namespace iRduino.Classes
                     {
                         disp.ShowStringTimed(
                             String.Format("{0} burn", (disp.SavedTelemetry.Fuel.BurnRate).ToString("0.00")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime,
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("_.__ burn", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("_.__ burn", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Fuel Burn Rate (Gallons/Lap)":
@@ -637,68 +637,68 @@ namespace iRduino.Classes
                     {
                         disp.ShowStringTimed(
                             String.Format("{0} burn", (disp.SavedTelemetry.Fuel.BurnRate * 0.26417f).ToString("0.00")),
-                            disp.CurrentConfiguration.QuickInfoDisplayTime,
+                            disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime,
                             unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("_.__ burn", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("_.__ burn", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Lap Delta to Best Lap":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.DeltaBestOK)
                     {
-                        disp.ShowStringTimed(String.Format("bt {0}", disp.SavedTelemetry.DeltaBest.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed(String.Format("bt {0}", disp.SavedTelemetry.DeltaBest.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("bt  _.__", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("bt  _.__", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Lap Delta to Optimal Lap":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.DeltaOptOK)
                     {
-                        disp.ShowStringTimed(String.Format("op {0}", disp.SavedTelemetry.DeltaOpt.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed(String.Format("op {0}", disp.SavedTelemetry.DeltaOpt.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("op  _.__", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("op  _.__", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Lap Delta to Session Best Lap":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.DeltaSesBestOK)
                     {
-                        disp.ShowStringTimed(String.Format("sb {0}", disp.SavedTelemetry.DeltaSesBest.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed(String.Format("sb {0}", disp.SavedTelemetry.DeltaSesBest.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("sb  _.__", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("sb  _.__", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Lap Delta to Session Optimal Lap":
                     if (disp.Wrapper.IsConnected && disp.SavedTelemetry.DeltaSesOptOK)
                     {
-                        disp.ShowStringTimed(String.Format("so {0}", disp.SavedTelemetry.DeltaSesOpt.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed(String.Format("so {0}", disp.SavedTelemetry.DeltaSesOpt.ToString(" 0.00;-0.00; 0.00")), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     else
                     {
-                        disp.ShowStringTimed("so  _.__", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                        disp.ShowStringTimed("so  _.__", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     }
                     break;
                     case "Current Selected Lap Delta Type (for Selectable Lap Delta Variable)":
                     switch (disp.CurrentDeltaType)
                     {
                         case 0:
-                            disp.ShowStringTimed("bEst", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("bEst", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                             break;
                         case 1:
-                            disp.ShowStringTimed("opt", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("opt", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                             break;
                         case 2:
-                            disp.ShowStringTimed("ses bEst", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("ses bEst", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                             break;
                         case 3:
-                            disp.ShowStringTimed("ses opt", disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            disp.ShowStringTimed("ses opt", disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                             break;
                     }
                     break;
@@ -724,7 +724,7 @@ namespace iRduino.Classes
                         result = " _.__";
                     }
                     disp.ShowStringTimed(
-                            String.Format("Ld5 {0}", result), disp.CurrentConfiguration.QuickInfoDisplayTime, unit);
+                            String.Format("Ld5 {0}", result), disp.CurrentConfiguration.TMDisplaySettings.QuickInfoDisplayTime, unit);
                     break;
             }
         }

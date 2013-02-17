@@ -12,36 +12,62 @@ namespace iRduino.Classes
     using System.Windows;
     using ArduinoInterfaces;
 
-    public class Configuration
+    public class RefreshRates
     {
-        public List<ControllerConfiguration> ControllerConfigurations = new List<ControllerConfiguration>();
-        public List<DisplayConfiguration> DisplayConfigurations = new List<DisplayConfiguration>();
-        public string FileLocation = "";
-        public int HeaderDisplayTime;
-        public int Intensity;
-        public int LapDisplayTime;
-        public int MaxNumScreens;
-        public string Name;
-        public int NumDisplayUnits = 1;
-        public int NumberControllers;
-        public int PreferredComPort;
-        public int SerialPortSpeed;
-        public bool UseCustomSerialSpeed;
-        public bool LogArduinoMessages;
         public int DisplayRefreshRate = 15;
         public int LEDRefreshRate = 30;
+    }
+
+    public class TMDisplaySettings
+    {
+        public int LapDisplayTime;
+        public int HeaderDisplayTime;
         public int QuickInfoDisplayTime;
         public bool ShiftIntensity;
         public int ShiftIntensityAmount;
         public bool ShiftIntensityType;
         public bool ShowHeaders;
+        public int NumDisplayUnits = 1;
+        public int Intensity;
+        public int MaxNumScreens;
         public bool DeltaLightsOnDefault = false;
         public int DeltaMessageScreen = -1;
         public int DeltaRange = 1;
         public bool ColourDeltaByDD = false;
+    }
+
+    public class SerialPortConfiguration
+    {
+        public int PreferredComPort;
+        public int SerialPortSpeed;
+        public bool UseCustomSerialSpeed;
+    }
+
+    public class AdvancedSettings
+    {
+        public bool LogArduinoMessages;
+    }
+
+    public class OtherSettings
+    {
         public bool UseCustomFuelCalculationOptions = false;
         public int FuelCalculationLaps = 3;
         public bool UseWeightedFuelCalculations = false;
+    }
+
+    public class Configuration
+    {
+        public List<ControllerConfiguration> ControllerConfigurations = new List<ControllerConfiguration>();
+        public List<DisplayConfiguration> DisplayConfigurations = new List<DisplayConfiguration>();
+        public RefreshRates RefreshRates = new RefreshRates();
+        public TMDisplaySettings TMDisplaySettings = new TMDisplaySettings();
+        public SerialPortConfiguration SerialPortSettings = new SerialPortConfiguration();
+        public AdvancedSettings AdvancedSettings = new AdvancedSettings();
+        public OtherSettings OtherSettings = new OtherSettings();
+        
+        public string FileLocation = "";            
+        public string Name;       
+        public int NumberControllers;
 
         public Configuration()
         {
@@ -53,11 +79,11 @@ namespace iRduino.Classes
         // ReSharper restore UnusedParameter.Local
         {
             if (!t) return;
-            HeaderDisplayTime = 1;
-            LapDisplayTime = 2;
-            QuickInfoDisplayTime = 3;
-            ShowHeaders = false;
-            Intensity = 3;
+            TMDisplaySettings.HeaderDisplayTime = 1;
+            TMDisplaySettings.LapDisplayTime = 2;
+            TMDisplaySettings.QuickInfoDisplayTime = 3;
+            TMDisplaySettings.ShowHeaders = false;
+            TMDisplaySettings.Intensity = 3;
             DisplayConfigurations.Add(new DisplayConfiguration(true));
         }
 
@@ -93,31 +119,31 @@ namespace iRduino.Classes
                                 newConf.Name = value;
                                 break;
                             case "ComPort":
-                                int.TryParse(value, out newConf.PreferredComPort);
+                                int.TryParse(value, out newConf.SerialPortSettings.PreferredComPort);
                                 break;
                             case "SerialSpeed":
-                                int.TryParse(value, out newConf.SerialPortSpeed);
+                                int.TryParse(value, out newConf.SerialPortSettings.SerialPortSpeed);
                                 break;
                             case "LogArduinoMessages":
-                                Boolean.TryParse(value, out newConf.LogArduinoMessages);
+                                Boolean.TryParse(value, out newConf.AdvancedSettings.LogArduinoMessages);
                                 break;
                             case "UseCustomSerialSpeed":
-                                Boolean.TryParse(value, out newConf.UseCustomSerialSpeed);
+                                Boolean.TryParse(value, out newConf.SerialPortSettings.UseCustomSerialSpeed);
                                 break;
                             case "DisplayRefreshRate":
-                                int.TryParse(value, out newConf.DisplayRefreshRate);
+                                int.TryParse(value, out newConf.RefreshRates.DisplayRefreshRate);
                                 break;
                             case "LEDRefreshRate":
-                                int.TryParse(value, out newConf.LEDRefreshRate);
+                                int.TryParse(value, out newConf.RefreshRates.LEDRefreshRate);
                                 break;
                             case "UseCustomFuelCalculations":
-                                Boolean.TryParse(value, out newConf.UseCustomFuelCalculationOptions);
+                                Boolean.TryParse(value, out newConf.OtherSettings.UseCustomFuelCalculationOptions);
                                 break;
                             case "UseWeightedFuelCalculation":
-                                Boolean.TryParse(value, out newConf.UseWeightedFuelCalculations);
+                                Boolean.TryParse(value, out newConf.OtherSettings.UseWeightedFuelCalculations);
                                 break;
                             case "CustomFuelLaps":
-                                int.TryParse(value, out newConf.FuelCalculationLaps);
+                                int.TryParse(value, out newConf.OtherSettings.FuelCalculationLaps);
                                 break;
                             case "ButtonFunction1":
                                 if (Enum.TryParse(value, out temp))
@@ -248,10 +274,10 @@ namespace iRduino.Classes
                                                out newConf.DisplayConfigurations[currentDisplayUnit].FFBClippingScreen);
                                 break;
                             case "HeaderDisplayTime":
-                                Int32.TryParse(value, out newConf.HeaderDisplayTime);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.HeaderDisplayTime);
                                 break;
                             case "LapDisplayTime":
-                                Int32.TryParse(value, out newConf.LapDisplayTime);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.LapDisplayTime);
                                 break;
                             case "LapStyle":
                                 Enum.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].LapStyle);
@@ -272,7 +298,7 @@ namespace iRduino.Classes
                                               out newConf.DisplayConfigurations[currentDisplayUnit].PitLimiterStyle);
                                 break;
                             case "QuickInfoDisplayTime":
-                                Int32.TryParse(value, out newConf.QuickInfoDisplayTime);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.QuickInfoDisplayTime);
                                 break;
                             case "RevLimiterLights":
                                 Boolean.TryParse(value,
@@ -299,20 +325,20 @@ namespace iRduino.Classes
                                 Boolean.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].MatchRedShift);
                                 break;
                             case "ShowHeaders":
-                                Boolean.TryParse(value, out newConf.ShowHeaders);
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.ShowHeaders);
                                 break;
 
                             case "ColourDeltaByDD":
-                                Boolean.TryParse(value, out newConf.ColourDeltaByDD);
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.ColourDeltaByDD);
                                 break;
                             case "DeltaLightsOnDefault":
-                                Boolean.TryParse(value, out newConf.DeltaLightsOnDefault);
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.DeltaLightsOnDefault);
                                 break;
                             case "DeltamessageScreen":
-                                Int32.TryParse(value, out newConf.DeltaMessageScreen);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.DeltaMessageScreen);
                                 break;
                             case "DeltaRange":
-                                Int32.TryParse(value, out newConf.DeltaRange);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.DeltaRange);
                                 break;
 
                             case "ShowLap":
@@ -351,16 +377,16 @@ namespace iRduino.Classes
                                 Int32.TryParse(value, out newConf.DisplayConfigurations[currentDisplayUnit].NumScreens);
                                 break;
                             case "Intensity":
-                                Int32.TryParse(value, out newConf.Intensity);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.Intensity);
                                 break;
                             case "ShiftIntensity":
-                                Boolean.TryParse(value, out newConf.ShiftIntensity);
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.ShiftIntensity);
                                 break;
                             case "ShiftIntensityType":
-                                Boolean.TryParse(value, out newConf.ShiftIntensityType);
+                                Boolean.TryParse(value, out newConf.TMDisplaySettings.ShiftIntensityType);
                                 break;
                             case "ShiftIntensityAmount":
-                                Int32.TryParse(value, out newConf.ShiftIntensityAmount);
+                                Int32.TryParse(value, out newConf.TMDisplaySettings.ShiftIntensityAmount);
                                 break;
                             case "ScreenNumber":
                                 Int32.TryParse(value, out currentScreen);
@@ -457,50 +483,50 @@ namespace iRduino.Classes
             sb.AppendLine(String.Format("File saved on: {0}  {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
             sb.AppendLine("[ Configuration Options ]");
             sb.AppendLine(String.Format("{0},{1}", "ConfName", conf.Name));
-            sb.AppendLine(String.Format("{0},{1}", "ComPort", conf.PreferredComPort));
-            sb.AppendLine(String.Format("{0},{1}", "SerialSpeed", conf.SerialPortSpeed));
-            sb.AppendLine(String.Format("{0},{1}", "UseCustomSerialSpeed", conf.UseCustomSerialSpeed));
-            sb.AppendLine(String.Format("{0},{1}", "LogArduinoMessages", conf.LogArduinoMessages));
-            sb.AppendLine(String.Format("{0},{1}", "DisplayRefreshRate", conf.DisplayRefreshRate));
-            sb.AppendLine(String.Format("{0},{1}", "LEDRefreshRate", conf.LEDRefreshRate));
-            sb.AppendLine(String.Format("{0},{1}", "UseCustomFuelCalculations", conf.UseCustomFuelCalculationOptions));
-            sb.AppendLine(String.Format("{0},{1}", "UseWeightedFuelCalculation", conf.UseWeightedFuelCalculations));
-            sb.AppendLine(String.Format("{0},{1}", "CustomFuelLaps", conf.FuelCalculationLaps));
+            sb.AppendLine(String.Format("{0},{1}", "ComPort", conf.SerialPortSettings.PreferredComPort));
+            sb.AppendLine(String.Format("{0},{1}", "SerialSpeed", conf.SerialPortSettings.SerialPortSpeed));
+            sb.AppendLine(String.Format("{0},{1}", "UseCustomSerialSpeed", conf.SerialPortSettings.UseCustomSerialSpeed));
+            sb.AppendLine(String.Format("{0},{1}", "LogArduinoMessages", conf.AdvancedSettings.LogArduinoMessages));
+            sb.AppendLine(String.Format("{0},{1}", "DisplayRefreshRate", conf.RefreshRates.DisplayRefreshRate));
+            sb.AppendLine(String.Format("{0},{1}", "LEDRefreshRate", conf.RefreshRates.LEDRefreshRate));
+            sb.AppendLine(String.Format("{0},{1}", "UseCustomFuelCalculations", conf.OtherSettings.UseCustomFuelCalculationOptions));
+            sb.AppendLine(String.Format("{0},{1}", "UseWeightedFuelCalculation", conf.OtherSettings.UseWeightedFuelCalculations));
+            sb.AppendLine(String.Format("{0},{1}", "CustomFuelLaps", conf.OtherSettings.FuelCalculationLaps));
             sb.AppendLine("[ Common Display Options ]");
             sb.AppendLine(String.Format("{0},{1}", "HeaderDisplayTime",
-                                        conf.HeaderDisplayTime.ToString(
+                                        conf.TMDisplaySettings.HeaderDisplayTime.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "LapDisplayTime",
-                                        conf.LapDisplayTime.ToString(
+                                        conf.TMDisplaySettings.LapDisplayTime.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "QuickInfoDisplayTime",
-                                        conf.QuickInfoDisplayTime.ToString(
+                                        conf.TMDisplaySettings.QuickInfoDisplayTime.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ShowHeaders",
-                                        conf.ShowHeaders));
+                                        conf.TMDisplaySettings.ShowHeaders));
             sb.AppendLine(String.Format("{0},{1}", "Intensity",
-                                        conf.Intensity.ToString(
+                                        conf.TMDisplaySettings.Intensity.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ShiftIntensity",
-                                        conf.ShiftIntensity.ToString(
+                                        conf.TMDisplaySettings.ShiftIntensity.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ShiftIntensityType",
-                                        conf.ShiftIntensityType.ToString(
+                                        conf.TMDisplaySettings.ShiftIntensityType.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ShiftIntensityAmount",
-                                        conf.ShiftIntensityAmount.ToString(
+                                        conf.TMDisplaySettings.ShiftIntensityAmount.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "ColourDeltaByDD",
-                                        conf.ColourDeltaByDD.ToString(
+                                        conf.TMDisplaySettings.ColourDeltaByDD.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "DeltaLightsOnDefault",
-                                        conf.DeltaLightsOnDefault.ToString(
+                                        conf.TMDisplaySettings.DeltaLightsOnDefault.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "DeltamessageScreen",
-                                        conf.DeltaMessageScreen.ToString(
+                                        conf.TMDisplaySettings.DeltaMessageScreen.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine(String.Format("{0},{1}", "DeltaRange",
-                                        conf.DeltaRange.ToString(
+                                        conf.TMDisplaySettings.DeltaRange.ToString(
                                             CultureInfo.InvariantCulture)));
             sb.AppendLine("[ TM Display Units ]");
             //Start looping display units

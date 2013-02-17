@@ -32,9 +32,9 @@ namespace iRduino.Classes
         public int Intensity;
     }
 
-    public class ArduinoMessages
+    public class ArduinoMessagesSending
     {
-        private DispatcherTimer testTimer;
+        private readonly DispatcherTimer testTimer;
         private int testCounter;
         private List<bool> unitTypes;
         public delegate void TestEventhandler();
@@ -173,7 +173,7 @@ namespace iRduino.Classes
 
         #region Test Sequence
 
-        public ArduinoMessages()
+        public ArduinoMessagesSending()
         {
             this.testTimer = new DispatcherTimer();
             this.testTimer.Tick += this.TestTimerTick;

@@ -87,7 +87,8 @@
       <DependentUpon>ArduinoSketchT4.tt</DependentUpon>
     </Compile>
     <Compile Include="ArduinoTemplates\ArduinoSketchT4Code.cs" />
-    <Compile Include="Classes\ArduinoMessages.cs" />
+    <Compile Include="Classes\ArduinoMessagesReceiving.cs" />
+    <Compile Include="Classes\ArduinoMessagesSending.cs" />
     <Compile Include="Classes\ErrorReporting.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
