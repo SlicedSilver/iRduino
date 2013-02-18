@@ -772,7 +772,6 @@ namespace iRduino.Classes
 
         private void FuelTelemetry(SdkWrapper.TelemetryUpdatedEventArgs e, TrackSurfaces mySurface)
         {
-            System.Diagnostics.Debug.WriteLine("Checking Fuel");
             bool update = false;
             float currentLapDistPct = e.TelemetryInfo.LapDistPct.Value;
             if (currentLapDistPct <= 0.15 && this.SavedTelemetry.Fuel.LastLapDistPct > 0.85)
@@ -802,17 +801,14 @@ namespace iRduino.Classes
             this.SavedTelemetry.Fuel.LastLapDistPct = currentLapDistPct;
             if (update)
             {
-                System.Diagnostics.Debug.WriteLine("Pusing Fuel");
                 this.SavedTelemetry.Fuel.FuelHistory.Push(e.TelemetryInfo.FuelLevel.Value);
             }
-            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.1f)
+            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.05f && e.TelemetryInfo.Speed.Value <= 1 && (mySurface == TrackSurfaces.AproachingPits || mySurface == TrackSurfaces.InPitStall))
             {
-                System.Diagnostics.Debug.WriteLine("Resetting Fuel");
                 this.SavedTelemetry.Fuel.ResetFuel();
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Updating Fuel");
                 this.SavedTelemetry.Fuel.CurrentFuelLevel = e.TelemetryInfo.FuelLevel.Value;
                 this.SavedTelemetry.Fuel.UpdateCalculatedFuelValues();
             }

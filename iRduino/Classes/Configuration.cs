@@ -20,17 +20,17 @@ namespace iRduino.Classes
 
     public class TMDisplaySettings
     {
-        public int LapDisplayTime;
-        public int HeaderDisplayTime;
-        public int QuickInfoDisplayTime;
+        public int LapDisplayTime = 1;
+        public int HeaderDisplayTime = 1;
+        public int QuickInfoDisplayTime = 1;
         public bool QuickInfoLightsColour = false; //red=true
-        public int WarningTextDisplayTime;
-        public bool ShiftIntensity;
-        public int ShiftIntensityAmount;
+        public int WarningTextDisplayTime = 1;
+        public bool ShiftIntensity = false;
+        public int ShiftIntensityAmount = 1;
         public bool ShiftIntensityType;
-        public bool ShowHeaders;
+        public bool ShowHeaders = false;
         public int NumDisplayUnits = 1;
-        public int Intensity;
+        public int Intensity = 3;
         public int MaxNumScreens;
         public bool DeltaLightsOnDefault = false;
         public int DeltaMessageScreen = -1;
