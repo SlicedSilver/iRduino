@@ -226,9 +226,8 @@ namespace iRduino.Windows
                 this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
                           DisplayMngr.CurrentConfiguration.SerialPortSettings.SerialPortSpeed,
                           DisplayMngr.CurrentConfiguration.AdvancedSettings.LogArduinoMessages);
-                ArduinoMessagesReceivingMngr.NumberUnits =
-                        DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
-                ArduinoMessagesReceivingMngr.TM1640Units = tm1640Units;
+                ArduinoMessagesReceivingMngr.UpdateInternalVariables(
+                        tm1640Units, DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits);
                 DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
                 DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
                 DisplayMngr.ControllerCheckTimer.Start();
@@ -281,7 +280,7 @@ namespace iRduino.Windows
             
             this.ArduinoConnection = new ArduinoLink();
             this.ArduinoMessagesReceivingMngr = new ArduinoMessagesReceiving();
-            this.ArduinoMessagesSendingMngr = new ArduinoMessagesSending();
+            this.ArduinoMessagesSendingMngr = new ArduinoMessagesSending(this.ArduinoConnection);
             this.ArduinoConnection.SerialMessageReceived += ArduinoMessagesReceivingMngr.SerialMessageReceiver;
             this.ArduinoMessagesReceivingMngr.ButtonPress += this.ArduinoSLIButtonPress;
             this.ArduinoMessagesSendingMngr.TestFinished += this.ArduinoSLITestFinished;
@@ -395,14 +394,14 @@ namespace iRduino.Windows
             CheckCurrentConf();
         }
 
-        public void TrySetComPort(int port)
+        internal void TrySetComPort(int port)
         {
             //find string
             ComPortBox.SelectedItem = DisplayMngr.Dictionarys.ComPorts[port];
         }
 
         // check if current conf is loaded and thus can start the connection to the SLI and iracing
-        public void CheckCurrentConf()
+        internal void CheckCurrentConf()
         {
             if (DisplayMngr.CurrentConfiguration != null)
             {
@@ -420,7 +419,7 @@ namespace iRduino.Windows
             }
         }
 
-        public string LoadNewConfFile(string filename)
+        internal string LoadNewConfFile(string filename)
         {
             //find if file already loaded
             string returnString = null;

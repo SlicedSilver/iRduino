@@ -39,7 +39,7 @@ namespace iRduino.Classes
         private List<bool> unitTypes;
         public delegate void TestEventhandler();
         public event TestEventhandler TestFinished;
-        public ArduinoLink ArduinoConnection;
+        private ArduinoLink arduinoConnection;
 
         public static byte[] SendTMStrings(TMStringMessage tmStringMessage)
         {
@@ -61,7 +61,6 @@ namespace iRduino.Classes
             messageData[++serialCount] = Convert.ToByte(IntValueCheck(tmStringMessage.Intensity, 0, Constants.MaxIntensityTM));
             for (int i = 0; i < tmStringMessage.Display.Count; i++)
             {
-                //messageData[++serialCount] = Convert.ToByte(i+1); //unit number
                 int textLength;
                 BitArray dotsArray;
                 var display = TMDisplayStringConverter(tmStringMessage, i, out textLength, out dotsArray);
@@ -171,10 +170,9 @@ namespace iRduino.Classes
             return value;
         }
 
-        #region Test Sequence
-
-        public ArduinoMessagesSending()
+        public ArduinoMessagesSending(ArduinoLink arduinoConnectionIn)
         {
+            this.arduinoConnection = arduinoConnectionIn;
             this.testTimer = new DispatcherTimer();
             this.testTimer.Tick += this.TestTimerTick;
             this.testTimer.Interval = new TimeSpan(0, 0, 0, 0, 150);
@@ -188,7 +186,7 @@ namespace iRduino.Classes
                 return;
             }
             this.unitTypes = tmUnitTypes;
-            this.ArduinoConnection = currentArduinoConnection;
+            this.arduinoConnection = currentArduinoConnection;
             this.testCounter = 0;
             this.testTimer.Start();
         }
@@ -230,8 +228,8 @@ namespace iRduino.Classes
                 Intensity = 3,
                 UnitType = this.unitTypes
             };
-            ArduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, SendTMLEDS(tmLEDs));
-            ArduinoConnection.SendSerialMessage(Constants.MessageID_TMString, SendTMStrings(tmDisplay));
+            this.arduinoConnection.SendSerialMessage(Constants.MessageID_TMLED, SendTMLEDS(tmLEDs));
+            this.arduinoConnection.SendSerialMessage(Constants.MessageID_TMString, SendTMStrings(tmDisplay));
         }
 
         private void DuplicateDisplayAcrossAllUnits(string display, byte green, byte red, byte dots, List<string> displays, List<byte> greens, List<byte> reds, List<byte[]> dotsList, List<bool> tm1640UnitsIn)
@@ -343,6 +341,5 @@ namespace iRduino.Classes
             return display;
         }
 
-        #endregion
     }
 }

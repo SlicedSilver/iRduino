@@ -9,9 +9,9 @@ namespace iRduino.Classes
 
     class AdvancedOptions
     {
-        public static List<int> SerialSpeeds = new List<int> {9600, 14400, 19200, 28800, 38400, 57600, 115200 };
+        internal static List<int> SerialSpeeds = new List<int> {9600, 14400, 19200, 28800, 38400, 57600, 115200 };
 
-        public static List<int> RefreshRates = new List<int> { 30, 15, 10, 5, 1 };
+        internal static List<int> RefreshRates = new List<int> { 30, 15, 10, 5, 1 };
 
         public static int ParseSerialSpeedString(string input)
         {
