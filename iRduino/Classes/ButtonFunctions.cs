@@ -279,6 +279,7 @@ namespace iRduino.Classes
                                               : disp.CurrentConfiguration.DisplayConfigurations[unit].ButtonOptions[num - 1];
                     int newScreen;
                     Int32.TryParse(screenString, out newScreen);
+                    newScreen -= 1;
                     if (which4 >= 0)
                     {
                         switch (which4)
