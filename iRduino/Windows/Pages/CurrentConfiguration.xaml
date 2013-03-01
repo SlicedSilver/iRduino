@@ -32,6 +32,8 @@
         <Label Content="Components" HorizontalAlignment="Left" Margin="15,141,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" FontFamily="Segoe UI Semibold" Foreground="#FF057DAA"/>
         <CheckBox x:Name="UseDXUnitsCheck" Content="DX SLI Display Units (TM1638/TM1640)" HorizontalAlignment="Left" Margin="31,175,0,0" VerticalAlignment="Top" Checked="UseDxUnitsCheckChecked" Unchecked="UseDxUnitsCheckUnchecked" ToolTip="Use TM1638/TM1640 display units in this configuration."/>
         <CheckBox x:Name="UseControllersCheck" Content="Use External USB Controllers" HorizontalAlignment="Left" Margin="31,200,0,0" VerticalAlignment="Top" Unchecked="UseControllersCheckUnchecked" Checked="UseControllersCheckChecked" ToolTip="Use an USB controller to control functions in the iRduino application."/>
+        <CheckBox x:Name="UseArduinoIOCheck" Content="Use Arduino Input/Output Functions" HorizontalAlignment="Left" Margin="31,226,0,0" VerticalAlignment="Top" Checked="UseArduinoIOChecked" Unchecked="UseArduinoIOUnChecked" ToolTip="Use Arduino Input Output Functions."/>
+        <CheckBox x:Name="UseFergoTechCheck" Content="Use FergoTech Components/Functions" HorizontalAlignment="Left" Margin="31,251,0,0" VerticalAlignment="Top" Unchecked="UseFergoTechUnChecked" Checked="UseFergoTechChecked" ToolTip="Use FergoTech Developed Components and Functions."/>
 
     </Grid>
 </Page>

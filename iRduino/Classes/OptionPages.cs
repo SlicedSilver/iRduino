@@ -21,6 +21,11 @@ namespace iRduino.Classes
         Screen,
         TM1640Screen,
         JoystickButtons,
+        Arduino,
+        FergoTech,
+        Inputs,
+        Outputs,
+        Expander,
         Blank,
         None
     }

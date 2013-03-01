@@ -21,7 +21,11 @@ namespace iRduino.Classes
         public int EditNumber; //only used in options window for passing information in DataContext
         public string FileLocation = "";
         public List<ControllerButtonConfiguration> ControllerConfigurations { get; set; }
-        
+
+        public ArduinoIO ArduinoIOConfiguration { get; set; }
+
+        public FergoTechComponents FergoTechConfiguration { get; set; }
+
         public int NumberControllers { get; set; }
         
         public string Name { get; set; }
@@ -103,6 +107,9 @@ namespace iRduino.Classes
             UseWeightedFuelCalculations = configuration.OtherSettings.UseWeightedFuelCalculations;
             WarningTextDisplayTime = configuration.TMDisplaySettings.WarningTextDisplayTime - 1;
             QuickInfoLightsColour = configuration.TMDisplaySettings.QuickInfoLightsColour;
+
+            ArduinoIOConfiguration = new ArduinoIO();
+            FergoTechConfiguration = new FergoTechComponents();
 
             ControllerConfigurations = new List<ControllerButtonConfiguration>();
             foreach (ControllerConfiguration item in configuration.ControllerConfigurations)
@@ -667,5 +674,76 @@ namespace iRduino.Classes
         public bool DeltaLightsShow { get; set; }
 
         public string DeltaLightsPosition { get; set; }
+    }
+
+    public class ArduinoIO
+    {
+        public bool UseArduinoIO { get; set; }
+
+        public bool UseInputs { get; set; }
+
+        public bool UseOutputs { get; set; }
+
+        public bool UseExpanders { get; set; }
+
+        public int NumberExpanders { get; set; }
+
+        public ArduinoInputs Inputs {get; set; }
+
+        public ArduinoIO()
+        {
+            UseArduinoIO = false;
+            UseInputs = false;
+            UseOutputs = false;
+            UseExpanders = false;
+            Inputs = new ArduinoInputs();
+        }
+    }
+
+    public class ArduinoInputs
+    {
+        public ArduinoInputButtonConfiguration Buttons { get; set; }
+
+        public ArduinoInputs()
+        {
+            Buttons = new ArduinoInputButtonConfiguration();
+        }
+    }
+
+    public class ArduinoInputButtonConfiguration : ButtonConfiguration
+    {
+        private List<int> pinNumbers = new List<int>(); //{ -1, -1, -1, -1, -1, -1, -1, -1 };
+
+        public ArduinoInputButtonConfiguration()
+        {
+            const int NumButtons = Constants.NumberPinsArduinoBoard;
+            this.pinNumbers = new List<int>();
+            ButtonFunctions = new List<string>();
+            ButtonOptions = new List<string>();
+            ButtonOptionsScreens = new List<int>();
+            for (int i = 0; i < NumButtons; i++)
+            {
+                this.pinNumbers.Add(-1);
+                ButtonFunctions.Add("None");
+                ButtonOptions.Add("");
+                ButtonOptionsScreens.Add(-1);
+            }
+        }
+
+        public List<int> ButtonNumbers
+        {
+            get { return this.pinNumbers; }
+            set { this.pinNumbers = value; }
+        }
+    }
+
+    public class FergoTechComponents
+    {
+        public bool UseFergoTechComponents { get; set; }
+
+        public FergoTechComponents()
+        {
+            UseFergoTechComponents = false;
+        }
     }
 }

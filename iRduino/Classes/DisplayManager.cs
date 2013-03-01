@@ -216,7 +216,7 @@ namespace iRduino.Classes
             for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 final.Add(new TMLEDVariables());
-                if (this.LEDSOn && !(Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing))
+                if (this.LEDSOn && !(Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing) && this.SavedTelemetry.OnTrack)
                 {
                     final[i].GreenLEDS = RequestedTMLEDVariables[i].GreenLEDS;
                     final[i].RedLEDS = RequestedTMLEDVariables[i].RedLEDS;

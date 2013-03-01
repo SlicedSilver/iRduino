@@ -133,6 +133,56 @@ namespace iRduino.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arduinoTemp {
+            get {
+                object obj = ResourceManager.GetObject("arduinoTemp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_divide {
+            get {
+                object obj = ResourceManager.GetObject("arrow_divide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_inout {
+            get {
+                object obj = ResourceManager.GetObject("arrow_inout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_left {
+            get {
+                object obj = ResourceManager.GetObject("arrow_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_right {
+            get {
+                object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap brick {
             get {
                 object obj = ResourceManager.GetObject("brick", resourceCulture);
@@ -206,6 +256,16 @@ namespace iRduino.Properties {
         internal static System.Drawing.Bitmap ErrorBig {
             get {
                 object obj = ResourceManager.GetObject("ErrorBig", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ftTemp {
+            get {
+                object obj = ResourceManager.GetObject("ftTemp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -316,7 +376,7 @@ namespace iRduino.Properties {
         ///    &lt;ResourceDictionary.MergedDictionaries&gt;
         ///        &lt;ResourceDictionary Source=&quot;pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml&quot; /&gt;
         ///        &lt;ResourceDictionary Source=&quot;pack://application:,,,/MahApps.Metro;component/Styles/Controls.Scrollbars.xaml&quot; /&gt;
-        ///        &lt;ResourceDictionary Source=&quot;pack://application:,,,/MahApp [rest of string was truncated]&quot;;.
+        ///        &lt;ResourceDictionary Source=&quot;pack://application:,,,/MahApps.Met [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MyControls {
             get {
@@ -335,7 +395,7 @@ namespace iRduino.Properties {
         ///
         ///    &lt;Style TargetType=&quot;TabItem&quot; x:Key=&quot;MetroTabItem&quot;&gt;
         ///        &lt;Setter Property=&quot;FocusVisualStyle&quot; Value=&quot;{x:Null}&quot; /&gt;
-        ///        &lt;Setter P [rest of string was truncated]&quot;;.
+        ///        &lt;Setter Property=&quot;I [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MyTabStyle {
             get {
