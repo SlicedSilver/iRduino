@@ -4,11 +4,11 @@
 namespace iRduino.Windows.Pages
 {
     /// <summary>
-    /// Interaction logic for Inputs.xaml
+    /// Interaction logic for Outputs.xaml
     /// </summary>
-    public partial class Expander
+    public partial class DigitalOutputs
     {
-        public Expander()
+        public DigitalOutputs()
         {
             InitializeComponent();
         }

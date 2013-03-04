@@ -6,9 +6,9 @@ namespace iRduino.Windows.Pages
     /// <summary>
     /// Interaction logic for Inputs.xaml
     /// </summary>
-    public partial class Expander
+    public partial class DigitalInputs
     {
-        public Expander()
+        public DigitalInputs()
         {
             InitializeComponent();
         }

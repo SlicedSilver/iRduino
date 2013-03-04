@@ -27,8 +27,10 @@
             }
             this.UseExpandersCheck.IsChecked = temp.ArduinoIOConfiguration.UseExpanders;
             this.ExpanderNumCBox.SelectedIndex = temp.ArduinoIOConfiguration.NumberExpanders;
-            this.UseInputsCheck.IsChecked = temp.ArduinoIOConfiguration.UseInputs;
-            this.UseOutputsCheck.IsChecked = temp.ArduinoIOConfiguration.UseOutputs;
+            this.UseDigitalInputsCheck.IsChecked = temp.ArduinoIOConfiguration.Inputs.UseDigitalInputs;
+            this.UseAnalogInputsCheck.IsChecked = temp.ArduinoIOConfiguration.Inputs.UseAnalogInputs;
+            this.UseDigitalOutputsCheck.IsChecked = temp.ArduinoIOConfiguration.Outputs.UseDigitalOutputs;
+            this.UseAnalogOutputsCheck.IsChecked = temp.ArduinoIOConfiguration.Outputs.UseAnalogOutputs;
             this.startingUp = false;
         }
 

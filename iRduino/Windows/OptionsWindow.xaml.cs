@@ -160,32 +160,62 @@ namespace iRduino.Windows
                     RebuildTree();
                 }
             }
-            if (temp.Name == "UseInputsCheck")
+            if (temp.Name == "UseAnalogInputsCheck")
             {
                 if (temp.IsChecked == true)
                 {
-                    configurationOptions.ArduinoIOConfiguration.UseInputs = true;
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseAnalogInputs = true;
                     SetPage(PageTypes.Blank);
                     RebuildTree();
                 }
                 else if (temp.IsChecked == false)
                 {
-                    configurationOptions.ArduinoIOConfiguration.UseInputs = false;
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseAnalogInputs = false;
                     SetPage(PageTypes.Blank);
                     RebuildTree();
                 }
             }
-            if (temp.Name == "UseOutputsCheck")
+            if (temp.Name == "UseAnalogOutputsCheck")
             {
                 if (temp.IsChecked == true)
                 {
-                    configurationOptions.ArduinoIOConfiguration.UseOutputs = true;
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseAnalogOutputs = true;
                     SetPage(PageTypes.Blank);
                     RebuildTree();
                 }
                 else if (temp.IsChecked == false)
                 {
-                    configurationOptions.ArduinoIOConfiguration.UseOutputs = false;
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseAnalogOutputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseDigitalInputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseDigitalOutputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs = false;
                     SetPage(PageTypes.Blank);
                     RebuildTree();
                 }
@@ -833,19 +863,17 @@ namespace iRduino.Windows
                         {
                             if (this.configurationOptions.ArduinoIOConfiguration != null)
                             {
-                                if (this.configurationOptions.ArduinoIOConfiguration.UseInputs)
+                                if (this.configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs)
                                 {
-                                    MyTreeViewItem itemInputs = GetMyTreeView("Inputs", "arrow_right.png", PageTypes.Inputs);
-                                    itemInputs.Selected += MyTreeItemSelected;
-                                    //BuildTreeViewNodes(level + 1, itemInputs.Items);
-                                    itemCollection.Add(itemInputs);
+                                    MyTreeViewItem itemDigitalInputs = GetMyTreeView("Digital Inputs", "arrow_right.png", PageTypes.DigitalInputs);
+                                    itemDigitalInputs.Selected += MyTreeItemSelected;
+                                    itemCollection.Add(itemDigitalInputs);
                                 }
-                                if (this.configurationOptions.ArduinoIOConfiguration.UseOutputs)
+                                if (this.configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs)
                                 {
-                                    MyTreeViewItem itemOutputs = GetMyTreeView("Outputs", "arrow_left.png", PageTypes.Outputs);
-                                    itemOutputs.Selected += MyTreeItemSelected;
-                                    //BuildTreeViewNodes(level + 1, itemInputs.Items);
-                                    itemCollection.Add(itemOutputs);
+                                    MyTreeViewItem itemDigitalOutputs = GetMyTreeView("Digital Outputs", "arrow_left.png", PageTypes.DigitalOutputs);
+                                    itemDigitalOutputs.Selected += MyTreeItemSelected;
+                                    itemCollection.Add(itemDigitalOutputs);
                                 }
                                 if (this.configurationOptions.ArduinoIOConfiguration.UseExpanders && this.configurationOptions.ArduinoIOConfiguration.NumberExpanders > 0)
                                 {
@@ -1206,11 +1234,11 @@ namespace iRduino.Windows
                     PageFrame.DataContext = this.configurationOptions;
                     PageFrame.Source = new Uri("Pages/FergoTech.xaml", UriKind.Relative);
                     break;
-                case PageTypes.Inputs:
-                    PageFrame.Source = new Uri("Pages/Inputs.xaml", UriKind.Relative);
+                case PageTypes.DigitalInputs:
+                    PageFrame.Source = new Uri("Pages/DigitalInputs.xaml", UriKind.Relative);
                     break;
-                case PageTypes.Outputs:
-                    PageFrame.Source = new Uri("Pages/Outputs.xaml", UriKind.Relative);
+                case PageTypes.DigitalOutputs:
+                    PageFrame.Source = new Uri("Pages/DigitalOutputs.xaml", UriKind.Relative);
                     break;
                 case PageTypes.Expander:
                     PageFrame.Source = new Uri("Pages/Expander.xaml", UriKind.Relative);

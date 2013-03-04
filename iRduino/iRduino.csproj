@@ -107,11 +107,11 @@
     <Compile Include="Windows\Pages\FergoTech.xaml.cs">
       <DependentUpon>FergoTech.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Pages\Inputs.xaml.cs">
-      <DependentUpon>Inputs.xaml</DependentUpon>
+    <Compile Include="Windows\Pages\DigitalInputs.xaml.cs">
+      <DependentUpon>DigitalInputs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Pages\Outputs.xaml.cs">
-      <DependentUpon>Outputs.xaml</DependentUpon>
+    <Compile Include="Windows\Pages\DigitalOutputs.xaml.cs">
+      <DependentUpon>DigitalOutputs.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Pages\PageHelper.cs" />
     <Compile Include="Windows\AboutBox.xaml.cs">
@@ -220,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Pages\Inputs.xaml">
+    <Page Include="Windows\Pages\DigitalInputs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Pages\Outputs.xaml">
+    <Page Include="Windows\Pages\DigitalOutputs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

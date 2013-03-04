@@ -680,32 +680,50 @@ namespace iRduino.Classes
     {
         public bool UseArduinoIO { get; set; }
 
-        public bool UseInputs { get; set; }
-
-        public bool UseOutputs { get; set; }
-
         public bool UseExpanders { get; set; }
 
         public int NumberExpanders { get; set; }
 
         public ArduinoInputs Inputs {get; set; }
 
+        public ArduinoOutputs Outputs { get; set; }
+
         public ArduinoIO()
         {
             UseArduinoIO = false;
-            UseInputs = false;
-            UseOutputs = false;
             UseExpanders = false;
             Inputs = new ArduinoInputs();
+            Outputs = new ArduinoOutputs();
+        }
+    }
+
+    public class ArduinoOutputs
+    {
+        public bool UseDigitalOutputs { get; set; }
+
+        public bool UseAnalogOutputs { get; set; }
+
+        public ArduinoOutputs()
+        {
+            UseAnalogOutputs = false;
+            UseDigitalOutputs = false;
         }
     }
 
     public class ArduinoInputs
     {
+        public bool UseDigitalInputs { get; set; }
+
+        public bool UseAnalogInputs { get; set; }
+
+        //public bool UseRotarySwitch
+
         public ArduinoInputButtonConfiguration Buttons { get; set; }
 
         public ArduinoInputs()
         {
+            UseAnalogInputs = false;
+            UseDigitalInputs = false;
             Buttons = new ArduinoInputButtonConfiguration();
         }
     }

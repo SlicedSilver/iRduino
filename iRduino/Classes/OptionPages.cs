@@ -23,8 +23,8 @@ namespace iRduino.Classes
         JoystickButtons,
         Arduino,
         FergoTech,
-        Inputs,
-        Outputs,
+        DigitalInputs,
+        DigitalOutputs,
         Expander,
         Blank,
         None
