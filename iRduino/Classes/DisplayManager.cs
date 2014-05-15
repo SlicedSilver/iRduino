@@ -17,7 +17,7 @@ namespace iRduino.Classes
     using System.Windows.Threading;
 
     using iRduino.Windows;
-
+    
     public class DisplayManager
     {
         #region Public Fields Properties
@@ -57,7 +57,7 @@ namespace iRduino.Classes
 
         #region Private Fields Properties
 
-        private readonly DispatcherTimer cleanUpTimer;
+        private  DispatcherTimer cleanUpTimer;
         private readonly ShiftRPMS shiftRPMs = new ShiftRPMS();
         // ReSharper disable InconsistentNaming
         private TrackSurfaces _2NdLastTrackSurface;
@@ -99,17 +99,34 @@ namespace iRduino.Classes
         public DisplayManager(MainWindow host)
         {
             this.HostApp = host;
+            this._base();
+            
+        }
+
+        public DisplayManager()
+        {
+
+            this._base();
+
+        }
+
+        private void _base()
+        {
             Intensity = 3;
             this.refreshCount = 0;
             Test = false;
             this.WaitTimeTMDisplay = new List<DateTime>();
             this.WaitTimeTMLEDS = new List<DateTime>();
+            
             this.cleanUpTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 1) };
             this.cleanUpTimer.Tick += this.CleanUpTimerTick;
             this.cleanUpTimer.Start();
+
             ControllerCheckTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 25) };
             ControllerCheckTimer.Tick += this.ControllerCheckTimerTick;
+
         }
+
 
         public Configuration CurrentConfiguration { get; set; }
 
@@ -322,6 +339,10 @@ namespace iRduino.Classes
                         {
                             final[i].Dots[x] = 0;
                         }
+
+                        var src = DateTime.Now.ToString("HH-mm-ss");
+                        final[i].Display = src;
+
                     }
                 }
                 else //do wait!!
@@ -530,7 +551,7 @@ namespace iRduino.Classes
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="num">Number of button pressed</param>
-        internal void SLIButtonPress(int unit, int num)
+        public void SLIButtonPress(int unit, int num)
         {
             unit = unit - 1;
             ButtonPress(unit, num, false);
@@ -618,7 +639,7 @@ namespace iRduino.Classes
         ///     Called everytime telemetry is updated. Starting point for cycles
         /// </summary>
         /// <param name="e"></param>
-        internal void TelemetryUpdate(SdkWrapper.TelemetryUpdatedEventArgs e)
+        public void TelemetryUpdate(SdkWrapper.TelemetryUpdatedEventArgs e)
         {
             if (this.firstTelemetryUpdate)
             {
@@ -639,6 +660,14 @@ namespace iRduino.Classes
             if (useLapTiming)
             {
                 updateTime = this.TelemetryLapTimer(e, mySurface, updateTime);
+            }
+
+            if (this.refreshCount % 30 == 0)
+            {
+                if (mySurface == TrackSurfaces.InPitStall || mySurface == TrackSurfaces.NotInWorld)
+                {
+                    this.SavedTelemetry.LapLastPited = e.TelemetryInfo.Lap.Value;
+                }
             }
 
             //store delta times
@@ -1300,7 +1329,7 @@ namespace iRduino.Classes
         /// </summary>
         /// <param name="e">SessionInfo Argument</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2241:Provide correct arguments to formatting methods")]
-        internal void SessionUpdate(SdkWrapper.SessionInfoUpdatedEventArgs e)
+        public void SessionUpdate(SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
             if (this.newSession)
             {
@@ -1800,6 +1829,7 @@ namespace iRduino.Classes
         public List<Stack<float>> DeltaHistory;
         public int ExpectedDeltaHistoryLength;
         public float LastLapTimeAPI;
+        public int LapLastPited = 0;
 
         public SavedTelemetryValues(int fuelLaps, Boolean fuelWeightedCalculation, int refreshRate)
         {
