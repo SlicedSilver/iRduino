@@ -27,5 +27,6 @@
         <Label x:Name="BuildDateLabel" Content="" HorizontalAlignment="Left" Margin="86,136,0,0" VerticalAlignment="Top" Foreground="Black" Width="184" Background="#7FCACACA"/>
         <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="64" Source="/iRduino;component/Resources/iRdunio-Logo64.png" Margin="10,5,0,0"/>
         <Label Content="Mark Silverwood" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Foreground="Black" Background="{x:Null}"/>
+        <Label Content="Mark Silverwood" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Foreground="Black" Background="{x:Null}"/>
     </Grid>
 </Controls:MetroWindow>

@@ -98,9 +98,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Commands\Start.cs" />
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\ShowMainWindow.cs" />
     <Compile Include="Windows\Pages\PageHelper.cs" />
     <Compile Include="Windows\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
@@ -294,6 +297,10 @@
     <ProjectReference Include="..\irsdkSharp\iRSDKSharp.csproj">
       <Project>{72631b85-eb9a-473e-9b4c-65b355a9000d}</Project>
       <Name>iRSDKSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nicon\NotifyIconWpf.csproj">
+      <Project>{7ac63864-7638-41c4-969c-d3197ef2bed9}</Project>
+      <Name>NotifyIconWpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShiftData\ShiftData.csproj">
       <Project>{e00ee3a4-6bad-469b-9ca0-f829c37c3a2f}</Project>

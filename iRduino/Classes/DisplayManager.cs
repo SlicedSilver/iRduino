@@ -31,6 +31,8 @@ namespace iRduino.Classes
         public int CurrentDeltaType = 0;
         public List<int> CurrentScreen = new List<int>();
 
+        public bool weAreClosing = false;
+
         public CarShiftRPMData CurrentShiftRPMData;
         public bool DeltaLightsOn = false;
         public Dictionarys Dictionarys = new Dictionarys();
@@ -102,6 +104,7 @@ namespace iRduino.Classes
             this._base();
             
         }
+
 
         public DisplayManager()
         {
@@ -340,8 +343,17 @@ namespace iRduino.Classes
                             final[i].Dots[x] = 0;
                         }
 
-                        var src = DateTime.Now.ToString("HH-mm-ss");
-                        final[i].Display = src;
+                        if (this.weAreClosing == false)
+                        {
+                            final[i].Display = DateTime.Now.ToString("HH-mm-ss");
+                        }
+                        else
+                        {
+                            final[i].Display = "        ";
+                        }
+
+                        
+                        
 
                     }
                 }
