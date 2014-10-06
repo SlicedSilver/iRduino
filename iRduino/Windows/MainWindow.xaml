@@ -4,9 +4,19 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar" x:Name="window"
+        xmlns:xp="clr-namespace:iRduino.Commands" 
         x:Class="iRduino.Windows.MainWindow"
         Title="iRduino" Height="230" Width="300" ResizeMode="NoResize" Loaded="MainWindowLoaded"
-        RenderTransformOrigin="0.5,0.5" Closing="MainWindowClosing" Closed="MainWindowClosed" BorderBrush="#FF05B7E0" BorderThickness="2" Background="White">
+        RenderTransformOrigin="0.5,0.5" 
+        Closing="MainWindowClosing"
+        Closed="MainWindowClosed" 
+        StateChanged="window_StateChanged"
+        BorderBrush="#FF05B7E0" 
+        BorderThickness="2" 
+        Background="White" 
+        Icon="/iRduino;component/Resources/iRdunio-ICON.ico" 
+        WindowStartupLocation="CenterScreen">
     <i:Interaction.Behaviors>
         <Behaviours:BorderlessWindowBehavior ResizeWithGrip="False" >
         </Behaviours:BorderlessWindowBehavior>
@@ -22,7 +32,30 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+
+
+
     <Grid>
+
+        <Grid.Resources>
+            <xp:ShowMainWindow x:Key="ShowMainWindow" />
+            <xp:Start x:Key="StartIrduino" />
+        </Grid.Resources>
+
+        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="/iRduino;component/Resources/iRdunio-ICON.ico" ToolTipText="Irduingo GUI"  MenuActivation="All" >
+
+
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+
+                    <MenuItem Header="Show iRduino"  CommandParameter="{Binding}" Command="{StaticResource ShowMainWindow}">
+                    </MenuItem>
+
+                    
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+
+        </tb:TaskbarIcon>
 
         <Image x:Name="MainWindowBackground" Margin="0" Source="/iRduino;component/Resources/iRduino.png" Stretch="None" Opacity="0.1"/>
 

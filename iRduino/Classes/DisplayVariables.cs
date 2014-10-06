@@ -68,7 +68,8 @@ namespace iRduino.Classes
         YawRate,
         Space,
         DoubleSpace,
-        Underscore
+        Underscore,
+        LapsSinceLastPit
     }
 
     public class DisplayVariablesClass
@@ -144,7 +145,8 @@ namespace iRduino.Classes
                     {DisplayVarsEnum.ManifoldPressure, new DisplayVariable("Manifold Pressure (bar)", 3, "EPr", " 1.2")},                   
                     {DisplayVarsEnum.ManifoldPressurePSi, new DisplayVariable("Manifold Pressure (PSi)", 3, "EPr", " 1.2")},
                     {DisplayVarsEnum.Yaw, new DisplayVariable("Yaw (degrees)", 3, "yaw", "-10")},
-                    {DisplayVarsEnum.YawRate, new DisplayVariable("Yaw Rate (degrees/s)", 3, "ywr", "-13")}
+                    {DisplayVarsEnum.YawRate, new DisplayVariable("Yaw Rate (degrees/s)", 3, "ywr", "-13")},
+                    {DisplayVarsEnum.LapsSinceLastPit, new DisplayVariable("Laps Since Last Pit", 2, "Laps Since Last Pit", "52")},
                 };
             return displayVariables;
         }
@@ -607,6 +609,10 @@ namespace iRduino.Classes
                                               tempStr.Minutes.ToString("00"), tempStr.Seconds.ToString("00")),
                                 dictionarys.DisplayVariables[dv].Length + 1);
                         }
+                        break;
+
+                    case DisplayVarsEnum.LapsSinceLastPit:
+                        displayString += e.TelemetryInfo.Lap.Value - savedTelemetry.LapLastPited;
                         break;
                 }
             }

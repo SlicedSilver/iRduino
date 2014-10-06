@@ -38,14 +38,13 @@ namespace iRduino.Windows
         private readonly BitmapImage stopImage;
 
         public readonly string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                                               + "\\iRduino\\";
+                                               + "\\iRduino2\\";
 
         // Constructor
         public MainWindow()
         {
             InitializeComponent();
-            Thread.CurrentThread.CurrentCulture =
-                CultureInfo.CreateSpecificCulture("en-US");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             MainWindowBackground.Opacity = 0.6;
             this.startImage = new BitmapImage();
             this.startImage.BeginInit();
@@ -59,6 +58,11 @@ namespace iRduino.Windows
             FadeAnimationBackground(0.1, 3);
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += ErrorReporting.MyHandler;
+
+
+            
+            
+
         }
 
         private void FadeAnimationBackground(double endOpacity, double time)
@@ -193,6 +197,9 @@ namespace iRduino.Windows
 
         private void MainWindowClosing(object sender, CancelEventArgs e)
         {
+
+            this._disconect();
+
             if (this.wrapper.IsRunning)
             {
                 this.wrapper.Stop();
@@ -209,35 +216,73 @@ namespace iRduino.Windows
             // If the wrapper is running, stop it. Otherwise, start it.
             if (this.wrapper.IsRunning)
             {
-                this.wrapper.Stop();
-                this.ArduinoConnection.Stop();
-                StartButtonLabel.Content = "Start";
-                StartButtonImage.Source = this.startImage;
-                FadeAnimationBackground(0.1, 2);
-                ComPortBox.IsEnabled = true;
+                this._disconect();   
             }
             else
             {
-                this.wrapper.Start();
-                DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits =
-                    DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count;
-                var tm1640Units =
-                    DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(item => item.IsTM1640).ToList();
-                this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(),
-                          DisplayMngr.CurrentConfiguration.SerialPortSettings.SerialPortSpeed,
-                          DisplayMngr.CurrentConfiguration.AdvancedSettings.LogArduinoMessages);
-                ArduinoMessagesReceivingMngr.NumberUnits =
-                        DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
-                ArduinoMessagesReceivingMngr.TM1640Units = tm1640Units;
-                DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
-                DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
-                DisplayMngr.ControllerCheckTimer.Start();
-                StartButtonLabel.Content = "Stop";
-                StartButtonImage.Source = this.stopImage;
-                FadeAnimationBackground(0.4, 2);
-                ComPortBox.IsEnabled = false;
+                this._conect();
             }
+            
+        }
+
+        private void _disconect()
+        {
+
+            this.IsEnabled = false;
+            this.DisplayMngr.weAreClosing = true;
+
+            Thread.Sleep(10);
+            this.DisplayMngr.SendTMDisplay();
+            Thread.Sleep(100);
+
+            this.wrapper.Stop();
+
+            this.ArduinoConnection.Stop();
+            StartButtonLabel.Content = "Start";
+            StartButtonImage.Source = this.startImage;
+            FadeAnimationBackground(0.1, 2);
+            ComPortBox.IsEnabled = true;
             StatusChanged();
+            this.IsEnabled = true;
+
+        }
+
+        private void _conect()
+        {
+
+            if (this.wrapper.IsRunning)
+            {
+                this._disconect();
+            }
+
+            this.DisplayMngr.weAreClosing = false;
+
+            this.IsEnabled = false;
+
+            this.wrapper.Start();
+            DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits = DisplayMngr.CurrentConfiguration.DisplayConfigurations.Count;
+            var tm1640Units = DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(item => item.IsTM1640).ToList();
+
+            this._ArduinoStart();
+
+            ArduinoMessagesReceivingMngr.NumberUnits = DisplayMngr.CurrentConfiguration.TMDisplaySettings.NumDisplayUnits;
+            ArduinoMessagesReceivingMngr.TM1640Units = tm1640Units;
+            DisplayMngr.SetupDisplayMngr(this.wrapper.TelemetryUpdateFrequency, tm1640Units);
+            DisplayMngr.Intensity = DisplayMngr.CurrentConfiguration.TMDisplaySettings.Intensity;
+            DisplayMngr.ControllerCheckTimer.Start();
+            StartButtonLabel.Content = "Stop";
+            StartButtonImage.Source = this.stopImage;
+            FadeAnimationBackground(0.4, 2);
+            ComPortBox.IsEnabled = false;
+            StatusChanged();
+
+            this.IsEnabled = true;
+
+        }
+
+        private void _ArduinoStart()
+        {
+            this.ArduinoConnection.Start(ComPortBox.SelectedValue.ToString(), DisplayMngr.CurrentConfiguration.SerialPortSettings.SerialPortSpeed, DisplayMngr.CurrentConfiguration.AdvancedSettings.LogArduinoMessages);
         }
 
         private void OptionsButtonClick(object sender, RoutedEventArgs e)
@@ -261,9 +306,7 @@ namespace iRduino.Windows
             {
                 return;
             }
-            var unitTypes =
-                    this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(disp => disp.IsTM1640)
-                        .ToList();
+            var unitTypes = this.DisplayMngr.CurrentConfiguration.DisplayConfigurations.Select(disp => disp.IsTM1640).ToList();
             this.ArduinoMessagesSendingMngr.TMDisplayTest(unitTypes, this.ArduinoConnection);
         }
 
@@ -316,6 +359,17 @@ namespace iRduino.Windows
             }
             LoadConfsinDirectory();
             DisplayMngr.ShiftLightData = ShiftLightData.LoadShiftData(AppDomain.CurrentDomain.BaseDirectory + "ShiftLightData.xml"); //Load ShiftLightData.xml
+
+            if (StartButton.IsEnabled)
+            {
+                DisplayMngr.Test = true;
+                this._conect();
+                this.TMDisplayTest();
+            }
+
+            //this.MyNotifyIcon.ShowBalloonTip("iRduino", "Estamos Rodando", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            this.Hide();
+
         }
 
         private void ArduinoSLIButtonPress(int unit, int button)
@@ -487,11 +541,15 @@ namespace iRduino.Windows
 
         private void MainWindowClosed(object sender, EventArgs e)
         {
+            this.MyNotifyIcon.Dispose();
             Application.Current.Shutdown();
         }
 
         private void CloseButtonMouseDown(object sender, MouseButtonEventArgs e)
         {
+
+            this._disconect();
+
             this.Close();
             e.Handled = true;
         }
@@ -561,6 +619,20 @@ namespace iRduino.Windows
                 this.DragMove();
         }
 
+
+        private void window_StateChanged(object sender, EventArgs e)
+        {
+
+            if (this.WindowState == System.Windows.WindowState.Minimized)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.Show();
+            }
+            
+        }
 
     }
 }
