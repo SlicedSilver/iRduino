@@ -38,7 +38,7 @@ namespace iRduino.Windows
         private readonly BitmapImage stopImage;
 
         public readonly string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-                                               + "\\iRduino2\\";
+                                               + "\\iRduino\\";
 
         // Constructor
         public MainWindow()
