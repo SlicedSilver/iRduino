@@ -39,19 +39,14 @@
 
         <Grid.Resources>
             <xp:ShowMainWindow x:Key="ShowMainWindow" />
-            <xp:Start x:Key="StartIrduino" />
+            
         </Grid.Resources>
 
         <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="/iRduino;component/Resources/iRdunio-ICON.ico" ToolTipText="Irduingo GUI"  MenuActivation="All" >
 
-
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-
-                    <MenuItem Header="Show iRduino"  CommandParameter="{Binding}" Command="{StaticResource ShowMainWindow}">
-                    </MenuItem>
-
-                    
+                    <MenuItem Header="Show iRduino"  CommandParameter="{Binding}" Command="{StaticResource ShowMainWindow}"></MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
 
