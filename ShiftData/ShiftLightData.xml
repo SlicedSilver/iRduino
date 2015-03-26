@@ -1,133 +1,133 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <ShiftData>
   <CarShiftStyles>
-<CarShiftStyle>
+    <CarShiftStyle>
       <CarID>1</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>rt2000</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle> 
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>2</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>skmodified</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>3</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>solstice</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>4</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>formulamazda</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>5</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>legends</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>10</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>solsticerookie</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>11</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>legendsrookie</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>12</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>latemodel</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>13</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>radical</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>18</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>silvercrown</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>20</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>silverado</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>21</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>rileydp</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>22</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>impala</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>23</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>specracer</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>24</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>impala</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>25</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>lotus79</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>26</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>c6r</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>27</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>jettatdi</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>28</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>fordv8sc</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>29</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>dallara</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>30</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>fr500s</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>31</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>skmodifiedtour</iRacingCarName>
@@ -138,49 +138,49 @@
       <UseCustomRPMS>true</UseCustomRPMS>
       <iRacingCarName>williamsfw31</iRacingCarName>
       <ShiftStyle>LeftToRight3Segments</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>34</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>mx5cup</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>35</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>mx5roadster</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
-<CarShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>36</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>streetstock</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
+    </CarShiftStyle>
     <CarShiftStyle>
       <CarID>37</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>sprint</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
     </CarShiftStyle>
-<CarShiftStyle>
+    <CarShiftStyle>
       <CarID>38</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>impala</iRacingCarName>
       <ShiftStyle>SingleLight</ShiftStyle>
-    </CarShiftStyle>  
+    </CarShiftStyle>
     <CarShiftStyle>
       <CarID>39</CarID>
       <UseCustomRPMS>true</UseCustomRPMS>
       <iRacingCarName>hpdarx01c</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
     </CarShiftStyle>
-<CarShiftStyle>
+    <CarShiftStyle>
       <CarID>40</CarID>
       <UseCustomRPMS>false</UseCustomRPMS>
       <iRacingCarName>fordgt</iRacingCarName>
       <ShiftStyle>Converging</ShiftStyle>
-    </CarShiftStyle>  
+    </CarShiftStyle>
     <CarShiftStyle>
       <CarID>41</CarID>
       <UseCustomRPMS>true</UseCustomRPMS>
@@ -192,7 +192,20 @@
       <UseCustomRPMS>true</UseCustomRPMS>
       <iRacingCarName>mclarenmp4</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
-    </CarShiftStyle>  
+    </CarShiftStyle>
+    <CarShiftStyle>
+      <CarID>44</CarID>
+      <UseCustomRPMS>true</UseCustomRPMS>
+      <iRacingCarName>bmwz4gt3</iRacingCarName>
+      <ShiftStyle>LeftToRight</ShiftStyle>
+    </CarShiftStyle>
+    <!-- RUF Track (Not sure why it isnt working, maybe car ID or iracingcarname is wrong?)-->
+    <CarShiftStyle>
+      <CarID>50</CarID>
+      <UseCustomRPMS>true</UseCustomRPMS>
+      <iRacingCarName>rufrt12r track</iRacingCarName>
+      <ShiftStyle>NoLights</ShiftStyle>
+    </CarShiftStyle>
   </CarShiftStyles>
   <CarShiftRPMs>
     <CarShiftRPMData>
@@ -686,6 +699,113 @@
               <Last>7300</Last>
               <Shift>7300</Shift>
               <Blink>7300</Blink>
+            </ShiftRPMs>
+          </Gears>
+        </ShiftMap>
+      </Maps>
+    </CarShiftRPMData>
+    <CarShiftRPMData>
+      <CarID>44</CarID>
+      <MapVariable></MapVariable>
+      <Maps>
+        <ShiftMap>
+          <MapValue>-1</MapValue>
+          <Gears>
+            <ShiftRPMs>
+              <Gear>1</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>2</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>3</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>4</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>5</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>6</Gear>
+              <First>7700</First>
+              <Last>8750</Last>
+              <Shift>8800</Shift>
+              <Blink>8800</Blink>
+            </ShiftRPMs>
+          </Gears>
+        </ShiftMap>
+      </Maps>
+    </CarShiftRPMData>
+    <!-- RUF Track (Not sure why it isnt working, maybe car ID or iracing car name is wrong?)-->
+    <CarShiftRPMData>
+      <CarID>50</CarID>
+      <MapVariable></MapVariable>
+      <Maps>
+        <ShiftMap>
+          <MapValue>-1</MapValue>
+          <Gears>
+            <ShiftRPMs>
+              <Gear>1</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>2</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>3</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>4</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>5</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>6</Gear>
+              <First>7500</First>
+              <Last>8950</Last>
+              <Shift>9050</Shift>
+              <Blink>9050</Blink>
             </ShiftRPMs>
           </Gears>
         </ShiftMap>
