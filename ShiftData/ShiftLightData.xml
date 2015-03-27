@@ -205,6 +205,12 @@
       <iRacingCarName>rufrt12r track</iRacingCarName>
       <ShiftStyle>NoLights</ShiftStyle>
     </CarShiftStyle>
+    <CarShiftStyle>
+      <CarID>57</CarID>
+      <UseCustomRPMS>true</UseCustomRPMS>
+      <iRacingCarName>dallara dw12</iRacingCarName>
+      <ShiftStyle>Converging</ShiftStyle>
+    </CarShiftStyle>
   </CarShiftStyles>
   <CarShiftRPMs>
     <CarShiftRPMData>
@@ -804,6 +810,59 @@
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
+            </ShiftRPMs>
+          </Gears>
+        </ShiftMap>
+      </Maps>
+    </CarShiftRPMData>
+    <CarShiftRPMData>
+      <CarID>57</CarID>
+      <MapVariable></MapVariable>
+      <Maps>
+        <ShiftMap>
+          <MapValue>-1</MapValue>
+          <Gears>
+            <ShiftRPMs>
+              <Gear>1</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>2</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>3</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>4</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>5</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>6</Gear>
+              <First>9550</First>
+              <Last>11450</Last>
+              <Shift>11500</Shift>
+              <Blink>11650</Blink>
             </ShiftRPMs>
           </Gears>
         </ShiftMap>
