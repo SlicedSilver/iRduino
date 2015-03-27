@@ -199,7 +199,6 @@
       <iRacingCarName>bmwz4gt3</iRacingCarName>
       <ShiftStyle>LeftToRight</ShiftStyle>
     </CarShiftStyle>
-    <!-- RUF Track (Not sure why it isnt working, maybe car ID or iracingcarname is wrong?)-->
     <CarShiftStyle>
       <CarID>50</CarID>
       <UseCustomRPMS>true</UseCustomRPMS>
@@ -757,7 +756,6 @@
         </ShiftMap>
       </Maps>
     </CarShiftRPMData>
-    <!-- RUF Track (Not sure why it isnt working, maybe car ID or iracing car name is wrong?)-->
     <CarShiftRPMData>
       <CarID>50</CarID>
       <MapVariable></MapVariable>
@@ -767,45 +765,45 @@
           <Gears>
             <ShiftRPMs>
               <Gear>1</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>2</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>3</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>4</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>5</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>6</Gear>
-              <First>7500</First>
+              <First>6600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
-              <Blink>9050</Blink>
+              <Blink>9100</Blink>
             </ShiftRPMs>
           </Gears>
         </ShiftMap>
