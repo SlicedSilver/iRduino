@@ -19,5 +19,6 @@ Interfaces between the iRacing API and an Arduino board. Can control displays, L
 :bust_in_silhouette: Created and Maintained by [Mark Silverwood](https://github.com/SlicedSilver).
 
 ## Increments
-:bust_in_silhouette: By [Alex Montoanelli](https://github.com/alexmontoanelli).
+:bust_in_silhouette: By [Alex Montoanelli](https://github.com/alexmontoanelli).  
+:bust_in_silhouette: By [MADJIHADX](https://github.com/MADJIHADx).
 
