@@ -206,6 +206,12 @@
       <ShiftStyle>NoLights</ShiftStyle>
     </CarShiftStyle>
     <CarShiftStyle>
+      <CarID>52</CarID>
+      <UseCustomRPMS>true</UseCustomRPMS>
+      <iRacingCarName>rufrt12r cspec</iRacingCarName>
+      <ShiftStyle>NoLights</ShiftStyle>
+    </CarShiftStyle>
+    <CarShiftStyle>
       <CarID>57</CarID>
       <UseCustomRPMS>true</UseCustomRPMS>
       <iRacingCarName>dallara dw12</iRacingCarName>
@@ -771,45 +777,98 @@
           <Gears>
             <ShiftRPMs>
               <Gear>1</Gear>
-              <First>6600</First>
+              <First>7400</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>2</Gear>
-              <First>6600</First>
+              <First>7600</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>3</Gear>
-              <First>6600</First>
+              <First>7700</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>4</Gear>
-              <First>6600</First>
+              <First>7800</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>5</Gear>
-              <First>6600</First>
+              <First>7900</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
             </ShiftRPMs>
             <ShiftRPMs>
               <Gear>6</Gear>
-              <First>6600</First>
+              <First>8000</First>
               <Last>8950</Last>
               <Shift>9050</Shift>
               <Blink>9100</Blink>
+            </ShiftRPMs>
+          </Gears>
+        </ShiftMap>
+      </Maps>
+    </CarShiftRPMData>
+    <CarShiftRPMData>
+      <CarID>52</CarID>
+      <MapVariable></MapVariable>
+      <Maps>
+        <ShiftMap>
+          <MapValue>-1</MapValue>
+          <Gears>
+            <ShiftRPMs>
+              <Gear>1</Gear>
+              <First>6000</First>
+              <Last>8000</Last>
+              <Shift>8050</Shift>
+              <Blink>8400</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>2</Gear>
+              <First>6650</First>
+              <Last>8100</Last>
+              <Shift>8150</Shift>
+              <Blink>8400</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>3</Gear>
+              <First>6800</First>
+              <Last>8200</Last>
+              <Shift>8200</Shift>
+              <Blink>8400</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>4</Gear>
+              <First>6850</First>
+              <Last>8200</Last>
+              <Shift>8200</Shift>
+              <Blink>8400</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>5</Gear>
+              <First>6900</First>
+              <Last>8200</Last>
+              <Shift>8250</Shift>
+              <Blink>8400</Blink>
+            </ShiftRPMs>
+            <ShiftRPMs>
+              <Gear>6</Gear>
+              <First>6900</First>
+              <Last>8250</Last>
+              <Shift>8300</Shift>
+              <Blink>8400</Blink>
             </ShiftRPMs>
           </Gears>
         </ShiftMap>
