@@ -24,5 +24,5 @@ Interfaces between the iRacing API and an Arduino board. Can control displays, L
 
 ## ShiftData Updates
 
-:bust_in_silhouette: by [Jody Moffett]
+:bust_in_silhouette: by Jody Moffett  
 :bust_in_silhouette: by [Evan A. Matwijejko](https://github.com/MADJIHADx)
