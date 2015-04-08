@@ -7,7 +7,7 @@ namespace iRduino.Classes
     using System.IO;
     using System.Xml.Serialization;
 
-    class ShiftLightData
+    public class ShiftLightData
     {
         public static ShiftData LoadShiftData(string path)
         {

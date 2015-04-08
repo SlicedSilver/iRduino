@@ -430,9 +430,18 @@ namespace iRduino.Classes
                     if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
                     {
                         string header = disp.GetHeader(unit);
-                        disp.ShowStringTimed(header,
-                                        disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
+                        disp.ShowStringTimed(header, disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
                     }
+                }
+                else
+                {
+                    disp.CurrentScreen[unit] = 0;
+                    if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
+                    {
+                        string header = disp.GetHeader(unit);
+                        disp.ShowStringTimed(header, disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
+                    }
+
                 }
             }
             else
@@ -445,6 +454,15 @@ namespace iRduino.Classes
                         string header = disp.GetHeader(unit);
                         disp.ShowStringTimed(header,
                                         disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
+                    }
+                }
+                else
+                {
+                    disp.CurrentScreen[unit] = disp.CurrentConfiguration.DisplayConfigurations[unit].NumScreens - 1;
+                    if (disp.CurrentConfiguration.TMDisplaySettings.ShowHeaders)
+                    {
+                        string header = disp.GetHeader(unit);
+                        disp.ShowStringTimed(header, disp.CurrentConfiguration.TMDisplaySettings.HeaderDisplayTime, unit);
                     }
                 }
             }

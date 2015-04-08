@@ -52,6 +52,9 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\iRdunio-ICON.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>iRduino.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.10.1.12-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
@@ -98,6 +101,8 @@
     <Compile Include="Windows\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\ShowMainWindow.cs" />
     <Compile Include="Windows\Pages\Arduino.xaml.cs">
       <DependentUpon>Arduino.xaml</DependentUpon>
     </Compile>
@@ -295,7 +300,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -326,6 +331,10 @@
     <ProjectReference Include="..\irsdkSharp\iRSDKSharp.csproj">
       <Project>{72631b85-eb9a-473e-9b4c-65b355a9000d}</Project>
       <Name>iRSDKSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nicon\NotifyIconWpf.csproj">
+      <Project>{7ac63864-7638-41c4-969c-d3197ef2bed9}</Project>
+      <Name>NotifyIconWpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\ShiftData\ShiftData.csproj">
       <Project>{e00ee3a4-6bad-469b-9ca0-f829c37c3a2f}</Project>
