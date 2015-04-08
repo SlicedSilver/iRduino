@@ -178,7 +178,7 @@ namespace iRduino.Classes
         ///     Builds current header string
         /// </summary>
         /// <returns>Header string for Display</returns>
-        public string GetHeader(int unit)
+        internal string GetHeader(int unit)
         {
             if (CurrentConfiguration.DisplayConfigurations[unit].Screens[CurrentScreen[unit]].UseCustomHeader)
             {
@@ -223,20 +223,20 @@ namespace iRduino.Classes
             return false;
         }
 
-        public void ResetSavedTelemetryValues()
+        internal void ResetSavedTelemetryValues()
         {
 
             this.SavedTelemetry = new SavedTelemetryValues(CurrentConfiguration.OtherSettings.FuelCalculationLaps, CurrentConfiguration.OtherSettings.UseWeightedFuelCalculations, this.telemetryRefreshRate);
         }
 
-        public void SendTMLEDS()
+        private void SendTMLEDS()
         {
             if (CurrentConfiguration == null) return;
             List<TMLEDVariables> final = new List<TMLEDVariables>();
             for (int i = 0; i < CurrentConfiguration.TMDisplaySettings.NumDisplayUnits; i++)
             {
                 final.Add(new TMLEDVariables());
-                if (this.LEDSOn && !(Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing))
+                if (this.LEDSOn && !(Wrapper.IsConnected == false && ArduinoConnection.Running && !Previewing) && this.SavedTelemetry.OnTrack)
                 {
                     final[i].GreenLEDS = RequestedTMLEDVariables[i].GreenLEDS;
                     final[i].RedLEDS = RequestedTMLEDVariables[i].RedLEDS;
@@ -309,7 +309,7 @@ namespace iRduino.Classes
 
         }
 
-        public void SendTMDisplay()
+        private void SendTMDisplay()
         {
             if (CurrentConfiguration == null) return;
 
@@ -426,7 +426,7 @@ namespace iRduino.Classes
         /// <summary>
         /// Setup Display Manager Instance before using the Start Method
         /// </summary>
-        public void SetupDisplayMngr(int telemetryRefreshRateParameter, List<bool> tm1640Units)
+        internal void SetupDisplayMngr(int telemetryRefreshRateParameter, List<bool> tm1640Units)
         {
             this.telemetryRefreshRate = telemetryRefreshRateParameter;
             this.TM1640Units = tm1640Units;
@@ -531,7 +531,7 @@ namespace iRduino.Classes
         /// <param name="display">String to show</param>
         /// <param name="delaytime">Time in seconds to display for.</param>
         /// <param name="unit"></param>
-        public void ShowStringTimed(string display, int delaytime, int unit)
+        internal void ShowStringTimed(string display, int delaytime, int unit)
         {
             RequestedTMDisplayVariables[unit].WaitString = display;
             this.WaitTimeTMDisplay[unit] = DateTime.Now.AddSeconds(delaytime);
@@ -541,7 +541,7 @@ namespace iRduino.Classes
             }
         }
 
-        public void ShowLEDTimed(byte green, byte red, bool passThrough, int delaytime, int unit)
+        internal void ShowLEDTimed(byte green, byte red, bool passThrough, int delaytime, int unit)
         {
             RequestedTMLEDVariables[unit].WaitGreen = green;
             RequestedTMLEDVariables[unit].WaitRed = red;
@@ -813,7 +813,6 @@ namespace iRduino.Classes
 
         private void FuelTelemetry(SdkWrapper.TelemetryUpdatedEventArgs e, TrackSurfaces mySurface)
         {
-            System.Diagnostics.Debug.WriteLine("Checking Fuel");
             bool update = false;
             float currentLapDistPct = e.TelemetryInfo.LapDistPct.Value;
             if (currentLapDistPct <= 0.15 && this.SavedTelemetry.Fuel.LastLapDistPct > 0.85)
@@ -843,17 +842,14 @@ namespace iRduino.Classes
             this.SavedTelemetry.Fuel.LastLapDistPct = currentLapDistPct;
             if (update)
             {
-                System.Diagnostics.Debug.WriteLine("Pusing Fuel");
                 this.SavedTelemetry.Fuel.FuelHistory.Push(e.TelemetryInfo.FuelLevel.Value);
             }
-            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.1f)
+            if (this.SavedTelemetry.Fuel.CurrentFuelLevel - e.TelemetryInfo.FuelLevel.Value > 0.05f && e.TelemetryInfo.Speed.Value <= 1 && (mySurface == TrackSurfaces.AproachingPits || mySurface == TrackSurfaces.InPitStall))
             {
-                System.Diagnostics.Debug.WriteLine("Resetting Fuel");
                 this.SavedTelemetry.Fuel.ResetFuel();
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine("Updating Fuel");
                 this.SavedTelemetry.Fuel.CurrentFuelLevel = e.TelemetryInfo.FuelLevel.Value;
                 this.SavedTelemetry.Fuel.UpdateCalculatedFuelValues();
             }

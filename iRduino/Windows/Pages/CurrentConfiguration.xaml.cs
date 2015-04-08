@@ -39,6 +39,8 @@ namespace iRduino.Windows.Pages
                 this.PrefComPortCBox.Items.Add(com.Value);
             }
             this.UseDXUnitsCheck.IsChecked = temp.DisplayUnitConfigurations.Count != 0;
+            this.UseArduinoIOCheck.IsChecked = temp.ArduinoIOConfiguration.UseArduinoIO;
+            this.UseFergoTechCheck.IsChecked = temp.FergoTechConfiguration.UseFergoTechComponents;
             //Setup Data Binding
             var nameBinding = new Binding("Name") {Mode = BindingMode.TwoWay};
             BindingOperations.SetBinding(this.NameTextBox, TextBox.TextProperty, nameBinding);
@@ -89,6 +91,38 @@ namespace iRduino.Windows.Pages
         }
 
         private void ControllerNumCBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.startingUp)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UseArduinoIOChecked(object sender, RoutedEventArgs e)
+        {
+            if (this.startingUp)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UseArduinoIOUnChecked(object sender, RoutedEventArgs e)
+        {
+            if (this.startingUp)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UseFergoTechUnChecked(object sender, RoutedEventArgs e)
+        {
+            if (this.startingUp)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void UseFergoTechChecked(object sender, RoutedEventArgs e)
         {
             if (this.startingUp)
             {

@@ -393,7 +393,7 @@ namespace ArduinoInterfaces
             return sum;
         }
 
-        public void WriteToFile(byte[] message)
+        private void WriteToFile(byte[] message)
         {
             if (this.logArduinoMessagesToFile)
             {

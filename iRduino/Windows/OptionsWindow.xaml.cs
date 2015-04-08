@@ -53,6 +53,7 @@ namespace iRduino.Windows
         private DispatcherTimer shiftPreviewTimer = new DispatcherTimer();
         private int treeBuilderUnitCount;
         private int treeControllerCount;
+        private int treeExpanderCount;
         private DateTime waitTime;
         private List<bool> tm1640UnitsTree;
         private bool applySaveFlag;
@@ -129,6 +130,107 @@ namespace iRduino.Windows
                     RebuildTree();
                 }
             }
+            if (temp.Name == "UseArduinoIOCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.UseArduinoIO = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.UseArduinoIO = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseFergoTechCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.FergoTechConfiguration.UseFergoTechComponents = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.FergoTechConfiguration.UseFergoTechComponents = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseAnalogInputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseAnalogInputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseAnalogInputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseAnalogOutputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseAnalogOutputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseAnalogOutputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseDigitalInputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseDigitalOutputsCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs = true;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs = false;
+                    SetPage(PageTypes.Blank);
+                    RebuildTree();
+                }
+            }
+            if (temp.Name == "UseExpandersCheck")
+            {
+                if (temp.IsChecked == true)
+                {
+                    configurationOptions.ArduinoIOConfiguration.UseExpanders = true;
+                }
+                else if (temp.IsChecked == false)
+                {
+                    configurationOptions.ArduinoIOConfiguration.UseExpanders = false;
+                }
+            }
             if (temp.Name == "TM1640Check")
             {
                 if (temp.IsChecked != this.tm1640UnitsTree[this.currentUnit])
@@ -155,6 +257,13 @@ namespace iRduino.Windows
                 if (temp.SelectedIndex != this.treeControllerCount && temp.SelectedIndex != -1)
                 {
                     ChangedNumberOfControllers(temp.SelectedIndex);
+                }
+            }
+            if (temp.Name == "ExpanderNumCBox")
+            {
+                if (temp.SelectedIndex != this.treeExpanderCount && temp.SelectedIndex != -1)
+                {
+                    ChangedNumberOfExpanders(temp.SelectedIndex);
                 }
             }
             if (temp.Name != "NumberScreensCBox" || ChangingPages) return;
@@ -670,6 +779,24 @@ namespace iRduino.Windows
                             BuildTreeViewNodes(level + 1, itemControllers.Items);
                             itemCollection.Add(itemControllers);
                         }
+                        if (this.configurationOptions.ControllerConfigurations != null
+                            && this.configurationOptions.ArduinoIOConfiguration.UseArduinoIO)
+                        {
+                            MyTreeViewItem itemArduinoIO = GetMyTreeView("Arduino IO", "arduinoTemp.png", PageTypes.Arduino);
+                            currentBranch = "Arduino";
+                            itemArduinoIO.Selected += MyTreeItemSelected;
+                            BuildTreeViewNodes(level + 1, itemArduinoIO.Items);
+                            itemCollection.Add(itemArduinoIO);
+                        }
+                        if (this.configurationOptions.ControllerConfigurations != null
+                            && this.configurationOptions.FergoTechConfiguration.UseFergoTechComponents)
+                        {
+                            MyTreeViewItem itemFergoTech = GetMyTreeView("FergoTech", "ftTemp.png", PageTypes.FergoTech);
+                            currentBranch = "FergoTech";
+                            itemFergoTech.Selected += MyTreeItemSelected;
+                            BuildTreeViewNodes(level + 1, itemFergoTech.Items);
+                            itemCollection.Add(itemFergoTech);
+                        }
                         MyTreeViewItem itemAdOpts = GetMyTreeView("Advanced Options", "page_gear.png",
                                                              PageTypes.AdvancedOptions);
                         itemAdOpts.Selected += MyTreeItemSelected;
@@ -732,6 +859,38 @@ namespace iRduino.Windows
                                 }
                             }
                         }
+                        if (currentBranch == "Arduino")
+                        {
+                            if (this.configurationOptions.ArduinoIOConfiguration != null)
+                            {
+                                if (this.configurationOptions.ArduinoIOConfiguration.Inputs.UseDigitalInputs)
+                                {
+                                    MyTreeViewItem itemDigitalInputs = GetMyTreeView("Digital Inputs", "arrow_right.png", PageTypes.DigitalInputs);
+                                    itemDigitalInputs.Selected += MyTreeItemSelected;
+                                    itemCollection.Add(itemDigitalInputs);
+                                }
+                                if (this.configurationOptions.ArduinoIOConfiguration.Outputs.UseDigitalOutputs)
+                                {
+                                    MyTreeViewItem itemDigitalOutputs = GetMyTreeView("Digital Outputs", "arrow_left.png", PageTypes.DigitalOutputs);
+                                    itemDigitalOutputs.Selected += MyTreeItemSelected;
+                                    itemCollection.Add(itemDigitalOutputs);
+                                }
+                                if (this.configurationOptions.ArduinoIOConfiguration.UseExpanders && this.configurationOptions.ArduinoIOConfiguration.NumberExpanders > 0)
+                                {
+                                    MyTreeViewItem itemExpanders = GetMyTreeView("IO Expanders", "arrow_divide.png", PageTypes.None);                                  
+                                    itemExpanders.Focusable = false;
+                                    itemExpanders.Selected += MyTreeItemSelected;
+                                    currentBranch = "Expanders";
+                                    BuildTreeViewNodes(level + 1, itemExpanders.Items);
+                                    currentBranch = "Arduino";
+                                    itemCollection.Add(itemExpanders);
+                                }
+                            }
+                        }
+                        if (currentBranch == "FergoTech")
+                        {
+
+                        }
                         break;
                     case 4:
                         if (currentBranch == "TMUnits")
@@ -752,6 +911,26 @@ namespace iRduino.Windows
                             item5.Focusable = false;
                             BuildTreeViewNodes(level + 1, item5.Items);
                             itemCollection.Add(item5);
+                        }
+                        if (currentBranch == "Expanders")
+                        {
+                            if (this.configurationOptions.ArduinoIOConfiguration != null)
+                            {
+                                if (this.configurationOptions.ArduinoIOConfiguration.NumberExpanders > 0)
+                                {
+                                    for (int i = 0; i < this.configurationOptions.ArduinoIOConfiguration.NumberExpanders; i++)
+                                    {
+                                        MyTreeViewItem itemExpander = GetMyTreeView(
+                                            String.Format("IO Expander #{0}", i + 1),
+                                            "arrow_inout.png",
+                                            PageTypes.Expander,
+                                            i);
+                                        itemExpander.Selected += MyTreeItemSelected;
+                                        itemCollection.Add(itemExpander);
+                                        this.treeExpanderCount = i + 1;
+                                    }
+                                }
+                            }
                         }
                         break;
                     case 5:
@@ -832,7 +1011,8 @@ namespace iRduino.Windows
             var temp = OptionsTreeView.SelectedItem as MyTreeViewItem;
             if (temp != null)
             {
-                if (temp.Page != PageTypes.CurrentConfiguration && temp.Page != PageTypes.Unit)
+                //if (temp.Page != PageTypes.CurrentConfiguration && temp.Page != PageTypes.Unit && temp.P)
+                if(temp.Page == PageTypes.Buttons || temp.Page == PageTypes.LEDs || temp.Page == PageTypes.Screen || temp.Page == PageTypes.TM1640Screen || temp.Page == PageTypes.Unit)
                 {
                     temp.Page = PageTypes.TMUnits;
                 }
@@ -845,6 +1025,7 @@ namespace iRduino.Windows
             OptionsTreeView.Items.Clear();
             this.treeBuilderUnitCount = 0;
             this.treeControllerCount = 0;
+            this.treeExpanderCount = 0;
             this.tm1640UnitsTree = new List<bool>();
             this.configurationOptions.NumberDisplays = this.configurationOptions.DisplayUnitConfigurations.Count - 1;
             BuildTreeViewNodes(0, OptionsTreeView.Items);
@@ -954,6 +1135,13 @@ namespace iRduino.Windows
             RebuildTree();
         }
 
+        private void ChangedNumberOfExpanders(int index)
+        {
+            this.configurationOptions.ArduinoIOConfiguration.NumberExpanders = index;
+            SetPage(PageTypes.Blank);
+            RebuildTree();
+        }
+
         #endregion
 
         #region Pages
@@ -1037,6 +1225,23 @@ namespace iRduino.Windows
                     this.configurationOptions.EditNumber = unit;
                     PageFrame.DataContext = this.configurationOptions;
                     PageFrame.Source = new Uri("Pages/JoystickButtonsPage.xaml", UriKind.Relative);
+                    break;
+                case PageTypes.Arduino:
+                    PageFrame.DataContext = this.configurationOptions;
+                    PageFrame.Source = new Uri("Pages/Arduino.xaml", UriKind.Relative);
+                    break;
+                case PageTypes.FergoTech:
+                    PageFrame.DataContext = this.configurationOptions;
+                    PageFrame.Source = new Uri("Pages/FergoTech.xaml", UriKind.Relative);
+                    break;
+                case PageTypes.DigitalInputs:
+                    PageFrame.Source = new Uri("Pages/DigitalInputs.xaml", UriKind.Relative);
+                    break;
+                case PageTypes.DigitalOutputs:
+                    PageFrame.Source = new Uri("Pages/DigitalOutputs.xaml", UriKind.Relative);
+                    break;
+                case PageTypes.Expander:
+                    PageFrame.Source = new Uri("Pages/Expander.xaml", UriKind.Relative);
                     break;
                 case PageTypes.Blank:
                     PageFrame.Source = new Uri("Pages/BlankPage.xaml", UriKind.Relative);

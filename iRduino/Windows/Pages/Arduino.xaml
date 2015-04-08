@@ -1,0 +1,49 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="iRduino.Windows.Pages.Arduino" 
+      mc:Ignorable="d" 
+      d:DesignHeight="420" d:DesignWidth="395"
+	Title="Arduino" Loaded="PageLoaded1">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />-->
+                <ResourceDictionary Source="/iRduino;component/Resources/MyControls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Label Content="Arduino Inputs and Outputs" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+    		FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Semilight" Background="{x:Null}" Foreground="#FF057DAA" />
+        <TabControl Margin="10,60,10,5">
+            <TabItem Header="Inputs">
+                <Grid Background="White">
+                    <CheckBox x:Name="UseDigitalInputsCheck" Content="Use Digital Inputs" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Use digital inputs (such as buttons and switches)." Checked="Checker" Unchecked="Checker"/>
+                    <CheckBox x:Name="UseAnalogInputsCheck" Content="Use Analog Inputs" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" ToolTip="Use analog inputs." Checked="Checker" Unchecked="Checker"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Outputs">
+                <Grid Background="White">                   
+                    <CheckBox x:Name="UseDigitalOutputsCheck" Content="Use Digital Outputs" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Use digital outputs (such as LEDs)" Unchecked="Checker" Checked="Checker"/>
+                    <CheckBox x:Name="UseAnalogOutputsCheck" Content="Use Analog Outputs" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top" ToolTip="Use analog outputs." Unchecked="Checker" Checked="Checker"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="IO Expanders">
+                <Grid Background="White">
+                    <Label x:Name="NumberExpandersLabel" Content="Number: " HorizontalAlignment="Left" Margin="25,35,0,0" VerticalAlignment="Top" IsEnabled="False" />
+                    <ComboBox x:Name="ExpanderNumCBox" Margin="100,35,164,0" VerticalAlignment="Top" ToolTip="Number of IO Expanders to use." IsEnabled="False" />
+                    <CheckBox x:Name="UseExpandersCheck" Content="Use IO Expanders" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="Use IO Expanders connected to the Arduino." Checked="UseExpandersCheckChecked" Unchecked="UseExpandersCheckUnchecked"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Page>

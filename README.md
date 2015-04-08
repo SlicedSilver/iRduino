@@ -12,13 +12,17 @@ Interfaces between the iRacing API and an Arduino board. Can control displays, L
 
 ## iRacing Foum Topic
 
-:car: iRacing forum topic (requires iRacing subscription): .............
+(requires iRacing subscription to read)
+:car: [Link to iRacing forum topic] (http://members.iracing.com/jforum/posts/list/1847021.page)
 
 ## Author
 
 :bust_in_silhouette: Created and Maintained by [Mark Silverwood](https://github.com/SlicedSilver).
 
 ## Increments
-:bust_in_silhouette: By [Alex Montoanelli](https://github.com/alexmontoanelli).  
-:bust_in_silhouette: By [MADJIHADX](https://github.com/MADJIHADx).
+:bust_in_silhouette: by [Alex Montoanelli](https://github.com/alexmontoanelli)
 
+## ShiftData Updates
+
+:bust_in_silhouette: by [Jody Moffett]
+:bust_in_silhouette: by [Evan A. Matwijejko](https://github.com/MADJIHADx)

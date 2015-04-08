@@ -45,7 +45,7 @@ namespace iRduino.Classes
 
     public class ButtonFunctionsClass
     {
-        public static Dictionary<ButtonFunctionsEnum, ButtonFunction> FillButtonFunctions()
+        internal static Dictionary<ButtonFunctionsEnum, ButtonFunction> FillButtonFunctions()
         {
             var buttonFunctions = new Dictionary<ButtonFunctionsEnum, ButtonFunction>
                 {
@@ -173,7 +173,7 @@ namespace iRduino.Classes
             return buttonFunctions;
         }
 
-        public static void ButtonPress(DisplayManager disp, int unit, int num, bool control)
+        internal static void ButtonPress(DisplayManager disp, int unit, int num, bool control)
         {
             var butFuncEnum = ButtonFunctionsEnum.None;
             int newUnit = unit;
@@ -279,6 +279,7 @@ namespace iRduino.Classes
                                               : disp.CurrentConfiguration.DisplayConfigurations[unit].ButtonOptions[num - 1];
                     int newScreen;
                     Int32.TryParse(screenString, out newScreen);
+                    newScreen -= 1;
                     if (which4 >= 0)
                     {
                         switch (which4)
